@@ -10,8 +10,16 @@ Data is Better Together is a collab between 🤗 Hugging Face, 🏓 Argilla, and
 
 ## What have we done so far?
 
-The community has created a dataset of 10k prompts [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked) ranked by quality as part of Data is Better Together. So far over 385 people have contributed annotations to this dataset.
+The community has created a dataset of 10k prompts [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked) ranked by quality as part of Data is Better Together.
 
 ## What are currently working on?
 
-We are currently working to support open source initiatives to use Argilla and the Hugging Face Hub to collectively build impactful open datasets. You can read more in this [blog post](https://huggingface.co/blog/community-datasets). You can get involved in this effort by joining our [Discord channel](https://discord.gg/hugging-face-879548962464493619).
+We are working on several strands of work. Here are current active projects.
+ 
+### 1. Prompt ranking
+
+Our first DIBT activity is focused on ranking the quality of prompts. We have already released version 1.0 of this dataset [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked). So far over 385 people have contributed annotations to this dataset but we are continuing to collect more annotations!
+
+- Follow the progress of this effort in this [dashboard](https://huggingface.co/spaces/DIBT/prompt-collective-dashboard)
+- You can contribute to the ranking of prompts [here](https://huggingface.co/spaces/DIBT/prompt-collective)
+

@@ -14,19 +14,27 @@ We will build a leaderboard to display the evaluation results as part of this. T
 
 ## How do I participate? 
 
+There are two ways to participate:
+- Become a language lead
+- Contribute to the translation of prompts
+
 ### Become a language lead
 
 This doesn’t mean you need to be fully responsible for everything! It does let us know that at least one person wants to work for a particular language. Once we know someone wants to work on a language task, we’ll help you create an annotation task for that language. 
 
 To nominate yourself as a language lead please join our [Discord channel](https://discord.gg/hugging-face-879548962464493619) and let us know which language you want to work on (please tag `@dvs13`) and let us know your Hugging Face username.
 
-### Setup a Hub organization and create an Argilla Space for your language
+#### Setup a Hub organization and create an Argilla Space for your language
 
 TODO link to instructions on how to do this.
 
-### Gather a community of people and begin translating!
+#### Gather a community of people and begin translating!
 
 Once an Argilla Space is created, anyone with a Hugging Face login can log in to an account and begin contributing to the translations. If no existing communities are focused on ML for your language, you may want to create a thread in the DIBT Discord channel to discuss with others. This might also lead to some excellent follow-up project ideas!
+
+### Contribute to the translation of prompts
+
+If there is an existing Argilla effort focused on a language you speak, you can contribute to the translation of prompts. You can find the current efforts we're working on in this GitHub issue TODO add link. 
 
 ### Submit your translations
 

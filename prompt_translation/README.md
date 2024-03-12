@@ -1,4 +1,4 @@
-# 500 Prompt Translations
+# Multilingual Prompt Evaluation Project (MPEP)
 
 *🏅 There are not enough language-specific benchmarks for open LLMs. We want to create a leaderboard for more languages by leveraging the community!🏅*
 

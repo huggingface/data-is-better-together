@@ -27,7 +27,7 @@ To nominate yourself as a language lead please join our [Discord channel](https:
 
 #### Setup a Hub organization and create an Argilla Space for your language
 
-TODO link to instructions on how to do this.
+This [notebook](prompt_translation/setup_prompt_translation_space.ipynb) will guide you through the process of setting up a Hub organization and creating an Argilla Space for your language. Please don't hesitate to ask for help in the Discord channel if you need it.
 
 #### Gather a community of people and begin translating!
 

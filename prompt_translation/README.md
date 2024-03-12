@@ -25,7 +25,7 @@ There are two ways to contribute to this effort:
 
 This doesn’t mean you need to be fully responsible for everything! It does let us know that at least one person wants to work for a particular language. Once we know someone wants to work on a language task, we’ll help you create an annotation task for that language.
 
-To nominate yourself as a language lead please join our [Discord channel](https://discord.gg/hugging-face-879548962464493619) and let us know which language you want to work on (please tag `@dvs13`) and let us know your Hugging Face username.
+To nominate yourself as a language lead please join our  and let us know which language you want to work on (please tag `@dvs13`) and let us know your Hugging Face username.
 
 #### Setup a Hub organization and create an Argilla Space for your language
 
@@ -37,7 +37,7 @@ Once an Argilla Space is created, anyone with a Hugging Face login can log in to
 
 ### Contribute to the translation of prompts
 
-If there is an existing Argilla effort focused on a language you speak, you can contribute to the translation of prompts. You can find the current efforts we're working on in this GitHub issue TODO add link. 
+If there is an existing Argilla effort focused on a language you speak, you can contribute to the translation of prompts. You will just need a Hugging Face account to login to the relevant Space. We will add current efforts for translation to this README as they are launched! The best way to keep up to date is to join the [Discord channel](https://discord.gg/hugging-face-879548962464493619)
 
 ### Submit your translations
 

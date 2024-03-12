@@ -29,7 +29,7 @@ To nominate yourself as a language lead please join our  and let us know which l
 
 #### Setup a Hub organization and create an Argilla Space for your language
 
-This [notebook](prompt_translation/setup_prompt_translation_space.ipynb) will guide you through the process of setting up a Hub organization and creating an Argilla Space for your language. Please don't hesitate to ask for help in the Discord channel if you need it.
+This [notebook](prompt_translation/setup_prompt_translation_space.ipynb) (<a href="https://colab.research.google.com/github/huggingface/data-is-better-together/blob/main/prompt_translation/setup_prompt_translation_space.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>) will guide you through the process of setting up a Hub organization and creating an Argilla Space for your language. Please don't hesitate to ask for help in the Discord channel if you need it. 
 
 #### Gather a community of people and begin translating!
 
@@ -45,6 +45,6 @@ Once you have translated the prompts, ping us on Discord and we will help you su
 
 ### Glossary
 
-### Alpaca Eval
+#### Alpaca Eval
 
 An automatic approach to evaluating instruction-following models. It uses LLM-based evaluation to make it less time-consuming and expensive to assess model performance. We'll use AlpacaEval to evaluate the performance of models using the translated prompts.

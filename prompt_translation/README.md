@@ -12,9 +12,9 @@ Currently, our prompts are in English. We are asking the community to help us tr
 We will build a leaderboard to display the evaluation results as part of this. This will help language communities identify how open models perform across different languages. 
 
 
-## How do I participate? 
+## How do I contribute? 
 
-There are two ways to participate:
+There are two ways to contribute to this effort:
 - Become a language lead
 - Contribute to the translation of prompts
 

@@ -30,7 +30,7 @@ Once an Argilla Space is created, anyone with a Hugging Face login can log in to
 
 ### Submit your translations
 
-Once you have translated the prompts, you can submit a pull request to this repository. We will review the translations and merge them into the main branch.
+Once you have translated the prompts, ping us on Discord and we will help you submit the translations to the leaderboard.
 
 ## Glossary 
 Alpaca Eval: an automatic approach to evaluating instruction-following models. It uses LLM-based evaluation with the goal of making it less time-consuming and expensive to assess models. 

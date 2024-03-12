@@ -1,16 +1,18 @@
-# Translation of 500 high-quality prompts for evaluating language models across languages
+# 500 Prompt Translations
 
-There are not enough language-specific benchmarks for open LLMs. We want to create a leaderboard for more languages by leveraging the community.
+*🏅 There are not enough language-specific benchmarks for open LLMs. We want to create a leaderboard for more languages by leveraging the community!🏅*
 
 ## How do we plan to do this?
 
-The community has created a dataset of 10k prompts [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked) ranked by quality as part of Data is Better Together.
+The community has created a dataset of 10k prompts [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked) with quality ratings as part of Data is Better Together.
 
 From this dataset, we have curated a subset of 500 high-quality prompts that cover a diverse range of capabilities for a model, such as math, coding, relationships, email generation, etc.
-We want to use these 500 prompts to evaluate the performance of models using AlpaceEval (an automated way of evaluating the performance of instruction/chat models).
+
+We want to use these 500 prompts to evaluate the performance of models using [AlpaceEval](https://github.com/tatsu-lab/alpaca_eval) (an automated way of evaluating the performance of instruction/chat models).
 
 Currently, our prompts are in English. We are asking the community to help us translate this curated prompt dataset into different languages so that we can use these translated prompts to evaluate the performance of models for the languages we translate into.
-We will build a leaderboard to display the evaluation results as part of this. This will help language communities identify how open models perform across different languages.
+
+We are currently building a leaderboard to display the evaluation results as part of this. This will help language communities identify how open models perform across different languages.
 
 ## How do I contribute?
 

@@ -1,6 +1,6 @@
-# Translation of 500 high-quality prompts for evaluating language model across languages
+# Translation of 500 high-quality prompts for evaluating language models across languages
 
-There are not enough language-specific benchmarks. We want to create a leaderboard for new languages by leveraging the community. 
+There are not enough language-specific benchmarks for open LLMs. We want to create a leaderboard for more languages by leveraging the community.
 
 ## How do we plan to do this?
 

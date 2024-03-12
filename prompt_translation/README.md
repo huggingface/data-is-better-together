@@ -44,5 +44,5 @@ Once you have translated the prompts, ping us on Discord and we will help you su
 ### Glossary
 
 ### Alpaca Eval
-`
+
 An automatic approach to evaluating instruction-following models. It uses LLM-based evaluation to make it less time-consuming and expensive to assess model performance. We'll use AlpacaEval to evaluate the performance of models using the translated prompts.

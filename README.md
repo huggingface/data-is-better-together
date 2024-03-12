@@ -15,7 +15,7 @@ The community has created a dataset of 10k prompts [DIBT/10k_prompts_ranked](htt
 ## What are currently working on?
 
 We are working on several strands of work. Here are current active projects.
- 
+
 ### 1. Prompt ranking
 
 Our first DIBT activity is focused on ranking the quality of prompts. We have already released version 1.0 of this dataset [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked). So far over 385 people have contributed annotations to this dataset but we are continuing to collect more annotations!
@@ -23,3 +23,6 @@ Our first DIBT activity is focused on ranking the quality of prompts. We have al
 - Follow the progress of this effort in this [dashboard](https://huggingface.co/spaces/DIBT/prompt-collective-dashboard)
 - You can contribute to the ranking of prompts [here](https://huggingface.co/spaces/DIBT/prompt-collective)
 
+### 2. Multilingual Prompt Evaluation Project (MPEP)
+
+There are not enough language-specific benchmarks for open LLMs! We want to create a leaderboard for more languages by leveraging the community! You can find more information about this project in the [MPEP README](prompt_translation/README.md).

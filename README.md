@@ -6,7 +6,7 @@
 
 # Data is Better Together
 
-Data is Better Together is a collab between 🤗 Hugging Face, 🏓 Argilla, and the Open Source ML community. Our goal is to empower the open source community to build collectively build impactful datasets. 
+Data is Better Together is a collab between 🤗 Hugging Face, 🏓 Argilla, and the Open Source ML community. Our goal is to empower the open source community to collectively build impactful datasets. 
 
 ## What have we done so far?
 

@@ -29,7 +29,7 @@ To nominate yourself as a language lead please join our [Discord channel](https:
 
 #### Setup a Hub organization and create an Argilla Space for your language
 
-This [notebook](prompt_translation/setup_prompt_translation_space.ipynb) (<a href="https://colab.research.google.com/github/huggingface/data-is-better-together/blob/main/prompt_translation/setup_prompt_translation_space.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>) will guide you through the process of setting up a Hub organization and creating an Argilla Space for your language. Please don't hesitate to ask for help in the Discord channel if you need it. 
+This [notebook](./setup_prompt_translation_space.ipynb) (<a href="https://colab.research.google.com/github/huggingface/data-is-better-together/blob/main/prompt_translation/setup_prompt_translation_space.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>) will guide you through the process of setting up a Hub organization and creating an Argilla Space for your language. Please don't hesitate to ask for help in the Discord channel if you need it. 
 
 #### Gather a community of people and begin translating!
 

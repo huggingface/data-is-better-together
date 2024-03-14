@@ -1,3 +1,4 @@
 /.oauth.yaml
 /.venv
 kto-preference/.env
+kto-preference/.vscode/settings.json

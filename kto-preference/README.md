@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="kto-preference/assets/b822ac33-a10e-4da7-a36a-682b96d1fe0e.webp" width="500px"/>
+  <img src="assets/b822ac33-a10e-4da7-a36a-682b96d1fe0e.webp" width="500px"/>
 </p>
 
 # Creating a KTO Preference dataset

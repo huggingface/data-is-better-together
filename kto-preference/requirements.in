@@ -1,0 +1,6 @@
+argilla
+datasets
+distilabel[hf-inference-endpoints]
+huggingface_hub
+ipywidgets
+python-dotenv

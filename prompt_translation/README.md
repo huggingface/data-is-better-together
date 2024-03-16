@@ -25,7 +25,7 @@ There are two ways to contribute to this effort:
 
 This doesn’t mean you need to be fully responsible for everything! It does let us know that at least one person wants to work for a particular language. Once we know someone wants to work on a language task, we’ll help you create an annotation task for that language.
 
-To nominate yourself as a language lead please join our [Discord channel](https://discord.gg/hugging-face-879548962464493619) and let us know which language you want to work on (please tag `@dvs13`) and let us know your Hugging Face username.
+To nominate yourself as a language lead please join our [Discord channel](https://discord.gg/hugging-face-879548962464493619) and let us know which language you want to work on (please tag Daniel van Strien `@.dvs13`) and let us know your Hugging Face username.
 
 #### Setup a Hub organization and create an Argilla Space for your language
 

@@ -30,3 +30,4 @@ There are not enough language-specific benchmarks for open LLMs! We want to crea
 *Want to contribute translations?* currently, these translation efforts are underway:
 
 - [Dutch](https://dibt-dutch-prompt-translation-for-dutch.hf.space)
+- [Tagalog](https://dibt-filipino-prompt-translation-for-filipino.hf.space/)

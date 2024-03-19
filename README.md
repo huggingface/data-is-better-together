@@ -27,8 +27,9 @@ Our first DIBT activity is focused on ranking the quality of prompts. We have al
 
 There are not enough language-specific benchmarks for open LLMs! We want to create a leaderboard for more languages by leveraging the community! You can find more information about this project in the [MPEP README](prompt_translation/README.md).
 
-*Want to contribute translations?* currently, these translation efforts are underway:
+*Want to contribute translations?* Currently, these translation efforts are underway:
 
 - [Dutch](https://dibt-dutch-prompt-translation-for-dutch.hf.space)
+- [Russian](https://dibt-russian-prompt-translation-for-russian.hf.space)
 - [Tagalog](https://dibt-filipino-prompt-translation-for-filipino.hf.space/)
 - [Spanish](https://somosnlp-dibt-prompt-translation-for-es.hf.space/)

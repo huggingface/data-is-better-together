@@ -24,7 +24,7 @@ To create a new dashboard, you need several environment variables, that you can 
 - ARGILLA_API_KEY: The API key to access the Huggingface Space. Please, write this as a secret in the Huggingface Space configuration.
 """
 
-# Translation of legends and titels
+# Translation of legends and titles
 ANNOTATED = 'Annotations'
 NUMBER_ANNOTATED = 'Total Annotations'
 PENDING = 'Pending'

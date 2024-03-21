@@ -1,5 +1,5 @@
 ---
-title: Spanish Dashboard - Multilingual Prompt Evaluation Project
+title: Template for Dashboards - Multilingual Prompt Evaluation Project
 emoji: 📊
 colorFrom: indigo
 colorTo: indigo

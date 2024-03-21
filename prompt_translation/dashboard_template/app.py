@@ -271,10 +271,6 @@ def get_top(N = 50) -> pd.DataFrame:
 
 def main() -> None:
 
-    # Set the update interval
-    update_interval = 300  # seconds
-    update_interval_charts = 30  # seconds
-
     # Connect to the space with rg.init()
     rg.init(
         api_url=os.getenv("ARGILLA_API_URL"),
@@ -283,15 +279,6 @@ def main() -> None:
 
     # Fetch the data initially
     fetch_data()
-
-    # This code is used to update the data automatically. Whithout it, the data would be updated only when the space is reset.
-    # It can lead to some errors in the plots, but usually is reliable. If you want to run the code without it, please remove it also from
-    # the prompt arguments, and mind that you need to reset the space for changes to be shown. 
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(
-        func=fetch_data, trigger="interval", seconds=update_interval, max_instances=1
-    )
-    scheduler.start()
 
     # To avoid the orange border for the Gradio elements that are in constant loading
     css = """
@@ -330,7 +317,6 @@ def main() -> None:
                 kpi_chart_submitted,
                 inputs=[],
                 outputs=[kpi_submitted_plot],
-                every=update_interval_charts,
             )
 
             kpi_remaining_plot = gr.Plot(label="Plot")
@@ -338,7 +324,6 @@ def main() -> None:
                 kpi_chart_remaining,
                 inputs=[],
                 outputs=[kpi_remaining_plot],
-                every=update_interval_charts,
             )
 
             donut_total_plot = gr.Plot(label="Plot")
@@ -346,7 +331,6 @@ def main() -> None:
                 donut_chart_total,
                 inputs=[],
                 outputs=[donut_total_plot],
-                every=update_interval_charts,
             )
 
         gr.Markdown(
@@ -360,7 +344,7 @@ def main() -> None:
 
             kpi_hall_plot = gr.Plot(label="Plot")
             demo.load(
-                kpi_chart_total_annotators, inputs=[], outputs=[kpi_hall_plot], every=update_interval_charts
+                kpi_chart_total_annotators, inputs=[], outputs=[kpi_hall_plot]
             )
 
             top_df_plot = gr.Dataframe(
@@ -372,9 +356,8 @@ def main() -> None:
                 row_count=50,
                 col_count=(2, "fixed"),
                 interactive=False,
-                every=update_interval,
             )
-            demo.load(get_top, None, [top_df_plot], every=update_interval_charts)
+            demo.load(get_top, None, [top_df_plot])
 
     # Launch the Gradio interface
     demo.launch()

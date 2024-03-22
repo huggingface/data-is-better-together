@@ -41,4 +41,4 @@ There are not enough language-specific benchmarks for open LLMs! We want to crea
 
 The Data is Better Together community has created several guides to support efforts to create valuable datasets via the open source community. Currently, we have the following guides:
 
-- [Creating a KTO preference dataset](kto-preference)
+- [Creating a KTO preference dataset](kto-preference/README.md)

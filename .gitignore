@@ -2,3 +2,4 @@
 /.venv
 kto-preference/.env
 kto-preference/.vscode/settings.json
+.DS_Store

@@ -36,3 +36,9 @@ There are not enough language-specific benchmarks for open LLMs! We want to crea
 - [Malagasy](https://dibt-malagasy-prompt-translation-for-malagasy.hf.space/)
 - [Czech](https://dibt-czech-prompt-translation-for-czech.hf.space/)
 - [Arabic](https://2a2i-prompt-translation-for-arabic.hf.space/)
+
+## Other guides
+
+The Data is Better Together community has created several guides to support efforts to create valuable datasets via the open source community. Currently, we have the following guides:
+
+- [Creating a KTO preference dataset](kto-preference/README.md)

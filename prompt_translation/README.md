@@ -37,7 +37,7 @@ Once an Argilla Space is created, anyone with a Hugging Face login can log in to
 
 ### Contribute to the translation of prompts
 
-If there is an existing Argilla effort focused on a language you speak, you can contribute to the translation of prompts. You will just need a Hugging Face account to log in to the relevant Space. We will add current efforts for translation to this README as they are launched! The best way to keep up to date is to join the [Discord channel](https://discord.gg/hugging-face-879548962464493619)
+If there is an existing Argilla effort focused on a language you speak, you can contribute to the translation of prompts. You will just need a Hugging Face account to log in to the relevant Space. You can find the current active efforts [here](https://github.com/huggingface/data-is-better-together?tab=readme-ov-file#contribute-translations). The best way to keep up to date with everything that is happening is to join the [Discord channel](https://discord.gg/hugging-face-879548962464493619)
 
 ### Submit your translations
 

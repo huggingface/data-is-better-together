@@ -35,3 +35,4 @@ There are not enough language-specific benchmarks for open LLMs! We want to crea
 - [Spanish](https://somosnlp-dibt-prompt-translation-for-es.hf.space/)
 - [Malagasy](https://dibt-malagasy-prompt-translation-for-malagasy.hf.space/)
 - [Czech](https://dibt-czech-prompt-translation-for-czech.hf.space/)
+- [Arabic](https://2a2i-prompt-translation-for-arabic.hf.space/)

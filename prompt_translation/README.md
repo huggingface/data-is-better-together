@@ -1,4 +1,4 @@
-# Multilingual Prompt Evaluation Project (MPEP)
+ Multilingual Prompt Evaluation Project (MPEP)
 
 *🏅 There are not enough language-specific benchmarks for open LLMs. We want to create a leaderboard for more languages by leveraging the community!🏅*
 
@@ -29,7 +29,15 @@ To nominate yourself as a language lead please join our [Discord channel](https:
 
 #### Setup a Hub organization and create an Argilla Space for your language
 
-This [notebook](./setup_prompt_translation_space.ipynb) (<a href="https://colab.research.google.com/github/huggingface/data-is-better-together/blob/main/prompt_translation/setup_prompt_translation_space.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>) will guide you through the process of setting up a Hub organization and creating an Argilla Space for your language. Please don't hesitate to ask for help in the Discord channel if you need it. 
+For the MPEP project, we will use a few tools to help us manage the translation process.
+
+- Argilla: an open-source data annotation tool that we'll use for the translation of prompts. Argilla has the option of using Hugging Face for authentication, which makes it easier for the community to contribute to the translation of prompts.
+- Hugging Face Spaces is a platform for hosting machine learning applications and demos. We'll use Spaces to host the Argilla tool for the translation of prompts.
+
+To get started, you will need to set up a Hub organization and create an Argilla Space for your language. We have created a series of notebooks to help you set up a Hub organization and create an Argilla Space for your language.
+
+- This [notebook](./prompt_translation/01_setup_prompt_translation_space.ipynb) (<a href="https://colab.research.google.com/github/huggingface/data-is-better-together/blob/main/prompt_translation/prompt_translation/01_setup_prompt_translation_space.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>) will guide you through the process of setting up a Hub organization and creating an Argilla Space for your language.
+- This [notebook](./prompt_translation/02_upload_prompt_translation_data.ipynb) (<a href="https://colab.research.google.com/github/huggingface/data-is-better-together/blob/main/prompt_translation/prompt_translation/02_upload_prompt_translation_data.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>) will guide you through the process of uploading the prompt translation data to your Argilla Space and optionally pre-translating the prompts using Hugging Face models. It will also show you how to create a dashboard to monitor the progress of the translation task!
 
 #### Gather a community of people and begin translating!
 

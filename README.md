@@ -40,6 +40,7 @@ There are not enough language-specific benchmarks for open LLMs! We want to crea
 - [Arabic](https://2a2i-prompt-translation-for-arabic.hf.space/)
 - [French](https://dibt-french-prompt-translation-for-french.hf.space/)
 - [Turkish](https://dibt-turkish-prompt-translation-for-turkish.hf.space/)
+- [German](https://dibt-german-prompt-translation-for-german.hf.space)
 
 ## Other guides
 

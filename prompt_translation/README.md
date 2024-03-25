@@ -39,6 +39,12 @@ To get started, you will need to set up a Hub organization and create an Argilla
 - This [notebook](./01_setup_prompt_translation_space.ipynb) (<a href="https://colab.research.google.com/github/huggingface/data-is-better-together/blob/main/prompt_translation/01_setup_prompt_translation_space.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>) will guide you through the process of setting up a Hub organization and creating an Argilla Space for your language.
 - This [notebook](./02_upload_prompt_translation_data.ipynb) (<a href="https://colab.research.google.com/github/huggingface/data-is-better-together/blob/main/prompt_translation/02_upload_prompt_translation_data.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>) will guide you through the process of uploading the prompt translation data to your Argilla Space and optionally pre-translating the prompts using Hugging Face models. It will also show you how to create a dashboard to monitor the progress of the translation task!
 
+
+<div style="background-color: #f44336; padding: 20px; color: white; font-size: 24px; font-weight: bold; border-radius: 10px;">
+⚠️ WARNING! ⚠️<br>
+Ensure that you don't carry out any annotations using the Argilla Space until you receive a confirmation message on Discord that persistent storage is enabled. If you carry out annotations before this, your work will be deleted or lost when we do the upgrade. We will not be able to restore any data lost in this way.
+</div>
+
 #### Gather a community of people and begin translating!
 
 Once an Argilla Space is created, anyone with a Hugging Face login can log in to an account and begin contributing to the translations. If no existing communities are focused on ML for your language, you may want to create a thread in the DIBT Discord channel to discuss with others. This might also lead to some excellent follow-up project ideas!

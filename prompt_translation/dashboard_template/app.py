@@ -108,16 +108,19 @@ def donut_chart_total() -> alt.Chart:
         {
             "values": [annotated_records, pending_records],
             "category": [ANNOTATED, PENDING],
-            "colors": ["#4CAF50", "#757575"],  # Green for Completed, Grey for Remaining
+            "colors": ["#4682b4", "#e68c39"],  # Blue for Completed, Orange for Remaining
         }
     )
+
+    domain = source['category'].tolist()
+    range_ = source['colors'].tolist()
 
     base = alt.Chart(source).encode(
         theta=alt.Theta("values:Q", stack=True),
         radius=alt.Radius(
             "values", scale=alt.Scale(type="sqrt", zero=True, rangeMin=20)
         ),
-        color=alt.Color("category:N", legend=alt.Legend(title=CATEGORY)),
+    color=alt.Color(field="category", type="nominal", scale=alt.Scale(domain=domain, range=range_), legend=alt.Legend(title=CATEGORY)),
     )
 
     c1 = base.mark_arc(innerRadius=20, stroke="#fff")

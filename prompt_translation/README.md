@@ -40,10 +40,9 @@ To get started, you will need to set up a Hub organization and create an Argilla
 - This [notebook](./02_upload_prompt_translation_data.ipynb) (<a href="https://colab.research.google.com/github/huggingface/data-is-better-together/blob/main/prompt_translation/02_upload_prompt_translation_data.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>) will guide you through the process of uploading the prompt translation data to your Argilla Space and optionally pre-translating the prompts using Hugging Face models. It will also show you how to create a dashboard to monitor the progress of the translation task!
 
 
-<div style="background-color: #f44336; padding: 20px; color: white; font-size: 24px; font-weight: bold; border-radius: 10px;">
 ⚠️ WARNING! ⚠️<br>
 Ensure that you don't carry out any annotations using the Argilla Space until you receive a confirmation message on Discord that persistent storage is enabled. If you carry out annotations before this, your work will be deleted or lost when we do the upgrade. We will not be able to restore any data lost in this way.
-</div>
+
 
 #### Gather a community of people and begin translating!
 

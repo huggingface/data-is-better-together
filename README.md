@@ -29,9 +29,9 @@ There are not enough language-specific benchmarks for open LLMs! We want to crea
 
 ### 3. Creating a dashboard for tracking the translation efforts
 
-Once you have your annotation suite running on a Hugging Face Space, you can easily set up an dashboard for tracking the annotation effort. Follow the steps in `03_create_dashboard.ipynb` to set up one for the language you are working on.
+Once you have your annotation suite running on a Hugging Face Space, you can easily set up a dashboard to track the annotation effort. Follow the steps in [`03_create_dashboard.ipynb`](./prompt_translation/03_create_dashboard.ipynb) to set up one for the language you are working on.
 
-You can also check the status among all translation efforts in our [Multilingual Dashboard](https://huggingface.co/spaces/DIBT/PromptTranslationMultilingualDashboard).
+You can also check the status of all translation efforts in our [Multilingual Dashboard](https://huggingface.co/spaces/DIBT/PromptTranslationMultilingualDashboard).
 
 #### Contribute translations
 

@@ -56,3 +56,13 @@ Once you have translated the prompts, ping us on Discord and we will help you su
 #### Alpaca Eval
 
 An automatic approach to evaluating instruction-following models. It uses LLM-based evaluation to make it less time-consuming and expensive to assess model performance. We'll use AlpacaEval to evaluate the performance of models using the translated prompts.
+
+## FAQs
+
+### How can I keep track of the overall progress of the translation effort?
+
+### How do I access the translated prompts?
+
+### Should translations use local examples or be as accurate as possible?
+
+### Do we all translate the same prompts?

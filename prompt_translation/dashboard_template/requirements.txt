@@ -3,7 +3,7 @@ altair==5.2.0
 annotated-types==0.6.0
 anyio==4.2.0
 apscheduler==3.10.4
-argilla==1.23.0
+argilla==1.25.0
 attrs==23.2.0
 backoff==2.2.1
 certifi==2024.2.2

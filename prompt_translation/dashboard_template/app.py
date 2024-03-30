@@ -11,6 +11,9 @@ from argilla.client.feedback.dataset.remote.dataset import RemoteFeedbackDataset
 import gradio as gr
 import pandas as pd
 
+import time
+from huggingface_hub import restart_space
+
 """
 This is the main file for the dashboard application. It contains the main function and the functions to obtain the data and create the charts.
 It's designed as a template to recreate the dashboard for the prompt translation project of any language. 
@@ -22,7 +25,11 @@ To create a new dashboard, you need several environment variables, that you can 
 - TARGET_RECORDS: The number of records that you have as a target to annotate. We usually set this to 500.
 - ARGILLA_API_URL: Link to the Huggingface Space where the annotation effort is being hosted. For example, the Spanish one is https://somosnlp-dibt-prompt-translation-for-es.hf.space/
 - ARGILLA_API_KEY: The API key to access the Huggingface Space. Please, write this as a secret in the Huggingface Space configuration.
+- HF_TOKEN: Token with write access from your Hugging Face account: https://huggingface.co/settings/tokens
 """
+
+# Get env variable
+HF_TOKEN = os.getenv("HF_TOKEN")
 
 # Translation of legends and titles
 ANNOTATED = 'Annotations'
@@ -34,6 +41,16 @@ NAME = 'Username'
 NUMBER_ANNOTATIONS = 'Number of annotations'
 
 CATEGORY = 'Category'
+
+# Start scheduler timer
+time_start = datetime.now()
+
+def restart():
+
+    # Update Space name in restart_space  with your Space information found in URL
+    gr.Info("Restarting space...")
+    restart_space("DIBT/TemplateDashboardPromptTranslation", token=HF_TOKEN)
+
 
 def obtain_source_target_datasets() -> (
     Tuple[
@@ -361,6 +378,11 @@ def main() -> None:
                 interactive=False,
             )
             demo.load(get_top, None, [top_df_plot])
+
+    # Manage background refresh
+    scheduler = BackgroundScheduler()
+    job = scheduler.add_job(restart, "interval", minutes=30)
+    scheduler.start()
 
     # Launch the Gradio interface
     demo.launch()

@@ -49,6 +49,7 @@ You can also check the status of all translation efforts in our [Multilingual Da
 - [German](https://dibt-german-prompt-translation-for-german.hf.space)
 - [Vietnamese](https://ai-vietnam-prompt-translation-for-vie.hf.space/)
 - [Portuguede](https://dibt-portuguese-prompt-translation-for-portuguese.hf.space)
+- [Cantonese](https://dibt-cantonese-prompt-translation-for-cantonese.hf.space/)
 
 ## Other guides
 

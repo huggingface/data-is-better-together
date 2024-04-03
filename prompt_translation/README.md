@@ -56,3 +56,13 @@ Once you have translated the prompts, ping us on Discord and we will help you su
 #### Alpaca Eval
 
 An automatic approach to evaluating instruction-following models. It uses LLM-based evaluation to make it less time-consuming and expensive to assess model performance. We'll use AlpacaEval to evaluate the performance of models using the translated prompts.
+
+## FAQs
+
+### How can I keep track of the overall progress of the translation effort?
+
+The best way to track the progress of your translation effort is to set up the progress dashboard. You can find instructions on how to do this [here](./prompt_translation/03_create_dashboard.ipynb). This will allow you to monitor the progress of the translation task and see how many prompts have been translated as well as the number of people who have contributed to the translation effort.
+
+### Should translations use local examples or be as accurate as possible?
+
+There are no strict rules for translations. The goal is to make the prompts as understandable as possible for the target language. If you think that a local example would make the prompt more understandable, then feel free to modify the prompt. Our goal is to help enable the evaluation of models across different languages, this also includes some "understanding" of local context. There has been some discussion about this in the Discord channel, so feel free to join the conversation there!

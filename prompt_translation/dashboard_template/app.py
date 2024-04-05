@@ -8,6 +8,7 @@ import altair as alt
 import argilla as rg
 from argilla.feedback import FeedbackDataset
 from argilla.client.feedback.dataset.remote.dataset import RemoteFeedbackDataset
+from huggingface_hub import restart_space
 import gradio as gr
 import pandas as pd
 
@@ -17,6 +18,7 @@ It's designed as a template to recreate the dashboard for the prompt translation
 
 To create a new dashboard, you need several environment variables, that you can easily set in the HuggingFace Space that you are using to host the dashboard:
 
+- HF_TOKEN: Token with write access from your Hugging Face account: https://huggingface.co/settings/tokens
 - SOURCE_DATASET: The dataset id of the source dataset
 - SOURCE_WORKSPACE: The workspace id of the source dataset
 - TARGET_RECORDS: The number of records that you have as a target to annotate. We usually set this to 500.
@@ -25,15 +27,30 @@ To create a new dashboard, you need several environment variables, that you can 
 """
 
 # Translation of legends and titles
-ANNOTATED = 'Annotations'
-NUMBER_ANNOTATED = 'Total Annotations'
-PENDING = 'Pending'
+ANNOTATED = "Annotations"
+NUMBER_ANNOTATED = "Total Annotations"
+PENDING = "Pending"
 
 NUMBER_ANNOTATORS = "Number of annotators"
-NAME = 'Username'
-NUMBER_ANNOTATIONS = 'Number of annotations'
+NAME = "Username"
+NUMBER_ANNOTATIONS = "Number of annotations"
 
-CATEGORY = 'Category'
+CATEGORY = "Category"
+
+
+def restart() -> None:
+    """
+    This function restarts the space where the dashboard is hosted.
+    """
+
+    # Update Space name with your Space information
+    gr.Info("Restarting space at " + str(datetime.datetime.now()))
+    restart_space(
+        "ignacioct/TryingRestartDashboard",
+        token=os.getenv("HF_TOKEN"),
+        # factory_reboot=True,
+    )
+
 
 def obtain_source_target_datasets() -> (
     Tuple[
@@ -108,19 +125,27 @@ def donut_chart_total() -> alt.Chart:
         {
             "values": [annotated_records, pending_records],
             "category": [ANNOTATED, PENDING],
-            "colors": ["#4682b4", "#e68c39"],  # Blue for Completed, Orange for Remaining
+            "colors": [
+                "#4682b4",
+                "#e68c39",
+            ],  # Blue for Completed, Orange for Remaining
         }
     )
 
-    domain = source['category'].tolist()
-    range_ = source['colors'].tolist()
+    domain = source["category"].tolist()
+    range_ = source["colors"].tolist()
 
     base = alt.Chart(source).encode(
         theta=alt.Theta("values:Q", stack=True),
         radius=alt.Radius(
             "values", scale=alt.Scale(type="sqrt", zero=True, rangeMin=20)
         ),
-    color=alt.Color(field="category", type="nominal", scale=alt.Scale(domain=domain, range=range_), legend=alt.Legend(title=CATEGORY)),
+        color=alt.Color(
+            field="category",
+            type="nominal",
+            scale=alt.Scale(domain=domain, range=range_),
+            legend=alt.Legend(title=CATEGORY),
+        ),
     )
 
     c1 = base.mark_arc(innerRadius=20, stroke="#fff")
@@ -189,9 +214,7 @@ def kpi_chart_total_annotators() -> alt.Chart:
     total_annotators = len(user_ids_annotations)
 
     # Assuming you have a DataFrame with user data, create a sample DataFrame
-    data = pd.DataFrame(
-        {"Category": [NUMBER_ANNOTATORS], "Value": [total_annotators]}
-    )
+    data = pd.DataFrame({"Category": [NUMBER_ANNOTATORS], "Value": [total_annotators]})
 
     # Create Altair chart
     chart = (
@@ -204,14 +227,14 @@ def kpi_chart_total_annotators() -> alt.Chart:
     return chart
 
 
-def render_hub_user_link(hub_id:str) -> str:
+def render_hub_user_link(hub_id: str) -> str:
     """
     This function returns a link to the user's profile on Hugging Face.
 
     Args:
         hub_id: The user's id on Hugging Face.
 
-    Returns:    
+    Returns:
         A string with the link to the user's profile on Hugging Face.
     """
     link = f"https://huggingface.co/{hub_id}"
@@ -258,7 +281,7 @@ def fetch_data() -> None:
     print(f"Data fetched: {datetime.datetime.now()}")
 
 
-def get_top(N = 50) -> pd.DataFrame:
+def get_top(N=50) -> pd.DataFrame:
     """
     This function returns the top N users with the most annotations.
 
@@ -290,7 +313,7 @@ def main() -> None:
     }
     """
 
-    with gr.Blocks(css=css) as demo:
+    with gr.Blocks(css=css, delete_cache=(300, 300)) as demo:
         gr.Markdown(
             """
             # 🌍 [YOUR LANGUAGE] - Multilingual Prompt Evaluation Project
@@ -346,9 +369,7 @@ def main() -> None:
         with gr.Row():
 
             kpi_hall_plot = gr.Plot(label="Plot")
-            demo.load(
-                kpi_chart_total_annotators, inputs=[], outputs=[kpi_hall_plot]
-            )
+            demo.load(kpi_chart_total_annotators, inputs=[], outputs=[kpi_hall_plot])
 
             top_df_plot = gr.Dataframe(
                 headers=[NAME, NUMBER_ANNOTATIONS],
@@ -361,6 +382,11 @@ def main() -> None:
                 interactive=False,
             )
             demo.load(get_top, None, [top_df_plot])
+
+    # Manage background refresh
+    scheduler = BackgroundScheduler()
+    _ = scheduler.add_job(restart, "interval", minutes=30)
+    scheduler.start()
 
     # Launch the Gradio interface
     demo.launch()

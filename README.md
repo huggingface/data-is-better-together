@@ -27,13 +27,13 @@ Our first DIBT activity is focused on ranking the quality of prompts. We have al
 
 There are not enough language-specific benchmarks for open LLMs! We want to create a leaderboard for more languages by leveraging the community! You can find more information about this project in the [MPEP README](prompt_translation/README.md).
 
-### 3. Creating a dashboard for tracking the translation efforts
+#### 2.1 Creating a dashboard for tracking the translation efforts
 
 Once you have your annotation suite running on a Hugging Face Space, you can easily set up a dashboard to track the annotation effort. Follow the steps in [`03_create_dashboard.ipynb`](./prompt_translation/03_create_dashboard.ipynb) to set up one for the language you are working on.
 
 You can also check the status of all translation efforts in our [Multilingual Dashboard](https://huggingface.co/spaces/DIBT/PromptTranslationMultilingualDashboard).
 
-#### Contribute translations
+##### Contribute translations
 
 *Want to contribute translations?* Currently, these translation efforts are underway:
 

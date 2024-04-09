@@ -55,7 +55,7 @@ You can also check the status of all translation efforts in our [Multilingual Da
 
 To register your dataset within https://huggingface.co/DIBT and avoid overlapping responses, we also recommend you to reach out to @davidberenstein1957 (David Berenstein), @.dvs13 (Daniel van Strien) and @ignacioct (Ignacio Talavera) in the 🤗 [Hugging Face Discord Channel](https://discord.gg/hugging-face-879548962464493619). They will congigure a CRON job in this [GitHub repo](https://github.com/argilla-io/dataset-cron-refresh) to safely export your data and share it with the world :) 
 
-#### 2.3 Updating dashboard after CRON jobs and cache removal
+#### 2.3 Fix dashboard after CRON jobs addition and dashboard cache removal
 
 We have outlined 2 more steps to update the workspace after an update in step 2.1 and the addition of step 2.2. 
 

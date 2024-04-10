@@ -27,13 +27,13 @@ Our first DIBT activity is focused on ranking the quality of prompts. We have al
 
 There are not enough language-specific benchmarks for open LLMs! We want to create a leaderboard for more languages by leveraging the community! You can find more information about this project in the [MPEP README](prompt_translation/README.md).
 
-### 3. Creating a dashboard for tracking the translation efforts
+#### 2.1 Creating a dashboard for tracking the translation efforts
 
 Once you have your annotation suite running on a Hugging Face Space, you can easily set up a dashboard to track the annotation effort. Follow the steps in [`03_create_dashboard.ipynb`](./prompt_translation/03_create_dashboard.ipynb) to set up one for the language you are working on.
 
-You can also check the status of all translation efforts in our [Multilingual Dashboard](https://huggingface.co/spaces/DIBT/PromptTranslationMultilingualDashboard).
+You can also check the status of all translation efforts in our [Multilingual Dashboard](https://huggingface.co/spaces/DIBT/PromptTranslationMultilingualDashboard). Do you want the language you're working on to be added there? Then you can reach out to @davidberenstein1957 (David Berenstein), @.dvs13 (Daniel van Strien) and @ignacioct (Ignacio Talavera) in the 🤗 [Hugging Face Discord Channel](https://discord.gg/hugging-face-879548962464493619).
 
-#### Contribute translations
+##### Contribute translations
 
 *Want to contribute translations?* Currently, these translation efforts are underway:
 
@@ -50,6 +50,24 @@ You can also check the status of all translation efforts in our [Multilingual Da
 - [Vietnamese](https://ai-vietnam-prompt-translation-for-vie.hf.space/)
 - [Portuguese](https://dibt-portuguese-prompt-translation-for-portuguese.hf.space)
 - [Cantonese](https://dibt-cantonese-prompt-translation-for-cantonese.hf.space/)
+- [Slovak](https://dibt-slovak-prompt-translation-for-slovak.hf.space/)
+
+*Want to work on a language that's not listed?* You can follow the steps to set up a new annotation effort by going to `prompt_translation/` and checking out the three notebooks:
+
+- In the first one, you'll learn how to set up a prompt translation space using Argilla and Hugging Face Spaces.
+- In the second one, you'll see how to upload the prompt translation data for the language of your choice.
+- In the third one, we show how to easily set up a dashboard to track the annotation efforts.
+
+#### 2.2 CRON jobs for data exports
+
+To register your dataset within https://huggingface.co/DIBT and avoid overlapping responses, we also recommend you to reach out to @davidberenstein1957 (David Berenstein), @.dvs13 (Daniel van Strien) and @ignacioct (Ignacio Talavera) in the 🤗 [Hugging Face Discord Channel](https://discord.gg/hugging-face-879548962464493619). They will congigure a CRON job in this [GitHub repo](https://github.com/argilla-io/dataset-cron-refresh) to safely export your data and share it with the world :) 
+
+#### 2.3 Fix dashboard after CRON jobs addition and dashboard cache removal
+
+We have outlined 2 more steps to update the workspace after an update in step 2.1 and the addition of step 2.2. 
+
+- 2.1) In order to avoid caching information and always having an up to date dashboard, we've introduced a fix in the dashboard template. You can either delete the current dasboard and create a new one or reproduce the [PR fix](https://github.com/huggingface/data-is-better-together/commit/a52fbe9b97e43aeca497faf02dccd0dec7dbe070) for the dashboard template.
+- 2.2) After having configured the CRON job, data is exported to the "owner" workspace, hence the workspace used for the dashboard needs to be updated by setting the workspace environment variable equal to "owner" (minus the accolades).
 
 ## Other guides
 

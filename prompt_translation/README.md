@@ -78,7 +78,7 @@ An automatic approach to evaluating instruction-following models. It uses LLM-ba
 
 ### How can I keep track of the overall progress of the translation effort?
 
-The best way to track the progress of your translation effort is to set up the progress dashboard. You can find instructions on how to do this [here](./03_create_dashboard.ipynb). This will allow you to monitor the progress of the translation task and see how many prompts have been translated as well as the number of people who have contributed to the translation effort. There also is a [multi-lingual dashboard](https://huggingface.co/spaces/DIBT/PromptTranslationMultilingualDashboard) to which your credential can be added by contacting David Berenstein (Argilla) or Daniel van Strien (Hugging Face).
+The best way to track the progress of your translation effort is to set up the progress dashboard. You can find instructions on how to do this [here](./03_create_dashboard.ipynb). This will allow you to monitor the progress of the translation task and see how many prompts have been translated as well as the number of people who have contributed to the translation effort. There also is a [multi-lingual dashboard](https://huggingface.co/spaces/DIBT/PromptTranslationMultilingualDashboard) to which your credentials can be added by contacting David Berenstein (Argilla) or Daniel van Strien (Hugging Face).
 
 ### Should translations use local examples or be as accurate as possible?
 

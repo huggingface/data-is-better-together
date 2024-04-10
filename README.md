@@ -50,6 +50,7 @@ You can also check the status of all translation efforts in our [Multilingual Da
 - [Vietnamese](https://ai-vietnam-prompt-translation-for-vie.hf.space/)
 - [Portuguese](https://dibt-portuguese-prompt-translation-for-portuguese.hf.space)
 - [Cantonese](https://dibt-cantonese-prompt-translation-for-cantonese.hf.space/)
+- [Slovak](https://dibt-slovak-prompt-translation-for-slovak.hf.space/)
 
 *Want to work on a language that's not listed?* You can follow the steps to set up a new annotation effort by going to `prompt_translation/` and checking out the three notebooks:
 

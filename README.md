@@ -58,16 +58,6 @@ You can also check the status of all translation efforts in our [Multilingual Da
 - In the second one, you'll see how to upload the prompt translation data for the language of your choice.
 - In the third one, we show how to easily set up a dashboard to track the annotation efforts.
 
-#### 2.2 CRON jobs for data exports
-
-To register your dataset within https://huggingface.co/DIBT and avoid overlapping responses, we also recommend you to reach out to @davidberenstein1957 (David Berenstein), @.dvs13 (Daniel van Strien) and @ignacioct (Ignacio Talavera) in the 🤗 [Hugging Face Discord Channel](https://discord.gg/hugging-face-879548962464493619). They will congigure a CRON job in this [GitHub repo](https://github.com/argilla-io/dataset-cron-refresh) to safely export your data and share it with the world :) 
-
-#### 2.3 Fix dashboard after CRON jobs addition and dashboard cache removal
-
-We have outlined 2 more steps to update the workspace after an update in step 2.1 and the addition of step 2.2. 
-
-- 2.1) In order to avoid caching information and always having an up to date dashboard, we've introduced a fix in the dashboard template. You can either delete the current dasboard and create a new one or reproduce the [PR fix](https://github.com/huggingface/data-is-better-together/commit/a52fbe9b97e43aeca497faf02dccd0dec7dbe070) for the dashboard template.
-- 2.2) After having configured the CRON job, data is exported to the "owner" workspace, hence the workspace used for the dashboard needs to be updated by setting the workspace environment variable equal to "owner" (minus the accolades).
 
 ## Other guides
 

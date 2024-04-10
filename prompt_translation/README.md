@@ -43,6 +43,23 @@ To get started, you will need to set up a Hub organization and create an Argilla
 
 Once an Argilla Space is created, anyone with a Hugging Face login can log in to an account and begin contributing to the translations. If no existing communities are focused on ML for your language, you may want to create a thread in the DIBT Discord channel to discuss with others. This might also lead to some excellent follow-up project ideas!
 
+#### Creating a dashboard for tracking the translation efforts
+
+Once you have your annotation suite running on a Hugging Face Space, you can easily set up a dashboard to track the annotation effort. Follow the steps in [`03_create_dashboard.ipynb`](./prompt_translation/03_create_dashboard.ipynb) to set up one for the language you are working on.
+
+#### CRON jobs for data exports
+
+To register your dataset within https://huggingface.co/DIBT and avoid overlapping responses, we also recommend you to reach out to @davidberenstein1957 (David Berenstein), @.dvs13 (Daniel van Strien) and @ignacioct (Ignacio Talavera) in the 🤗 [Hugging Face Discord Channel](https://discord.gg/hugging-face-879548962464493619). They will configure a CRON job in this [GitHub repo](https://github.com/argilla-io/dataset-cron-refresh) to safely export your data and share it with the world!
+
+
+#### (optional) Updating existing dashboards
+
+If you previously set up a dashboard we recommend you follow the next steps to improve the dashboard experience:
+
+- To avoid caching information and always having an up-to-date dashboard, we've introduced a fix in the dashboard template. You can either delete the current dashboard and create a new one or reproduce the [PR fix](https://github.com/huggingface/data-is-better-together/commit/a52fbe9b97e43aeca497faf02dccd0dec7dbe070) for the dashboard template.
+- After having configured the CRON job, data is exported to the "owner" workspace, hence the workspace used for the dashboard needs to be updated by setting the workspace environment variable equal to "owner" (minus the accolades).
+
+
 ### Contribute to the translation of prompts
 
 If there is an existing Argilla effort focused on a language you speak, you can contribute to the translation of prompts. You will just need a Hugging Face account to log in to the relevant Space. You can find the current active efforts [here](https://github.com/huggingface/data-is-better-together?tab=readme-ov-file#contribute-translations). The best way to keep up to date with everything that is happening is to join the [Discord channel](https://discord.gg/hugging-face-879548962464493619)

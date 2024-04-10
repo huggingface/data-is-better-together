@@ -51,7 +51,8 @@ You can also check the status of all translation efforts in our [Multilingual Da
 - [Portuguese](https://dibt-portuguese-prompt-translation-for-portuguese.hf.space)
 - [Cantonese](https://dibt-cantonese-prompt-translation-for-cantonese.hf.space/)
 
-*Want to work on a language that's not listed?* You can follow the steps to set up a new annotation effort by going to `prompt_translation/` and checking out the three notebooks: 
+*Want to work on a language that's not listed?* You can follow the steps to set up a new annotation effort by going to `prompt_translation/` and checking out the three notebooks:
+
 - In the first one, you'll learn how to set up a prompt translation space using Argilla and Hugging Face Spaces.
 - In the second one, you'll see how to upload the prompt translation data for the language of your choice.
 - In the third one, we show how to easily set up a dashboard to track the annotation efforts.

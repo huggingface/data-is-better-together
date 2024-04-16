@@ -1,0 +1,7 @@
+distilabel @git+https://github.com/argilla-io/distilabel
+huggingface_hub
+ipykernel
+argilla
+openai
+transformers
+matplotlib

@@ -1,6 +1,4 @@
 import json
-
-from pytest import mark
 import streamlit as st
 
 from hub import push_dataset_to_hub
@@ -17,7 +15,7 @@ from defaults import (
     SEED_DATA_PATH,
     PIPELINE_PATH,
 )
-from pipeline import serialize_pipeline
+from pipeline import serialize_pipeline, run_pipeline
 
 ################################################################################
 # Introduction and Project Setup
@@ -149,16 +147,18 @@ if new_question:
 # Create Dataset Seed
 ################################################################################
 
-create_text = """
-# 🤗 Create Dataset on the Hub
-Create a dataset seed and push it to the Hub to grow a domain-specific dataset.
-"""
-st.markdown(create_text)
-if st.button("Create Dataset Seed :seedling:"):
-    ############################################################
-    # Create Dataset Seed and serialize pipeline
-    ############################################################
+st.header(":seedling: Generate Synthetic Dataset")
 
+st.text(
+    "Now that you have defined the domain expertise, perspectives, topics, and examples, you can create a dataset seed."
+)
+
+st.subheader("Step 1. Create Dataset Seed from domain data")
+st.text(
+    "Create a dataset seed and push it to the Hub to grow a domain-specific dataset."
+)
+
+if st.button("🤗 Create Dataset Seed"):
     perspectives = list(filter(None, perspectives))
     topics = list(filter(None, topics))
     examples = [{"question": q, "answer": a} for q, a in questions_answers]
@@ -182,6 +182,7 @@ if st.button("Create Dataset Seed :seedling:"):
         perspectives=perspectives,
         pipeline_config_path=PIPELINE_PATH,
         domain_expert_prompt=domain_expert_prompt or DEFAULT_SYSTEM_PROMPT,
+        hub_token=hub_token,
     )
 
     ############################################################
@@ -201,13 +202,52 @@ if st.button("Create Dataset Seed :seedling:"):
         f"Dataset seed created and pushed to the Hub. Check it out [here](https://huggingface.co/{hub_username}/{project_name})"
     )
 
-    instructions = f"""
-        Execute the following command to generate a synthetic dataset from the seed data:
-        ```bash
+    st.session_state["created_dataset"] = True
+
+
+###############################################################
+# Run Pipeline
+###############################################################
+
+st.subheader("Step 2. Run the pipeline to generate synthetic data")
+
+run_pipeline_locally = st.button("💻 Run pipeline locally")
+run_pipeline_on_space = st.button("🔥 Run pipeline right here, right now!")
+
+if (run_pipeline_on_space or run_pipeline_locally) and not st.session_state.get(
+    "created_dataset"
+):
+    st.error("You need to create the dataset seed before running the pipeline.")
+    st.rerun()
+
+elif run_pipeline_locally:
+    st.info(
+        "To run the pipeline locally, you need to have the `distilabel` library installed. You can install it using the following command:"
+    )
+    st.text(
+        "Execute the following command to generate a synthetic dataset from the seed data:"
+    )
+    st.code(
+        f"""
+        pip install git+https://github.com/argilla-io/distilabel.git
         git clone https://huggingface.co/{hub_username}/{project_name}
         cd {project_name}
         distilabel pipeline run --config pipeline.yaml
-        ```
     """
+    )
 
-    st.markdown(instructions)
+elif run_pipeline_on_space:
+    st.text("To run the pipeline from here define an inference endpoint URL.")
+
+    base_url = st.text_input("Base URL", "https://api-inference.huggingface.co")
+
+    logs = run_pipeline(PIPELINE_PATH)
+
+    st.success(f"Running the pipeline.")
+
+    with st.expander("View Logs"):
+        for out in logs:
+            st.text(out)
+
+
+st.subheader("Step 3. Explore the generated dataset and improve it")

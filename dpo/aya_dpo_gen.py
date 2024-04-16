@@ -3,9 +3,11 @@ from distilabel.pipeline import Pipeline
 from distilabel.steps import (
     LoadHubDataset,
 )
-from distilabel.steps.tasks import TextGeneration, ConversationTemplate
+from distilabel.steps.tasks import TextGeneration
 from huggingface_hub import get_token
 import time
+from distilabel.steps import StepInput, StepOutput, Step
+from huggingface_hub import InferenceClient
 
 INFERENCE_ENDPOINTS_URL = (
     "https://fqk8v1jpa972cklj.us-east-1.aws.endpoints.huggingface.cloud"
@@ -16,6 +18,24 @@ OUTPUT_DATASET_HUB_ID = "davanstrien/aya_dpo"
 MAX_NEW_TOKENS = 1024
 ENDPOINT_NAME = "solar-10-7b-instruct-v1-0-bli"
 INPUT_BATCH_SIZE = 10
+
+
+class LanguagePredict(Step):
+    def process(self, inputs: StepInput) -> StepOutput:
+        for input in inputs:
+            try:
+                resp = InferenceClient("laurievb/OpenLID").text_classification(
+                    input["generation"]
+                )
+                top_prediction = resp["predictions"][0]
+                input["predicted_generation_language"] = top_prediction.label
+                input["predicted_generation_language_score"] = top_prediction.score
+            except Exception as e:
+                print(e)
+                input["predicted_generation_language"] = "error"
+                input["predicted_generation_language_score"] = 0.0
+        yield inputs
+
 
 with Pipeline(name="generate-dpo-responses") as pipeline:
     # Load the dataset from the Hugging Face Hub
@@ -36,6 +56,8 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
         output_mappings={"model_name": "generation_model"},
     )
     load_hub_dataset.connect(text_generation)
+    language_prediction = LanguagePredict(name="language_prediction")
+    text_generation.connect(language_prediction)
 
 
 if __name__ == "__main__":
@@ -46,7 +68,7 @@ if __name__ == "__main__":
         parameters={
             "load_dataset": {
                 "repo_id": INPUT_DATASET_HUB_ID,
-                "split": "train",
+                "split": "test",
             },
             "text_generation": {
                 "generation_kwargs": {

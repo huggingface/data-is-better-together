@@ -9,9 +9,7 @@ aiosignal==1.3.1
 annotated-types==0.6.0
     # via pydantic
 anyio==4.3.0
-    # via
-    #   httpx
-    #   openai
+    # via httpx
 appnope==0.1.4
     # via ipykernel
 argilla==1.26.1
@@ -34,10 +32,6 @@ click==8.1.7
     #   typer
 comm==0.2.2
     # via ipykernel
-contourpy==1.2.1
-    # via matplotlib
-cycler==0.12.1
-    # via matplotlib
 datasets==2.18.0
     # via distilabel
 debugpy==1.8.1
@@ -50,9 +44,7 @@ dill==0.3.8
     # via
     #   datasets
     #   multiprocess
-distilabel @ git+https://github.com/argilla-io/distilabel@d5d7d3e1374e79fe1dde487ea47aa2925e22ec8a
-distro==1.9.0
-    # via openai
+distilabel @ git+https://github.com/argilla-io/distilabel@15d7f8c183c59a9ab3ed91f168f43096ba32e665
 executing==2.0.1
     # via stack-data
 filelock==3.13.4
@@ -60,8 +52,6 @@ filelock==3.13.4
     #   datasets
     #   huggingface-hub
     #   transformers
-fonttools==4.51.0
-    # via matplotlib
 frozenlist==1.4.1
     # via
     #   aiohttp
@@ -78,7 +68,6 @@ httpx==0.26.0
     # via
     #   argilla
     #   distilabel
-    #   openai
 huggingface-hub==0.22.2
     # via
     #   datasets
@@ -105,13 +94,10 @@ jupyter-core==5.7.2
     # via
     #   ipykernel
     #   jupyter-client
-kiwisolver==1.4.5
-    # via matplotlib
 markdown-it-py==3.0.0
     # via rich
 markupsafe==2.1.5
     # via jinja2
-matplotlib==3.8.4
 matplotlib-inline==0.1.7
     # via
     #   ipykernel
@@ -139,21 +125,17 @@ nltk==3.8.1
 numpy==1.23.5
     # via
     #   argilla
-    #   contourpy
     #   datasets
-    #   matplotlib
     #   pandas
     #   pyarrow
     #   scipy
     #   transformers
-openai==1.19.0
 packaging==24.0
     # via
     #   argilla
     #   datasets
     #   huggingface-hub
     #   ipykernel
-    #   matplotlib
     #   transformers
 pandas==2.2.2
     # via
@@ -163,8 +145,6 @@ parso==0.8.4
     # via jedi
 pexpect==4.9.0
     # via ipython
-pillow==10.3.0
-    # via matplotlib
 platformdirs==4.2.0
     # via jupyter-core
 prompt-toolkit==3.0.43
@@ -183,19 +163,15 @@ pydantic==2.7.0
     # via
     #   argilla
     #   distilabel
-    #   openai
 pydantic-core==2.18.1
     # via pydantic
 pygments==2.17.2
     # via
     #   ipython
     #   rich
-pyparsing==3.1.2
-    # via matplotlib
 python-dateutil==2.9.0.post0
     # via
     #   jupyter-client
-    #   matplotlib
     #   pandas
 pytz==2024.1
     # via pandas
@@ -233,7 +209,6 @@ sniffio==1.3.1
     # via
     #   anyio
     #   httpx
-    #   openai
 stack-data==0.6.3
     # via ipython
 tblib==3.0.0
@@ -250,7 +225,6 @@ tqdm==4.66.2
     #   datasets
     #   huggingface-hub
     #   nltk
-    #   openai
     #   transformers
 traitlets==5.14.2
     # via
@@ -269,7 +243,6 @@ typing-extensions==4.11.0
     # via
     #   huggingface-hub
     #   ipython
-    #   openai
     #   pydantic
     #   pydantic-core
     #   typer

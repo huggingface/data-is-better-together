@@ -22,6 +22,7 @@ INPUT_BATCH_SIZE = 10
 
 class LanguagePredict(Step):
     def process(self, inputs: StepInput) -> StepOutput:
+        """A step to predict the language of the generated text"""
         for input in inputs:
             try:
                 resp = InferenceClient("laurievb/OpenLID").text_classification(

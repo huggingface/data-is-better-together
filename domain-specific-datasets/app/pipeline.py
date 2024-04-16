@@ -1,4 +1,6 @@
 import os
+import subprocess
+import time
 from typing import List
 
 from distilabel.steps.generators.data import LoadDataFromDicts
@@ -6,7 +8,7 @@ from distilabel.steps.expand import ExpandColumns
 from distilabel.steps.keep import KeepColumns
 from distilabel.steps.tasks.self_instruct import SelfInstruct
 from distilabel.steps.tasks.evol_instruct.base import EvolInstruct
-from distilabel.llms.mistral import MistralLLM
+from distilabel.llms.huggingface import InferenceEndpointsLLM
 from distilabel.pipeline import Pipeline
 from distilabel.steps import TextGenerationToArgilla
 from dotenv import load_dotenv
@@ -21,14 +23,14 @@ from domain import (
 load_dotenv()
 
 
-def serialize_pipeline(
+def define_pipeline(
     argilla_api_key: str,
     argilla_api_url: str,
     argilla_dataset_name: str,
     topics: List[str],
     perspectives: List[str],
     domain_expert_prompt: str,
-    pipeline_config_path: str = "pipeline.yaml",
+    hub_token: str,
 ):
     terms = create_topics(topics, perspectives)
     with Pipeline("farming") as pipeline:
@@ -37,24 +39,21 @@ def serialize_pipeline(
             data=[{"input": term} for term in terms],
             batch_size=64,
         )
-        base_llm = MistralLLM(
-            model="mistral-medium", api_key=os.getenv("MISTRAL_API_KEY")
+        llm = InferenceEndpointsLLM(
+            base_url="https://pvmknffou6ylc37u.eu-west-1.aws.endpoints.huggingface.cloud",
+            api_key=hub_token,
         )
-        expert_llm = MistralLLM(
-            model="mistral-large-latest", api_key=os.getenv("MISTRAL_API_KEY")
-        )
-
         self_instruct = SelfInstruct(
             name="self-instruct",
             application_description=APPLICATION_DESCRIPTION,
             num_instructions=5,
             input_batch_size=8,
-            llm=base_llm,
+            llm=llm,
         )
 
         evol_instruction_complexity = EvolInstruct(
             name="evol_instruction_complexity",
-            llm=base_llm,
+            llm=llm,
             num_evolutions=2,
             store_evolutions=True,
             input_batch_size=8,
@@ -73,7 +72,7 @@ def serialize_pipeline(
 
         domain_expert = DomainExpert(
             name="domain_expert",
-            llm=expert_llm,
+            llm=llm,
             input_batch_size=8,
             input_mappings={"instruction": "evolved_questions"},
             output_mappings={"generation": "domain_expert_answer"},
@@ -105,5 +104,58 @@ def serialize_pipeline(
         expand_evolutions.connect(domain_expert)
         domain_expert.connect(keep_columns)
         keep_columns.connect(to_argilla)
+    return pipeline
 
+
+def serialize_pipeline(
+    argilla_api_key: str,
+    argilla_api_url: str,
+    argilla_dataset_name: str,
+    topics: List[str],
+    perspectives: List[str],
+    domain_expert_prompt: str,
+    hub_token: str,
+    pipeline_config_path: str = "pipeline.yaml",
+):
+    pipeline = define_pipeline(
+        argilla_api_key=argilla_api_key,
+        argilla_api_url=argilla_api_url,
+        argilla_dataset_name=argilla_dataset_name,
+        topics=topics,
+        perspectives=perspectives,
+        domain_expert_prompt=domain_expert_prompt,
+        hub_token=hub_token,
+    )
     pipeline.save(path=pipeline_config_path, overwrite=True, format="yaml")
+
+
+def run_pipeline(pipeline_config_path: str):
+    command_to_run = [
+        "python",
+        "-m",
+        "distilabel",
+        "pipeline",
+        "run",
+        "--config",
+        "pipeline.yaml",
+        "--param",
+        "text_generation_to_argilla.dataset_name=domain_specific_datasets",
+    ]
+
+    # Run the script file
+    process = subprocess.Popen(
+        command_to_run, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    )
+
+    text_to_print = []
+
+    while process.stdout and process.stdout.readable():
+        line = process.stdout.readline()
+
+        if not line:
+            break
+
+        text_to_print = text_to_print[-10:] + [line.decode()]
+        time.sleep(0.2)
+        for line in text_to_print:
+            yield line

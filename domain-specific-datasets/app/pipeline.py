@@ -31,7 +31,10 @@ def define_pipeline(
     perspectives: List[str],
     domain_expert_prompt: str,
     hub_token: str,
+    endpoint_base_url: str,
 ):
+    """Define the pipeline for the specific domain."""
+
     terms = create_topics(topics, perspectives)
     with Pipeline("farming") as pipeline:
         load_data = LoadDataFromDicts(
@@ -40,7 +43,7 @@ def define_pipeline(
             batch_size=64,
         )
         llm = InferenceEndpointsLLM(
-            base_url="https://pvmknffou6ylc37u.eu-west-1.aws.endpoints.huggingface.cloud",
+            base_url=endpoint_base_url,
             api_key=hub_token,
         )
         self_instruct = SelfInstruct(
@@ -115,8 +118,10 @@ def serialize_pipeline(
     perspectives: List[str],
     domain_expert_prompt: str,
     hub_token: str,
+    endpoint_base_url: str,
     pipeline_config_path: str = "pipeline.yaml",
 ):
+    """Serialize the pipeline to a yaml file."""
     pipeline = define_pipeline(
         argilla_api_key=argilla_api_key,
         argilla_api_url=argilla_api_url,
@@ -125,11 +130,17 @@ def serialize_pipeline(
         perspectives=perspectives,
         domain_expert_prompt=domain_expert_prompt,
         hub_token=hub_token,
+        endpoint_base_url=endpoint_base_url,
     )
     pipeline.save(path=pipeline_config_path, overwrite=True, format="yaml")
 
 
-def run_pipeline(pipeline_config_path: str):
+def run_pipeline(
+    pipeline_config_path: str = "pipeline.yaml",
+    argilla_dataset_name: str = "domain_specific_datasets",
+):
+    """Run the pipeline and yield the output as a generator of logs."""
+
     command_to_run = [
         "python",
         "-m",
@@ -137,9 +148,9 @@ def run_pipeline(pipeline_config_path: str):
         "pipeline",
         "run",
         "--config",
-        "pipeline.yaml",
+        pipeline_config_path,
         "--param",
-        "text_generation_to_argilla.dataset_name=domain_specific_datasets",
+        f"text_generation_to_argilla.dataset_name={argilla_dataset_name}",
     ]
 
     # Run the script file
@@ -147,15 +158,9 @@ def run_pipeline(pipeline_config_path: str):
         command_to_run, stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
 
-    text_to_print = []
-
     while process.stdout and process.stdout.readable():
+        time.sleep(0.2)
         line = process.stdout.readline()
-
         if not line:
             break
-
-        text_to_print = text_to_print[-10:] + [line.decode()]
-        time.sleep(0.2)
-        for line in text_to_print:
-            yield line
+        yield line.decode("utf-8")

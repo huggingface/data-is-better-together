@@ -1,5 +1,9 @@
 argilla
-distilabel @git+https://github.com/argilla-io/distilabel
+distilabel>=1.0.0
 huggingface_hub
 ipykernel
 transformers
+python-dotenv
+ipywidgets
+matplotlib
+seaborn

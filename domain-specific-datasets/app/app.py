@@ -29,119 +29,140 @@ Alignment datasets are used to fine-tune models to a specific domain or task, bu
 """
 st.markdown(introduction)
 
-project_name = st.text_input("Project Name", DEFAULT_DOMAIN)
-domain = st.text_input("Domain", DEFAULT_DOMAIN)
-hub_username = st.text_input("Hub Username", "argilla")
-hub_token = st.text_input("Hub Token", type="password")
-argilla_url = st.text_input("Argilla API URL", "https://argilla-farming.hf.space")
-argilla_api_key = st.text_input("Argilla API Key", "owner.apikey")
+(
+    tab_details,
+    tab_domain_expert,
+    tab_domain_perspectives,
+    tab_domain_topics,
+    tab_examples,
+) = st.tabs(
+    [
+        "📋 Project Details",
+        "👩🏼‍🔬 Domain Expert",
+        "🔍 Domain Perspectives",
+        "🕸️ Domain Topics",
+        "📚 Examples",
+    ]
+)
+
+with tab_details:
+    st.text(
+        "Define the project details, including the project name, domain, and API credentials"
+    )
+    project_name = st.text_input("Project Name", DEFAULT_DOMAIN)
+    domain = st.text_input("Domain", DEFAULT_DOMAIN)
+    hub_username = st.text_input("Hub Username", "argilla")
+    hub_token = st.text_input("Hub Token", type="password")
+    argilla_url = st.text_input("Argilla API URL", "https://argilla-farming.hf.space")
+    argilla_api_key = st.text_input("Argilla API Key", "owner.apikey")
+
 
 ################################################################################
 # Domain Expert Section
 ################################################################################
-st.divider()
-st.header("👩🏼‍🔬 Domain Expert")
-st.text("Define the domain expertise that you want to train a language model")
-st.info(
-    "A domain expert is a person who is an expert in a particular field or area. For example, a domain expert in farming would be someone who has extensive knowledge and experience in farming and agriculture."
-)
 
-domain_expert_prompt = st.text_area(
-    label="Domain Expert Definition",
-    value=DEFAULT_SYSTEM_PROMPT,
-    height=200,
-)
+with tab_domain_expert:
+    st.text("Define the domain expertise that you want to train a language model")
+    st.info(
+        "A domain expert is a person who is an expert in a particular field or area. For example, a domain expert in farming would be someone who has extensive knowledge and experience in farming and agriculture."
+    )
+
+    domain_expert_prompt = st.text_area(
+        label="Domain Expert Definition",
+        value=DEFAULT_SYSTEM_PROMPT,
+        height=200,
+    )
 
 ################################################################################
 # Domain Perspectives
 ################################################################################
 
-st.divider()
-st.header("🔍 Domain Perspectives")
-st.text("Define the different perspectives from which the domain can be viewed")
-st.info(
-    """
-Perspectives are different viewpoints or angles from which a domain can be viewed. 
-For example, the domain of farming can be viewed from the perspective of a commercial 
-farmer or an independent family farmer."""
-)
+with tab_domain_perspectives:
+    st.text("Define the different perspectives from which the domain can be viewed")
+    st.info(
+        """
+    Perspectives are different viewpoints or angles from which a domain can be viewed. 
+    For example, the domain of farming can be viewed from the perspective of a commercial 
+    farmer or an independent family farmer."""
+    )
 
-perspectives = st.session_state.get(
-    "perspectives",
-    [st.text_input(f"Domain Perspective 0", value=DEFAULT_PERSPECTIVES[0])],
-)
-new_perspective = st.button("Add New Perspective")
+    perspectives = st.session_state.get(
+        "perspectives",
+        [st.text_input(f"Domain Perspective 0", value=DEFAULT_PERSPECTIVES[0])],
+    )
+    new_perspective = st.button("Add New Perspective")
 
-if new_perspective:
-    n = len(perspectives)
-    value = DEFAULT_PERSPECTIVES[n] if n < N_PERSPECTIVES else ""
-    perspectives.append(st.text_input(f"Domain Perspective {n}", value=""))
-    st.session_state["perspectives"] = perspectives
+    if new_perspective:
+        n = len(perspectives)
+        value = DEFAULT_PERSPECTIVES[n] if n < N_PERSPECTIVES else ""
+        perspectives.append(st.text_input(f"Domain Perspective {n}", value=""))
+        st.session_state["perspectives"] = perspectives
 
 
 ################################################################################
 # Domain Topics
 ################################################################################
 
-st.divider()
-st.header("🕸️ Domain Topics")
-st.text("Define the main themes or subjects that are relevant to the domain")
-st.info(
-    """Topics are the main themes or subjects that are relevant to the domain. For example, the domain of farming can have topics like soil health, crop rotation, or livestock management."""
-)
-topics = st.session_state.get(
-    "topics", [st.text_input(f"Domain Topic 0", value=DEFAULT_TOPICS[0])]
-)
-new_topic = st.button("Add New Topic")
+with tab_domain_topics:
+    st.text("Define the main themes or subjects that are relevant to the domain")
+    st.info(
+        """Topics are the main themes or subjects that are relevant to the domain. For example, the domain of farming can have topics like soil health, crop rotation, or livestock management."""
+    )
+    topics = st.session_state.get(
+        "topics", [st.text_input(f"Domain Topic 0", value=DEFAULT_TOPICS[0])]
+    )
+    new_topic = st.button("Add New Topic")
 
-if new_topic:
-    n = len(topics)
-    value = DEFAULT_TOPICS[n] if n < N_TOPICS else ""
-    topics.append(st.text_input(f"Domain Topic {n}", value=value))
-    st.session_state["topics"] = topics
+    if new_topic:
+        n = len(topics)
+        value = DEFAULT_TOPICS[n] if n < N_TOPICS else ""
+        topics.append(st.text_input(f"Domain Topic {n}", value=value))
+        st.session_state["topics"] = topics
 
 
 ################################################################################
 # Examples Section
 ################################################################################
-
-st.divider()
-st.header("📚 Examples")
-st.text(
-    "Add high-quality questions and answers that can be used to generate synthetic data"
-)
-st.info(
+with tab_examples:
+    st.text(
+        "Add high-quality questions and answers that can be used to generate synthetic data"
+    )
+    st.info(
+        """
+    Examples are high-quality questions and answers that can be used to generate 
+    synthetic data for the domain. These examples will be used to train the language model
+    to generate questions and answers.
     """
-Examples are high-quality questions and answers that can be used to generate 
-synthetic data for the domain. These examples will be used to train the language model
-to generate questions and answers.
-"""
-)
+    )
 
-questions_answers = st.session_state.get(
-    "questions_answers",
-    [
-        (
-            st.text_area(
-                "Question", key="question_0", value=DEFAULT_EXAMPLES[0]["question"]
-            ),
-            st.text_area("Answer", key="answer_0", value=DEFAULT_EXAMPLES[0]["answer"]),
+    questions_answers = st.session_state.get(
+        "questions_answers",
+        [
+            (
+                st.text_area(
+                    "Question", key="question_0", value=DEFAULT_EXAMPLES[0]["question"]
+                ),
+                st.text_area(
+                    "Answer", key="answer_0", value=DEFAULT_EXAMPLES[0]["answer"]
+                ),
+            )
+        ],
+    )
+
+    new_question = st.button("Add New Example")
+
+    if new_question:
+        n = len(questions_answers)
+        default_question, default_answer = DEFAULT_EXAMPLES[n].values()
+        st.subheader(f"Example {n + 1}")
+        if st.button("Generate New Answer", key=f"generate_{n}"):
+            default_answer = query(default_question)
+        _question = st.text_area(
+            "Question", key=f"question_{n}", value=default_question
         )
-    ],
-)
-
-new_question = st.button("Add New Example")
-
-if new_question:
-    n = len(questions_answers)
-    default_question, default_answer = DEFAULT_EXAMPLES[n].values()
-    st.subheader(f"Example {n + 1}")
-    if st.button("Generate New Answer", key=f"generate_{n}"):
-        default_answer = query(default_question)
-    _question = st.text_area("Question", key=f"question_{n}", value=default_question)
-    _answer = st.text_area("Answer", key=f"answer_{n}", value=default_answer)
-    questions_answers.append((_question, _answer))
-    st.session_state["questions_answers"] = questions_answers
+        _answer = st.text_area("Answer", key=f"answer_{n}", value=default_answer)
+        questions_answers.append((_question, _answer))
+        st.session_state["questions_answers"] = questions_answers
 
 ################################################################################
 # Create Dataset Seed

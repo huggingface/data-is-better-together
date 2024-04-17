@@ -147,6 +147,7 @@ if new_question:
 # Create Dataset Seed
 ################################################################################
 
+st.divider()
 st.header(":seedling: Generate Synthetic Dataset")
 
 st.text(
@@ -174,17 +175,6 @@ if st.button("🤗 Create Dataset Seed"):
     with open(SEED_DATA_PATH, "w") as f:
         json.dump(domain_data, f, indent=2)
 
-    serialize_pipeline(
-        argilla_api_key=argilla_api_key,
-        argilla_dataset_name=project_name or DEFAULT_DOMAIN,
-        argilla_api_url=argilla_url,
-        topics=topics,
-        perspectives=perspectives,
-        pipeline_config_path=PIPELINE_PATH,
-        domain_expert_prompt=domain_expert_prompt or DEFAULT_SYSTEM_PROMPT,
-        hub_token=hub_token,
-    )
-
     ############################################################
     # Setup Dataset on the Hub
     ############################################################
@@ -211,16 +201,43 @@ if st.button("🤗 Create Dataset Seed"):
 
 st.subheader("Step 2. Run the pipeline to generate synthetic data")
 
+st.text("To run the pipeline from here define an inference endpoint URL.")
+base_url = st.text_input("Base URL")
+st.text("You can run the pipeline locally or on the Hub.")
 run_pipeline_locally = st.button("💻 Run pipeline locally")
 run_pipeline_on_space = st.button("🔥 Run pipeline right here, right now!")
+
+st.session_state["run_pipeline_locally"] = run_pipeline_locally
+st.session_state["run_pipeline_on_space"] = run_pipeline_on_space
+st.session_state["base_url"] = base_url
 
 if (run_pipeline_on_space or run_pipeline_locally) and not st.session_state.get(
     "created_dataset"
 ):
     st.error("You need to create the dataset seed before running the pipeline.")
     st.rerun()
+elif (run_pipeline_on_space or run_pipeline_locally) and st.session_state.get(
+    "base_url"
+):
+    serialize_pipeline(
+        argilla_api_key=argilla_api_key,
+        argilla_dataset_name=project_name or DEFAULT_DOMAIN,
+        argilla_api_url=argilla_url,
+        topics=topics,
+        perspectives=perspectives,
+        pipeline_config_path=PIPELINE_PATH,
+        domain_expert_prompt=domain_expert_prompt or DEFAULT_SYSTEM_PROMPT,
+        hub_token=hub_token,
+        endpoint_base_url=base_url,
+    )
+    st.success(f"Pipeline configuration saved to {PIPELINE_PATH}")
+elif (run_pipeline_on_space or run_pipeline_locally) and not st.session_state.get(
+    "base_url"
+):
+    st.error("You need to define an inference endpoint URL.")
+    st.rerun()
 
-elif run_pipeline_locally:
+if st.session_state.get("run_pipeline_locally") and st.session_state.get("base_url"):
     st.info(
         "To run the pipeline locally, you need to have the `distilabel` library installed. You can install it using the following command:"
     )
@@ -236,11 +253,7 @@ elif run_pipeline_locally:
     """
     )
 
-elif run_pipeline_on_space:
-    st.text("To run the pipeline from here define an inference endpoint URL.")
-
-    base_url = st.text_input("Base URL", "https://api-inference.huggingface.co")
-
+elif st.session_state.get("run_pipeline_on_space") and st.session_state.get("base_url"):
     logs = run_pipeline(PIPELINE_PATH)
 
     st.success(f"Running the pipeline.")
@@ -249,5 +262,4 @@ elif run_pipeline_on_space:
         for out in logs:
             st.text(out)
 
-
-st.subheader("Step 3. Explore the generated dataset and improve it")
+# st.subheader("Step 3. Explore the generated dataset and improve it")

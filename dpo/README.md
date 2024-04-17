@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.webp" width="500px"/>
+</p>
+
 # Generating DPO/ORPO datasets for more languages
 
 Currently, many languages do not have DPO datasets openly shared. The goal of this project is to help foster a community of people building more DPO datasets for different languages.

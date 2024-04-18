@@ -2,16 +2,22 @@
   <img src="assets/banner.webp" width="500px"/>
 </p>
 
+
 # Generating DPO/ORPO datasets for more languages
 
-Currently, many languages do not have DPO datasets openly shared. The goal of this project is to help foster a community of people building more DPO datasets for different languages.
+Currently, many languages do not have DPO datasets openly shared on the Hugging Face Hub. The goal of this project is to help foster a community of people building more DPO datasets for different languages.
 
-The tl;dr of what we're doing is:
+## Creating a DPO/ORPO dataset for a new language
 
-- start from [CohereForAI/aya_dataset](https://huggingface.co/datasets/CohereForAI/aya_dataset) a multilingual instruction fine-tuning dataset that contains a total of 204k human-annotated prompt-completion pairs across TODO languages.
-- filter to a specific language you want to generate a DPO dataset for.
-- use `distilabel` to generate a second response for each prompt in the filtered Aya dataset.
-- (optional) send the generated dataset to Argilla for annotation where the community can choose which response is better.
+[Aya](https://cohere.com/blog/aya-multilingual), an open science initiative to accelerate multilingual AI progress, has released a dataset of human-annotated prompt-completion pairs across 71 languages. We can use this dataset to generate DPO/ORPO datasets for languages for which they don't currently exist.
+
+Here are the steps we'll take to generate a DPO/ORPO dataset for a new language:
+
+- start from the [CohereForAI/aya_dataset](https://huggingface.co/datasets/CohereForAI/aya_dataset)
+- filter the Aya dataset to the language you are focusing on
+- use [`distilabel`](https://github.com/argilla-io/distilabel) to generate a second response for each prompt in the filtered Aya dataset.
+- (optional) send the generated dataset to [Argilla](https://argilla.io/) for annotation where the community can choose which response is better.
+- (optional) train a model using the generated DPO/ORPO dataset and push forward the state of the art in your language 🚀🚀🚀
 
 ## What is Direct Preference Optimization (DPO/ORPO)?
 
@@ -44,6 +50,15 @@ An overview of the steps we'll take to generate a DPO/ORPO dataset for a new lan
 2. Identify any existing strong instruction-tuned models for your language. Some languages may already have nice benchmarks and leaderboards that you can use to identify a strong base model. Discussing this with the community on the Hugging Face Discord server can also be helpful.
 3. **Use `distilabel` to generate a second response for each prompt in the filtered Aya dataset**. We'll use a script `aya_dpo_gen.py` to generate a second response for each prompt in the filtered Aya dataset. This script will use a strong base model to generate the second response.
 4. **(Optional) Send the generated dataset to Argilla for annotation**. The community can then choose which response is better for each prompt. This step is optional but can help to improve the quality of the dataset.
+
+```mermaid
+graph TD
+A[Load dataset from Hugging Face Hub] --> B[Filter dataset to target language]
+B --> C[Generate new responses using inference endpoints]
+C --> D[Predict language of generated response]
+D --> E[Send data to Argilla]
+E --> F[Community annotates data]
+```
 
 ### FAQs
 

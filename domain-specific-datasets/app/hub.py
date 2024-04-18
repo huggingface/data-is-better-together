@@ -2,7 +2,7 @@ import json
 from tempfile import mktemp
 from huggingface_hub import HfApi
 
-from defaults import REMOTE_CODE_PATHS
+from defaults import REMOTE_CODE_PATHS, SEED_DATA_PATH
 
 
 hf_api = HfApi()
@@ -37,6 +37,16 @@ def create_readme(domain_seed_data, project_name, domain):
     return temp_file
 
 
+def setup_dataset_on_hub(repo_id, hub_token):
+    # create an empty dataset repo on the hub
+    hf_api.create_repo(
+        repo_id=repo_id,
+        token=hub_token,
+        repo_type="dataset",
+        exist_ok=True,
+    )
+
+
 def push_dataset_to_hub(
     domain_seed_data_path,
     project_name,
@@ -47,13 +57,7 @@ def push_dataset_to_hub(
 ):
     repo_id = f"{hub_username}/{project_name}"
 
-    # create an empty dataset repo on the hub
-    hf_api.create_repo(
-        repo_id=repo_id,
-        token=hub_token,
-        repo_type="dataset",
-        exist_ok=True,
-    )
+    setup_dataset_on_hub(repo_id=repo_id, hub_token=hub_token)
 
     #  upload the seed data and readme to the hub
     hf_api.upload_file(
@@ -95,3 +99,11 @@ def push_dataset_to_hub(
         )
 
     print(f"Dataset uploaded to {repo_id}")
+
+
+def pull_seed_data_from_repo(repo_id, hub_token):
+    # pull the dataset repo from the hub
+    hf_api.hf_hub_download(
+        repo_id=repo_id, token=hub_token, repo_type="dataset", filename=SEED_DATA_PATH
+    )
+    return json.load(open(SEED_DATA_PATH))

@@ -1,18 +1,9 @@
-import json
 import streamlit as st
 
 from hub import pull_seed_data_from_repo
-from infer import query
 from defaults import (
     DEFAULT_DOMAIN,
-    DEFAULT_PERSPECTIVES,
-    DEFAULT_TOPICS,
-    DEFAULT_EXAMPLES,
     DEFAULT_SYSTEM_PROMPT,
-    N_PERSPECTIVES,
-    N_TOPICS,
-    N_EXAMPLES,
-    SEED_DATA_PATH,
     PIPELINE_PATH,
 )
 from pipeline import serialize_pipeline, run_pipeline

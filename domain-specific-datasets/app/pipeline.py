@@ -17,6 +17,7 @@ from domain import (
     DomainExpert,
     CleanNumberedList,
     create_topics,
+    create_examples_template,
     APPLICATION_DESCRIPTION,
 )
 
@@ -30,12 +31,14 @@ def define_pipeline(
     topics: List[str],
     perspectives: List[str],
     domain_expert_prompt: str,
+    examples: List[dict],
     hub_token: str,
     endpoint_base_url: str,
 ):
     """Define the pipeline for the specific domain."""
 
     terms = create_topics(topics, perspectives)
+    template = create_examples_template(examples)
     with Pipeline("farming") as pipeline:
         load_data = LoadDataFromDicts(
             name="load_data",
@@ -80,6 +83,7 @@ def define_pipeline(
             input_mappings={"instruction": "evolved_questions"},
             output_mappings={"generation": "domain_expert_answer"},
             _system_prompt=domain_expert_prompt,
+            _template=template,
         )
 
         keep_columns = KeepColumns(
@@ -120,6 +124,7 @@ def serialize_pipeline(
     hub_token: str,
     endpoint_base_url: str,
     pipeline_config_path: str = "pipeline.yaml",
+    examples: List[dict] = [],
 ):
     """Serialize the pipeline to a yaml file."""
     pipeline = define_pipeline(
@@ -131,6 +136,7 @@ def serialize_pipeline(
         domain_expert_prompt=domain_expert_prompt,
         hub_token=hub_token,
         endpoint_base_url=endpoint_base_url,
+        examples=examples,
     )
     pipeline.save(path=pipeline_config_path, overwrite=True, format="yaml")
 

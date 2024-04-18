@@ -33,12 +33,20 @@ TOPICS = DEFAULT_TOPICS[:N_TOPICS]
 PERSPECTIVES = DEFAULT_PERSPECTIVES[:N_PERSPECTIVES]
 EXAMPLES = DEFAULT_EXAMPLES[:N_EXAMPLES]
 
-QUESTION_EXAMPLES_PROMPT = """ Examples of high quality questions:"""
-ANSWER_EXAMPLES_PROMPT = """ Examples of high quality answers:"""
 
-for example in EXAMPLES:
-    QUESTION_EXAMPLES_PROMPT += f"""\n- Question: {example["question"]}\n"""
-    ANSWER_EXAMPLES_PROMPT += f"""\n- Answer: {example["answer"]}\n"""
+def create_examples_template(examples: List[Dict[str, str]]) -> List[str]:
+    questions = """ Examples of high quality questions:"""
+    answers = """ Examples of high quality answers:"""
+    for example in examples:
+        questions += f"""\n- Question: {example["question"]}\n"""
+        answers += f"""\n- Answer: {example["answer"]}\n"""
+
+    _template: str = (
+        """{instruction}\nThis is the the instruction.\n Examples: """
+        + questions
+        + answers
+    )
+    return _template
 
 
 def create_topics(topics: List[str], positions: List[str]) -> List[str]:
@@ -53,11 +61,7 @@ class DomainExpert(TextGeneration):
     """A customized task to generate text as a domain expert in the domain of farming and agriculture."""
 
     _system_prompt: (str) = DEFAULT_SYSTEM_PROMPT
-    _template: str = (
-        """{instruction}\nThis is the the instruction.\n Examples: """
-        + QUESTION_EXAMPLES_PROMPT
-        + ANSWER_EXAMPLES_PROMPT
-    )
+    _template: str = """{instruction}\nThis is the the instruction.\n Examples: """
 
     def format_input(self, input: Dict[str, Any]) -> "ChatType":
         return [

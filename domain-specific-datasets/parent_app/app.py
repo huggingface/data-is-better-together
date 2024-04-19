@@ -1,9 +1,16 @@
+from defaults import (
+    DEFAULT_DOMAIN,
+)
+from hub import setup_dataset_on_hub
+
 import streamlit as st
 
 st.set_page_config("Domain Data Grower", page_icon="🧑‍🌾")
 
-st.header("🧑‍🌾 Domain Data Grower")
-st.divider()
+################################################################################
+# APP MARKDOWN
+################################################################################
+
 
 introduction = """
 ## 🌱 Create a dataset seed for aligning models to a specific domain
@@ -24,4 +31,44 @@ Define the project details, including the project name, domain, and API credenti
 WIP
 
 """
+
+instructions_project_details = """
+Define the project details, including the project name, domain, and API credentials
+"""
+
+step1_subheader = "### Step 1: Create Dataset repo on the hub for your domain specific dataset"
+
+## 🌱 Create a dataset seed for aligning models to a specific domain
+
+################################################################################
+# HEADER
+################################################################################
+
+
+st.markdown("# 🧑‍🌾 Domain Data Grower")
 st.markdown(introduction)
+
+
+################################################################################
+# CONFIGURATION
+################################################################################
+
+st.header("🌾 Create the Dataset and the Configuration Space")
+st.markdown(step1_subheader)
+st.markdown(instructions_project_details)
+
+project_name = st.text_input("Project Name", DEFAULT_DOMAIN)
+hub_username = st.text_input("Hub Username", "argilla")
+hub_token = st.text_input("Hub Token", type="password")
+
+if st.button("🤗 Create Dataset Repo"):
+    repo_id = f"{hub_username}/{project_name}"
+
+    setup_dataset_on_hub(
+        repo_id=repo_id,
+        hub_token=hub_token,
+    )
+
+    st.success(
+        f"Dataset seed created and pushed to the Hub. Check it out [here](https://huggingface.co/datasets/{hub_username}/{project_name}).  Hold on the repo_id: {repo_id}, we will need it in the next steps."
+    )

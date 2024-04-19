@@ -22,38 +22,54 @@ from huggingface_hub import InferenceClient, login
 load_dotenv()
 
 
+## We define some of the pipeline parameters in a separate config file
 def load_config(file_path: str) -> dict:
     with open(file_path, "r") as file:
         config = yaml.safe_load(file)
     return config
 
 
+# Configuration
 config = load_config("nl_config.yaml")
-MODEL_ID = config["MODEL_ID"]
-INFERENCE_ENDPOINTS_URL = config["INFERENCE_ENDPOINTS_URL"]
-INPUT_BATCH_SIZE = config["INPUT_BATCH_SIZE"]
-ARGILLA_SPACE_URL = config["ARGILLA_SPACE_URL"]
-INPUT_DATASET_HUB_ID = config["INPUT_DATASET_HUB_ID"]
-OUTPUT_DATASET_HUB_ID = config["OUTPUT_DATASET_HUB_ID"]
-MAX_NEW_TOKENS = config["MAX_NEW_TOKENS"]
-SPLIT = config["SPLIT"]
-ARGILLA_DATASET_NAME = config["ARGILLA_DATASET_NAME"]
 
+# Model Configuration
+MODEL_ID = config["MODEL_ID"]  # Model ID is the model name in the Hugging Face Hub
+INPUT_BATCH_SIZE = config[
+    "INPUT_BATCH_SIZE"
+]  # Input batch size for the model via the Inference Endpoints API
+MAX_NEW_TOKENS = config["MAX_NEW_TOKENS"]  # Maximum number of new tokens to generate
+
+# Inference Endpoints Configuration
+INFERENCE_ENDPOINTS_URL = config["INFERENCE_ENDPOINTS_URL"]  # Inference endpoints URL
+
+# Argilla Configuration
+ARGILLA_SPACE_URL = config["ARGILLA_SPACE_URL"]  # Argilla Space URL
+ARGILLA_DATASET_NAME = config["ARGILLA_DATASET_NAME"]  # Argilla dataset name
+ARGILLA_WORKSPACE_NAME = config["ARGILLA_WORKSPACE_NAME"]  # Argilla workspace name
+# Dataset Configuration
+INPUT_DATASET_HUB_ID = config[
+    "INPUT_DATASET_HUB_ID"
+]  # Input dataset hub ID (created in the previous step)
+OUTPUT_DATASET_HUB_ID = config["OUTPUT_DATASET_HUB_ID"]  # Output dataset hub ID
+SPLIT = config[
+    "SPLIT"
+]  # Split of the dataset to use. We use testing whilst developing the pipeline
 
 HUGGINGFACE_TOKEN = os.getenv("HF_API_KEY")
 login(token=HUGGINGFACE_TOKEN)
 ARGILLA_API_KEY = os.getenv("ARGILLA_API_KEY")
 
+# Check if the API key is set
 assert (
     ARGILLA_API_KEY is not None
 ), "Please set the ARGILLA_API_KEY environment variable or pass it as a parameter"
 
-
+# Initialize the Argilla client
 rg.init(api_url=config["ARGILLA_SPACE_URL"], api_key=ARGILLA_API_KEY, workspace="admin")
 
 
 def remove_existing_dataset(dataset_name: str):
-    """Remove an existing dataset from Argilla."""
+    """Remove an existing dataset from Argilla. This is useful when re-running the pipeline."""
     try:
         argilla_ds = rg.FeedbackDataset.from_argilla(ARGILLA_DATASET_NAME)
         argilla_ds.delete()
@@ -61,9 +77,6 @@ def remove_existing_dataset(dataset_name: str):
         print(e)
 
 
-# This step predicts the language of the generated text
-# Sometimes models fail to generate text in the desired language
-# This step can be used to help filter out such responses
 class LanguagePredict(Step):
     def process(self, inputs: StepInput) -> StepOutput:
         """
@@ -88,11 +101,12 @@ class LanguagePredict(Step):
         yield inputs
 
 
+# Define a step to combine the Aya and model responses and add the response sources
 @step(inputs=["targets", "generation"], outputs=["generations"])
 def CombineAyaAndModelResponse(
     inputs: StepInput,
 ) -> StepOutput:
-    """A step to merge the Aya and model responses"""
+    """A step to combine the Aya and model responses and add the response sources."""
     for input in inputs:
         input["generations"] = [input["targets"], input["generation"]]
         input["response_source"] = ["aya", MODEL_ID]
@@ -105,6 +119,8 @@ def update_argilla_dataset_with_metadata(
     hub_dataset: Dataset,
     metadata_keys: List[str] = None,
 ):
+    """Update an Argilla dataset with metadata from the dataset."""
+    # by default, we add the predicted generation language and response source
     if metadata_keys is None:
         metadata_keys = ["predicted_generation_language", "response_source"]
     dataset = rg.FeedbackDataset.from_argilla(
@@ -124,7 +140,6 @@ def update_argilla_dataset_with_metadata(
         for key, value in zip(metadata_keys, metadata):
             record.metadata[key] = value
         modified_records.append(record)
-
     dataset.update_records(modified_records)
 
 
@@ -156,10 +171,10 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
     language_prediction.connect(combine_columns)
     to_argilla = PreferenceToArgilla(
         name="to_argilla",
-        dataset_name="aya_dpo_test6",
+        dataset_name=ARGILLA_DATASET_NAME,
         api_url=ARGILLA_SPACE_URL,
         api_key=ARGILLA_API_KEY,
-        dataset_workspace="admin",
+        dataset_workspace=ARGILLA_WORKSPACE_NAME,
         num_generations=2,
         input_mappings={
             "instruction": "instruction",

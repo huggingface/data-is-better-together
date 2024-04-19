@@ -62,7 +62,6 @@ E --> F[Community annotates data]
 
 ### FAQs
 
-
 #### I'm GPU poor
 
 Inference endpoints + serverless (some languages might be able to use free inference endpoints)

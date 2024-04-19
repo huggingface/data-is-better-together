@@ -18,7 +18,10 @@ The dataset seed is then used to generate synthetic data for training a language
 
 ## 🗺️ The process
 
-Define the project details, including the project name, domain, and API credentials. A dataset repository will be created, and also a personalised Streamlit app in your Hugging Face profile, with which you'll be able to define the domain expertise, perspectives, topics, and examples for your domain-specific dataset, and generate the synthetic data. 
+Define the project details, including the project name, domain, and API credentials. A dataset repository will be created, and also a personalised Streamlit app in your Hugging Face profile, with which you'll be able to define the domain expertise, perspectives, topics, and examples for your domain-specific dataset, and generate the synthetic data.
+
+## 👩🏽‍🌾 Current Projects
+WIP
 
 """
 st.markdown(introduction)

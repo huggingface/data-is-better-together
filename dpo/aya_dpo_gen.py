@@ -1,7 +1,10 @@
 import os
 import time
+from typing import List
 
+import argilla as rg
 import yaml
+from datasets import Dataset, load_dataset
 from distilabel.llms import InferenceEndpointsLLM
 from distilabel.pipeline import Pipeline
 from distilabel.steps import (
@@ -13,11 +16,8 @@ from distilabel.steps import (
     step,
 )
 from distilabel.steps.tasks import TextGeneration
-from huggingface_hub import InferenceClient, get_token
 from dotenv import load_dotenv
-import argilla as rg
-from datasets import load_dataset, Dataset
-from typing import List
+from huggingface_hub import InferenceClient, login
 
 load_dotenv()
 
@@ -37,10 +37,11 @@ INPUT_DATASET_HUB_ID = config["INPUT_DATASET_HUB_ID"]
 OUTPUT_DATASET_HUB_ID = config["OUTPUT_DATASET_HUB_ID"]
 MAX_NEW_TOKENS = config["MAX_NEW_TOKENS"]
 SPLIT = config["SPLIT"]
-HUGGINGFACE_API_KEY = os.getenv("HF_API_KEY")
-ARGILLA_API_KEY = os.getenv("ARGILLA_API_KEY")
+ARGILLA_DATASET_NAME = config["ARGILLA_DATASET_NAME"]
 
-HF_API_KEY = os.getenv("HF_API_KEY")
+
+HUGGINGFACE_TOKEN = os.getenv("HF_API_KEY")
+login(token=HUGGINGFACE_TOKEN)
 ARGILLA_API_KEY = os.getenv("ARGILLA_API_KEY")
 
 assert (
@@ -48,9 +49,21 @@ assert (
 ), "Please set the ARGILLA_API_KEY environment variable or pass it as a parameter"
 
 
-rg.init(api_url=config["ARGILLA_SPACE_URL"], api_key=ARGILLA_API_KEY)
+rg.init(api_url=config["ARGILLA_SPACE_URL"], api_key=ARGILLA_API_KEY, workspace="admin")
 
 
+def remove_existing_dataset(dataset_name: str):
+    """Remove an existing dataset from Argilla."""
+    try:
+        argilla_ds = rg.FeedbackDataset.from_argilla(ARGILLA_DATASET_NAME)
+        argilla_ds.delete()
+    except ValueError as e:
+        print(e)
+
+
+# This step predicts the language of the generated text
+# Sometimes models fail to generate text in the desired language
+# This step can be used to help filter out such responses
 class LanguagePredict(Step):
     def process(self, inputs: StepInput) -> StepOutput:
         """
@@ -128,7 +141,7 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
             base_url=INFERENCE_ENDPOINTS_URL,
             tokenizer_id=MODEL_ID,
             model_display_name=MODEL_ID,
-            api_key=get_token(),
+            api_key=HUGGINGFACE_TOKEN,
         ),
         input_batch_size=INPUT_BATCH_SIZE,
         output_mappings={"model_name": "generation_model"},
@@ -158,6 +171,8 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
 if __name__ == "__main__":
     # time the pipeline
     start_time = time.time()
+    if ARGILLA_DATASET_NAME:
+        remove_existing_dataset(ARGILLA_DATASET_NAME)
     # run the pipeline
     dataset = pipeline.run(
         parameters={
@@ -171,11 +186,11 @@ if __name__ == "__main__":
                     "return_full_text": False,
                 }
             },
-            "to_argilla": {"dataset_name": "aya_dpo_test7"},
+            "to_argilla": {"dataset_name": ARGILLA_DATASET_NAME},
         }
     )
     # push the dataset to the hub
-    dataset.push_to_hub(OUTPUT_DATASET_HUB_ID)
+    dataset.push_to_hub(OUTPUT_DATASET_HUB_ID, token=HUGGINGFACE_TOKEN)
     end_time = time.time()
     print(f"Output dataset: https://huggingface.co/datasets/{OUTPUT_DATASET_HUB_ID}")
     print("Updating Argilla dataset with extra metadata...")
@@ -183,7 +198,7 @@ if __name__ == "__main__":
         hub_dataset = load_dataset(OUTPUT_DATASET_HUB_ID, split="train")
         languages = hub_dataset["predicted_generation_language"]
         update_argilla_dataset_with_metadata(
-            dataset_name="aya_dpo_test7",
+            dataset_name=ARGILLA_DATASET_NAME,
             workspace="admin",
             hub_dataset=hub_dataset,
         )

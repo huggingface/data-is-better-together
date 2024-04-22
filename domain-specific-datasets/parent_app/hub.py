@@ -46,5 +46,5 @@ def add_project_config_to_space_repo(
         path_in_repo="project_config.json",
         token=hub_token,
         repo_id=project_space_repo_id,
-        repo_type="dataset",
+        repo_type="space",
     )

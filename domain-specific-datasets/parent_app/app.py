@@ -1,10 +1,13 @@
+import time
+
+from regex import F
 from defaults import (
     DEFAULT_DOMAIN,
 )
 from hub import (
     setup_dataset_on_hub,
     duplicate_space_on_hub,
-    add_project_config_to_dataset_repo,
+    add_project_config_to_space_repo,
 )
 
 import streamlit as st
@@ -32,7 +35,7 @@ For a complete overview of the project. Check out the README
 
 st.page_link(
     "pages/🧑‍🌾 Domain Data Grower.py",
-    label="🧑‍🌾 Domain Data Grower",
+    label="Domain Data Grower",
     icon="🧑‍🌾",
 )
 
@@ -62,7 +65,7 @@ if st.button("🤗 Setup Project Resources"):
     space_name = f"{project_name}_config_space"
 
     duplicate_space_on_hub(
-        source_repo="argilla/domain-specific-template",
+        source_repo="argilla/domain-specific-datasets-template",
         target_repo=space_name,
         hub_token=hub_token,
         private=private_selector,
@@ -85,10 +88,14 @@ if st.button("🤗 Setup Project Resources"):
         f"Argilla Space created. Check it out [here](https://huggingface.co/spaces/{hub_username}/{argilla_name})."
     )
 
-    add_project_config_to_dataset_repo(
-        repo_id=repo_id,
-        hub_token=hub_token,
-        project_name=project_name,
-        argilla_space_repo_id=argilla_name,
-        project_space_repo_id=space_name,
-    )
+    seconds = 5
+
+    with st.spinner(f"Adding project configuration to spaces in {seconds} seconds"):
+        time.sleep(seconds)
+        add_project_config_to_space_repo(
+            dataset_repo_id=repo_id,
+            hub_token=hub_token,
+            project_name=project_name,
+            argilla_space_repo_id=f"{hub_username}/{argilla_name}",
+            project_space_repo_id=f"{hub_username}/{space_name}",
+        )

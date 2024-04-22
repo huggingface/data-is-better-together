@@ -10,6 +10,10 @@ N_EXAMPLES = 5
 
 with open(SEED_DATA_PATH) as f:
     DEFAULT_DATA = json.load(f)
+
+with open("project_config.json") as f:
+    PROJECT_CONFIG = json.load(f)
+
 DEFAULT_DOMAIN = DEFAULT_DATA["domain"]
 DEFAULT_PERSPECTIVES = DEFAULT_DATA["perspectives"]
 DEFAULT_TOPICS = DEFAULT_DATA["topics"]

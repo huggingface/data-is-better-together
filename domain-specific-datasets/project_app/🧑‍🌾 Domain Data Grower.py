@@ -1,5 +1,24 @@
 import streamlit as st
 
+from defaults import PROJECT_CONFIG
+
+project_name = PROJECT_CONFIG["project_name"]
+argilla_space_repo_id = PROJECT_CONFIG["argilla_space_repo_id"]
+project_space_repo_id = PROJECT_CONFIG["project_space_repo_id"]
+dataset_repo_id = PROJECT_CONFIG["dataset_repo_id"]
+argilla_space_name = argilla_space_repo_id.replace("/", "-")
+argilla_url = f"https://{argilla_space_name}.hf.space"
+
+st.sidebar.markdown(
+    f"""
+## 🌾 Project Configuratio
+- **Project Name**: {project_name}
+- **Argilla Space Repo ID**: {argilla_space_repo_id}
+- **Project Space Repo ID**: {project_space_repo_id}
+- **Dataset Repo ID**: {dataset_repo_id}
+"""
+)
+
 st.set_page_config("Domain Data Grower", page_icon="🧑‍🌾")
 
 st.header("🧑‍🌾 Domain Data Grower")
@@ -73,6 +92,4 @@ Use Argilla to review the generated synthetic data and provide feedback on the q
 
 """
 )
-
-# TODO: add a link to argilla space based on the app configration
-st.link_button("🔍 Review the dataset in Argilla", "")
+st.link_button("🔍 Review the dataset in Argilla", argilla_url)

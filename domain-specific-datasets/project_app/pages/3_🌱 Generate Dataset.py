@@ -5,8 +5,17 @@ from defaults import (
     DEFAULT_DOMAIN,
     DEFAULT_SYSTEM_PROMPT,
     PIPELINE_PATH,
+    PROJECT_CONFIG,
 )
 from pipeline import serialize_pipeline, run_pipeline, create_pipelines_run_command
+
+project_name = PROJECT_CONFIG["project_name"]
+argilla_space_repo_id = PROJECT_CONFIG["argilla_space_repo_id"]
+project_space_repo_id = PROJECT_CONFIG["project_space_repo_id"]
+dataset_repo_id = PROJECT_CONFIG["dataset_repo_id"]
+argilla_space_name = argilla_space_repo_id.replace("/", "-")
+argilla_url = f"https://{argilla_space_name}.hf.space"
+hub_username = dataset_repo_id.split("/")[0]
 
 st.set_page_config(
     page_title="Domain Data Grower",
@@ -34,16 +43,16 @@ st.divider()
 st.markdown("### Pipeline Configuration")
 
 st.write("🤗 Hub details to pull the seed data")
-hub_username, project_name = st.text_input(
-    "Dataset repo id", value="argilla/farming"
-).split("/")
+hub_username = st.text_input("Hub Username", hub_username)
+project_name = st.text_input("Project Name", project_name)
+repo_id = f"{hub_username}/{project_name}"
 hub_token = st.text_input("Hub Token", type="password")
 
 st.write("🤖 Inference configuration")
 base_url = st.text_input("Base URL")
 
 st.write("🔬 Argilla API details to push the generated dataset")
-argilla_url = st.text_input("Argilla API URL", "https://argilla-farming.hf.space")
+argilla_url = st.text_input("Argilla API URL", argilla_url)
 argilla_api_key = st.text_input("Argilla API Key", "owner.apikey")
 argilla_dataset_name = st.text_input("Argilla Dataset Name", project_name)
 st.divider()

@@ -1,6 +1,5 @@
 import time
 
-from regex import F
 from defaults import (
     DEFAULT_DOMAIN,
 )

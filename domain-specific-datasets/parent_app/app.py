@@ -31,9 +31,9 @@ For a complete overview of the project. Check out the README
 )
 
 st.page_link(
-    "pages/🧑🏾‍🌾 Project README.py",
-    label="README",
-    icon="📖",
+    "pages/🧑‍🌾 Domain Data Grower.py",
+    label="🧑‍🌾 Domain Data Grower",
+    icon="🧑‍🌾",
 )
 
 ################################################################################

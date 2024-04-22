@@ -1,73 +1,53 @@
 from defaults import (
     DEFAULT_DOMAIN,
 )
-from hub import setup_dataset_on_hub, duplicate_space_on_hub
+from hub import (
+    setup_dataset_on_hub,
+    duplicate_space_on_hub,
+    add_project_config_to_dataset_repo,
+)
 
 import streamlit as st
 
 st.set_page_config("Domain Data Grower", page_icon="🧑‍🌾")
+st.header("🧑‍🌾 Domain Data Grower")
+st.divider()
 
 ################################################################################
 # APP MARKDOWN
 ################################################################################
 
+st.header("🌱 Create a domain specific dataset")
 
-introduction = """
-## 🌱 Create a dataset seed for aligning models to a specific domain
+st.markdown(
+    """This space will set up your domain specific dataset project. It will 
+create the resources that you need to build a dataset. Those resources include: 
+    
+- A dataset repository on the Hub
+- Another space to define expert domain and run generation pipelines    
 
-This app helps you create a dataset seed for building diverse domain-specific datasets for aligning models.
-Alignment datasets are used to fine-tune models to a specific domain or task, but as yet, there's a shortage of diverse datasets for this purpose.
-
-## 🚜 How it works
-
-You can create a dataset seed by defining the domain expertise, perspectives, topics, and examples for your domain-specific dataset. 
-The dataset seed is then used to generate synthetic data for training a language model.
-
-## 🗺️ The process
-
-Define the project details, including the project name, domain, and API credentials. A dataset repository will be created, and also a personalised Streamlit app in your Hugging Face profile, with which you'll be able to define the domain expertise, perspectives, topics, and examples for your domain-specific dataset, and generate the synthetic data.
-
-## 👩🏽‍🌾 Current Projects
-WIP
-
+For a complete overview of the project. Check out the README 
 """
+)
 
-instructions_project_details = """
-Define the project details, including the project name, domain, and API credentials
-"""
-
-step1_subheader = "### Step 1: Create Dataset repo on the hub for your domain specific dataset"
-
-step2_subheader = "### Step 2: Duplicate the Streamlit app for your domain specific dataset"
-
-instructions_duplication = """
-Define the project details, including the project name, domain, and API credentials
-"""
-
-## 🌱 Create a dataset seed for aligning models to a specific domain
-
-################################################################################
-# HEADER
-################################################################################
-
-
-st.markdown("# 🧑‍🌾 Domain Data Grower")
-st.markdown(introduction)
-
+st.page_link(
+    "pages/🧑🏾‍🌾 Project README.py",
+    label="README",
+    icon="📖",
+)
 
 ################################################################################
 # CONFIGURATION
 ################################################################################
 
-st.header("🌾 Create the Dataset and the Configuration Space")
-st.markdown(step1_subheader)
-st.markdown(instructions_project_details)
+st.subheader("🌾 Project Configuration")
 
 project_name = st.text_input("Project Name", DEFAULT_DOMAIN)
 hub_username = st.text_input("Hub Username", "argilla")
 hub_token = st.text_input("Hub Token", type="password")
+private_selector = st.checkbox("Private Space", value=False)
 
-if st.button("🤗 Create Dataset Repo"):
+if st.button("🤗 Setup Project Resources"):
     repo_id = f"{hub_username}/{project_name}"
 
     setup_dataset_on_hub(
@@ -79,23 +59,36 @@ if st.button("🤗 Create Dataset Repo"):
         f"Dataset seed created and pushed to the Hub. Check it out [here](https://huggingface.co/datasets/{hub_username}/{project_name}).  Hold on the repo_id: {repo_id}, we will need it in the next steps."
     )
 
-st.markdown(step2_subheader)
-st.markdown(instructions_duplication)
-
-space_name = st.text_input("HF Space Name", DEFAULT_DOMAIN)
-private_selector = st.checkbox("Private Space", value=False)
-
-if st.button("🤗 Create Configuration Space"):
-    repo_id = f"{hub_username}/{project_name}"
+    space_name = f"{project_name}_config_space"
 
     duplicate_space_on_hub(
-        source_repo="BEN",
-        target_repo=project_name,
+        source_repo="argilla/domain-specific-template",
+        target_repo=space_name,
         hub_token=hub_token,
-        private=private_selector
+        private=private_selector,
     )
 
     st.success(
-        f"Configuration Space created. Check it out [here](https://huggingface.co/datasets/{repo_id})."
+        f"Configuration Space created. Check it out [here](https://huggingface.co/spaces/{hub_username}/{space_name})."
     )
 
+    argilla_name = f"{project_name}_argilla_space"
+
+    duplicate_space_on_hub(
+        source_repo="argilla/argilla-template-space",
+        target_repo=argilla_name,
+        hub_token=hub_token,
+        private=private_selector,
+    )
+
+    st.success(
+        f"Argilla Space created. Check it out [here](https://huggingface.co/spaces/{hub_username}/{argilla_name})."
+    )
+
+    add_project_config_to_dataset_repo(
+        repo_id=repo_id,
+        hub_token=hub_token,
+        project_name=project_name,
+        argilla_space_repo_id=argilla_name,
+        project_space_repo_id=space_name,
+    )

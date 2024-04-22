@@ -1,8 +1,5 @@
 import time
 
-from defaults import (
-    DEFAULT_DOMAIN,
-)
 from hub import (
     setup_dataset_on_hub,
     duplicate_space_on_hub,
@@ -10,6 +7,8 @@ from hub import (
 )
 
 import streamlit as st
+
+DEFAULT_DOMAIN = "farming"
 
 st.set_page_config("Domain Data Grower", page_icon="🧑‍🌾")
 st.header("🧑‍🌾 Domain Data Grower")

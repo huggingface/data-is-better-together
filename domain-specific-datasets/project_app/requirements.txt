@@ -1,0 +1,7 @@
+datasets
+python_dotenv
+sentence_transformers
+streamlit
+huggingface_hub
+mistralai
+git+https://github.com/argilla-io/distilabel.git

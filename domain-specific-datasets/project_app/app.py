@@ -9,6 +9,12 @@ dataset_repo_id = PROJECT_CONFIG["dataset_repo_id"]
 argilla_space_name = argilla_space_repo_id.replace("/", "-")
 argilla_url = f"https://{argilla_space_name}.hf.space"
 
+if project_name == "DEFAULT_DOMAIN":
+    st.warning(
+        "Please set up the project configuration in the parent app before proceeding."
+    )
+    st.stop()
+
 st.sidebar.markdown(
     f"""
 ## 🌾 Project Configuratio

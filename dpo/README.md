@@ -2,7 +2,6 @@
   <img src="assets/banner.webp" width="500px"/>
 </p>
 
-
 # Generating DPO/ORPO datasets for more languages
 
 Currently, many languages do not have DPO datasets openly shared on the Hugging Face Hub. The goal of this project is to help foster a community of people building more DPO datasets for different languages.
@@ -42,26 +41,6 @@ Recently, (Odds Ratio Preference Optimization) ORPO has been proposed as an alte
 
 As part of Data Is Better Together, we're supporting the community in generating more DPO/ORPO datasets for different languages. If you would like to help, you can follow the steps below to generate a DPO/ORPO dataset for a language that you are interested in. There are already many language communities working together on the Hugging Face Discord server, so you can also join the server to collaborate with others on this project 🤗.
 
-## How to generate a DPO/ORPO dataset for a new language?
+## Instructions
 
-An overview of the steps we'll take to generate a DPO/ORPO dataset for a new language:
-
-1. **Filter the Aya dataset to the language you are interested in** using the [dataset prep](./01_datasets_prep.ipynb) notebook. This notebook also gives you a chance to explore the Aya dataset a little bit more. 
-2. Identify any existing strong instruction-tuned models for your language. Some languages may already have nice benchmarks and leaderboards that you can use to identify a strong base model. Discussing this with the community on the Hugging Face Discord server can also be helpful.
-3. **Use `distilabel` to generate a second response for each prompt in the filtered Aya dataset**. We'll use a script `aya_dpo_gen.py` to generate a second response for each prompt in the filtered Aya dataset. This script will use a strong base model to generate the second response.
-4. **(Optional) Send the generated dataset to Argilla for annotation**. The community can then choose which response is better for each prompt. This step is optional but can help to improve the quality of the dataset.
-
-```mermaid
-graph TD
-A[Load dataset from Hugging Face Hub] --> B[Filter dataset to target language]
-B --> C[Generate new responses using inference endpoints]
-C --> D[Predict language of generated response]
-D --> E[Send data to Argilla]
-E --> F[Community annotates data]
-```
-
-### FAQs
-
-#### I'm GPU poor
-
-Inference endpoints + serverless (some languages might be able to use free inference endpoints)
+You can find more detailed instructions on how to generate a DPO/ORPO dataset for a new language in the [instructions.md](./instructions.md) file.

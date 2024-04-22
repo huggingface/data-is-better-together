@@ -17,3 +17,4 @@ INPUT_BATCH_SIZE: 10 # The batch size for processing input data
 # External service integration
 ARGILLA_SPACE_URL: "https://dibt-demo-argilla-space.hf.space" # The URL for the Argilla space
 ARGILLA_DATASET_NAME: "aya_nl_dpo"
+ARGILLA_WORKSPACE_NAME: "admin"

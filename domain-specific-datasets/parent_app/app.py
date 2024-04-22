@@ -1,7 +1,7 @@
 from defaults import (
     DEFAULT_DOMAIN,
 )
-from hub import setup_dataset_on_hub
+from hub import setup_dataset_on_hub, duplicate_space_on_hub
 
 import streamlit as st
 
@@ -38,6 +38,12 @@ Define the project details, including the project name, domain, and API credenti
 
 step1_subheader = "### Step 1: Create Dataset repo on the hub for your domain specific dataset"
 
+step2_subheader = "### Step 2: Duplicate the Streamlit app for your domain specific dataset"
+
+instructions_duplication = """
+Define the project details, including the project name, domain, and API credentials
+"""
+
 ## 🌱 Create a dataset seed for aligning models to a specific domain
 
 ################################################################################
@@ -72,3 +78,24 @@ if st.button("🤗 Create Dataset Repo"):
     st.success(
         f"Dataset seed created and pushed to the Hub. Check it out [here](https://huggingface.co/datasets/{hub_username}/{project_name}).  Hold on the repo_id: {repo_id}, we will need it in the next steps."
     )
+
+st.markdown(step2_subheader)
+st.markdown(instructions_duplication)
+
+space_name = st.text_input("HF Space Name", DEFAULT_DOMAIN)
+private_selector = st.checkbox("Private Space", value=False)
+
+if st.button("🤗 Create Configuration Space"):
+    repo_id = f"{hub_username}/{project_name}"
+
+    duplicate_space_on_hub(
+        source_repo="BEN",
+        target_repo=project_name,
+        hub_token=hub_token,
+        private=private_selector
+    )
+
+    st.success(
+        f"Configuration Space created. Check it out [here](https://huggingface.co/datasets/{repo_id})."
+    )
+

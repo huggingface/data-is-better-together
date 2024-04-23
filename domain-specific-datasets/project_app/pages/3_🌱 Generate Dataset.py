@@ -5,11 +5,7 @@ from defaults import (
     DEFAULT_SYSTEM_PROMPT,
     PIPELINE_PATH,
     PROJECT_NAME,
-    ARGILLA_SPACE_REPO_ID,
-    DATASET_REPO_ID,
-    ARGILLA_SPACE_NAME,
     ARGILLA_URL,
-    PROJECT_SPACE_REPO_ID,
     HUB_USERNAME,
 )
 from utils import project_sidebar

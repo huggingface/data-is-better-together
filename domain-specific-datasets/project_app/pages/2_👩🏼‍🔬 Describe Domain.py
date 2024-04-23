@@ -15,11 +15,14 @@ from defaults import (
     SEED_DATA_PATH,
     PIPELINE_PATH,
 )
+from utils import project_sidebar
 
 st.set_page_config(
     page_title="Domain Data Grower",
     page_icon="🧑‍🌾",
 )
+project_sidebar()
+
 ################################################################################
 # HEADER
 ################################################################################

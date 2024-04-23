@@ -22,7 +22,7 @@ def project_sidebar():
         """
         ## 🌱 Domain Data Grower
         
-        This app helps you create a dataset seed for building diverse domain-specific datasets for aligning models.
+        This space helps you create a dataset seed for building diverse domain-specific datasets for aligning models.
         """
     )
     st.sidebar.subheader(f"Project Details: {PROJECT_NAME}")

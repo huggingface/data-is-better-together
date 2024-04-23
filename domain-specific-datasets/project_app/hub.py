@@ -1,5 +1,7 @@
 import json
 from tempfile import mktemp
+
+import argilla as rg
 from huggingface_hub import HfApi
 
 from defaults import REMOTE_CODE_PATHS, SEED_DATA_PATH
@@ -116,3 +118,12 @@ def pull_seed_data_from_repo(repo_id, hub_token):
         repo_id=repo_id, token=hub_token, repo_type="dataset", filename=SEED_DATA_PATH
     )
     return json.load(open(SEED_DATA_PATH))
+
+
+def push_argilla_dataset_to_hub(
+    name: str, repo_id: str, url: str, api_key: str, workspace: str = "admin"
+):
+    rg.init(api_url=url, api_key=api_key)
+    feedback_dataset = rg.FeedbackDataset.from_argilla(name=name, workspace=workspace)
+    local_dataset = feedback_dataset.pull()
+    local_dataset.push_to_huggingface(repo_id=repo_id)

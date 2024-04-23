@@ -197,7 +197,7 @@ if __name__ == "__main__":
             },
             "text_generation": {
                 "generation_kwargs": {
-                    "max_new_to`kens": MAX_NEW_TOKENS,
+                    "max_new_tokens": MAX_NEW_TOKENS,
                     "return_full_text": False,
                 }
             },

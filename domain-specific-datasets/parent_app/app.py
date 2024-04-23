@@ -8,11 +8,18 @@ from hub import (
 
 import streamlit as st
 
+
+# Constants
+# Written here to avoid defaults.py
 DEFAULT_DOMAIN = "farming"
 
-st.set_page_config("Domain Data Grower", page_icon="🧑‍🌾")
+st.set_page_config(
+    "Domain Data Grower", page_icon="🧑‍🌾", initial_sidebar_state="collapsed"
+)
+
 st.header("🧑‍🌾 Domain Data Grower")
 st.divider()
+
 
 ################################################################################
 # APP MARKDOWN

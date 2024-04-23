@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit.errors import EntryNotFoundError
 
 from hub import pull_seed_data_from_repo, push_pipeline_to_hub
 from defaults import (
@@ -177,17 +178,22 @@ if CODELESS_DISTILABEL:
             ]
         ):
             with st.spinner("Pulling seed data from the Hub..."):
-                seed_data = pull_seed_data_from_repo(
-                    repo_id=f"{hub_username}/{project_name}",
-                    hub_token=hub_token,
-                )
+                try:
+                    seed_data = pull_seed_data_from_repo(
+                        repo_id=f"{hub_username}/{project_name}",
+                        hub_token=hub_token,
+                    )
+                except EntryNotFoundError:
+                    st.error(
+                        "Seed data not found. Please make sure you pushed the data seed in Step 2."
+                    )
+
                 domain = seed_data["domain"]
                 perspectives = seed_data["perspectives"]
                 topics = seed_data["topics"]
                 examples = seed_data["examples"]
                 domain_expert_prompt = seed_data["domain_expert_prompt"]
 
-            with st.spinner("Serializing the pipeline configuration..."):
                 serialize_pipeline(
                     argilla_api_key=argilla_api_key,
                     argilla_dataset_name=argilla_dataset_name,

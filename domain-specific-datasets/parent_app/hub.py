@@ -17,7 +17,11 @@ def setup_dataset_on_hub(repo_id, hub_token):
 
 def duplicate_space_on_hub(source_repo, target_repo, hub_token, private=False):
     duplicate_space(
-        from_id=source_repo, to_id=target_repo, token=hub_token, private=private
+        from_id=source_repo,
+        to_id=target_repo,
+        token=hub_token,
+        private=private,
+        exist_ok=True,
     )
 
 

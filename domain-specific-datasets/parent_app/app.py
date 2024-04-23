@@ -97,3 +97,12 @@ if st.button("🤗 Setup Project Resources"):
             argilla_space_repo_id=f"{hub_username}/{argilla_name}",
             project_space_repo_id=f"{hub_username}/{space_name}",
         )
+
+    st.subheader("👢 Next Steps")
+
+    st.write("Go to you project specific space!")
+
+    st.link_button(
+        "🧑‍🌾 Open Configuration Space",
+        f"https://huggingface.co/spaces/{hub_username}/{space_name}",
+    )

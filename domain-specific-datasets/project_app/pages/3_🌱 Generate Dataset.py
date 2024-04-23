@@ -50,6 +50,15 @@ repo_id = f"{hub_username}/{project_name}"
 hub_token = st.text_input("Hub Token", type="password")
 
 st.write("🤖 Inference configuration")
+
+st.write(
+    "Add the url of the Huggingface inference API or endpoint that your pipeline should use. You can find compatible models here:"
+)
+st.link_button(
+    "🤗 Inference compaptible models on the hub",
+    "https://huggingface.co/models?pipeline_tag=text-generation&other=endpoints_compatible&sort=trending",
+)
+
 base_url = st.text_input("Base URL")
 
 st.write("🔬 Argilla API details to push the generated dataset")
@@ -144,7 +153,7 @@ if st.button("💻 Run pipeline locally", key="run_pipeline_local"):
             pip install git+https://github.com/argilla-io/distilabel.git
             git clone https://huggingface.co/{hub_username}/{project_name}
             cd {project_name}
-            {' '.join(command_to_run)}
+            {' '.join(command_to_run[2:])}
         """,
             language="bash",
         )

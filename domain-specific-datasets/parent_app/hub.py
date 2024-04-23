@@ -19,7 +19,7 @@ def setup_dataset_on_hub(repo_id, hub_token):
         path_or_fileobj="seed_data.json",
         path_in_repo="seed_data.json",
         repo_id=repo_id,
-        hub_token=hub_token,
+        token=hub_token,
     )
 
 

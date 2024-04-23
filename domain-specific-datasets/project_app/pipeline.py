@@ -1,5 +1,5 @@
-import os
 import subprocess
+import sys
 import time
 from typing import List
 
@@ -147,7 +147,7 @@ def create_pipelines_run_command(
 ):
     """Create the command to run the pipeline."""
     command_to_run = [
-        "python",
+        sys.executable,
         "-m",
         "distilabel",
         "pipeline",
@@ -161,6 +161,7 @@ def create_pipelines_run_command(
 
 
 def run_pipeline(
+    hub_token: str,
     pipeline_config_path: str = "pipeline.yaml",
     argilla_dataset_name: str = "domain_specific_datasets",
 ):
@@ -173,7 +174,10 @@ def run_pipeline(
 
     # Run the script file
     process = subprocess.Popen(
-        command_to_run, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        args=command_to_run,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        env={"HF_TOKEN": hub_token},
     )
 
     while process.stdout and process.stdout.readable():

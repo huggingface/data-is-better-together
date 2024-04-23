@@ -1,3 +1,4 @@
+import os
 import json
 
 SEED_DATA_PATH = "seed_data.json"
@@ -7,6 +8,7 @@ DIBT_PARENT_APP_URL = "https://argilla-domain-specific-datasets-welcome.hf.space
 N_PERSPECTIVES = 5
 N_TOPICS = 5
 N_EXAMPLES = 5
+CODELESS_DISTILABEL = os.environ.get("CODELESS_DISTILABEL", False)
 
 ################################################
 # DEFAULTS ON FARMING

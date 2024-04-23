@@ -7,6 +7,7 @@ from defaults import (
     PROJECT_NAME,
     ARGILLA_URL,
     HUB_USERNAME,
+    CODELESS_DISTILABEL,
 )
 from utils import project_sidebar
 
@@ -70,20 +71,21 @@ st.divider()
 st.markdown("### Run the pipeline")
 
 st.write(
-    "Once you've defined the pipeline configuration, you can run the pipeline locally or on this space."
+    "Once you've defined the pipeline configuration, you can run the pipeline from your local machine."
 )
 
-st.write(
-    """We recommend running the pipeline locally if you're planning on generating a large dataset. \
-        But running the pipeline on this space is a handy way to get started quickly. Your synthetic
-        samples will be pushed to Argilla and available for review.
-        """
-)
-st.write(
-    """If you're planning on running the pipeline on the space, be aware that it \
-        will take some time to complete and you will need to maintain a \
-        connection to the space."""
-)
+if CODELESS_DISTILABEL:
+    st.write(
+        """We recommend running the pipeline locally if you're planning on generating a large dataset. \
+            But running the pipeline on this space is a handy way to get started quickly. Your synthetic
+            samples will be pushed to Argilla and available for review.
+            """
+    )
+    st.write(
+        """If you're planning on running the pipeline on the space, be aware that it \
+            will take some time to complete and you will need to maintain a \
+            connection to the space."""
+    )
 
 
 if st.button("💻 Run pipeline locally", key="run_pipeline_local"):
@@ -158,51 +160,51 @@ if st.button("💻 Run pipeline locally", key="run_pipeline_local"):
 ###############################################################
 # SPACE
 ###############################################################
+if CODELESS_DISTILABEL:
+    if st.button("🔥 Run pipeline right here, right now!"):
+        if all(
+            [
+                argilla_api_key,
+                argilla_url,
+                base_url,
+                hub_username,
+                project_name,
+                hub_token,
+                argilla_dataset_name,
+            ]
+        ):
+            with st.spinner("Pulling seed data from the Hub..."):
+                seed_data = pull_seed_data_from_repo(
+                    repo_id=f"{hub_username}/{project_name}",
+                    hub_token=hub_token,
+                )
+                domain = seed_data["domain"]
+                perspectives = seed_data["perspectives"]
+                topics = seed_data["topics"]
+                examples = seed_data["examples"]
+                domain_expert_prompt = seed_data["domain_expert_prompt"]
 
-if st.button("🔥 Run pipeline right here, right now!"):
-    if all(
-        [
-            argilla_api_key,
-            argilla_url,
-            base_url,
-            hub_username,
-            project_name,
-            hub_token,
-            argilla_dataset_name,
-        ]
-    ):
-        with st.spinner("Pulling seed data from the Hub..."):
-            seed_data = pull_seed_data_from_repo(
-                repo_id=f"{hub_username}/{project_name}",
-                hub_token=hub_token,
-            )
-            domain = seed_data["domain"]
-            perspectives = seed_data["perspectives"]
-            topics = seed_data["topics"]
-            examples = seed_data["examples"]
-            domain_expert_prompt = seed_data["domain_expert_prompt"]
+            with st.spinner("Serializing the pipeline configuration..."):
+                serialize_pipeline(
+                    argilla_api_key=argilla_api_key,
+                    argilla_dataset_name=argilla_dataset_name,
+                    argilla_api_url=argilla_url,
+                    topics=topics,
+                    perspectives=perspectives,
+                    pipeline_config_path=PIPELINE_PATH,
+                    domain_expert_prompt=domain_expert_prompt or DEFAULT_SYSTEM_PROMPT,
+                    hub_token=hub_token,
+                    endpoint_base_url=base_url,
+                    examples=examples,
+                )
 
-        with st.spinner("Serializing the pipeline configuration..."):
-            serialize_pipeline(
-                argilla_api_key=argilla_api_key,
-                argilla_dataset_name=argilla_dataset_name,
-                argilla_api_url=argilla_url,
-                topics=topics,
-                perspectives=perspectives,
-                pipeline_config_path=PIPELINE_PATH,
-                domain_expert_prompt=domain_expert_prompt or DEFAULT_SYSTEM_PROMPT,
-                hub_token=hub_token,
-                endpoint_base_url=base_url,
-                examples=examples,
-            )
+            with st.spinner("Starting the pipeline..."):
+                logs = run_pipeline(PIPELINE_PATH)
 
-        with st.spinner("Starting the pipeline..."):
-            logs = run_pipeline(PIPELINE_PATH)
+            st.success(f"Pipeline started successfully! 🚀")
 
-        st.success(f"Pipeline started successfully! 🚀")
-
-        with st.expander(label="View Logs", expanded=True):
-            for out in logs:
-                st.text(out)
-    else:
-        st.error("Please fill all the required fields.")
+            with st.expander(label="View Logs", expanded=True):
+                for out in logs:
+                    st.text(out)
+        else:
+            st.error("Please fill all the required fields.")

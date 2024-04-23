@@ -230,7 +230,7 @@ if st.button("🤗 Push Dataset Seed") and all(
         pipeline_path=PIPELINE_PATH,
     )
 
-    st.sidebar.success(
+    st.success(
         f"Dataset seed created and pushed to the Hub. Check it out [here](https://huggingface.co/datasets/{hub_username}/{project_name})"
     )
 else:

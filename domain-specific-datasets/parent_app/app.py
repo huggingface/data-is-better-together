@@ -20,6 +20,9 @@ st.set_page_config(
 st.header("🧑‍🌾 Domain Data Grower")
 st.divider()
 
+st.sidebar.link_button(
+    "🤗 Get your Hub Token", "https://huggingface.co/settings/tokens"
+)
 
 ################################################################################
 # APP MARKDOWN

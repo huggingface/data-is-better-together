@@ -82,9 +82,10 @@ def define_pipeline(
             input_batch_size=8,
             input_mappings={"instruction": "evolved_questions"},
             output_mappings={"generation": "domain_expert_answer"},
-            _system_prompt=domain_expert_prompt,
-            _template=template,
         )
+
+        domain_expert._system_prompt = domain_expert_prompt
+        domain_expert._template = template
 
         keep_columns = KeepColumns(
             name="keep_columns",

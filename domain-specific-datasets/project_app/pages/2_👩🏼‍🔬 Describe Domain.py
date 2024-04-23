@@ -233,6 +233,15 @@ if st.button("🤗 Push Dataset Seed") and all(
     st.success(
         f"Dataset seed created and pushed to the Hub. Check it out [here](https://huggingface.co/datasets/{hub_username}/{project_name})"
     )
+
+    st.write("You can now move on to runnning your distilabel pipeline.")
+
+    st.page_link(
+        page="pages/3_🌱 Generate Dataset.py",
+        label="Generate Dataset",
+        icon="🌱",
+    )
+
 else:
     st.info(
         "Please fill in all the required domain fields to push the dataset seed to the Hub"

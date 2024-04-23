@@ -41,7 +41,7 @@ First you need o setup the project and its tools. For this, we use [this applica
 
 Next we need to get the domain expert to define the seed data. This is the data that is used to create the dataset. Once the seed data is defined, we add it to the dataset repo.
 
-![Setup the project](./assets/setup.png)
+![Setup the project](https://raw.githubusercontent.com/huggingface/data-is-better-together/3ac24642454764c8c7d56f0ffdd1a134c1cd37b1/domain-specific-datasets/assets/setup.png)
 
 > **Domain topics** are the topics that the domain expert wants to include in the dataset. For example, if the domain is farming, the domain topics could be "soil", "crops", "weather", etc.
 
@@ -53,7 +53,7 @@ Next we need to get the domain expert to define the seed data. This is the data 
 
 Next we can move on to generating the dataset from the seed data.
 
-![Run the pipeline](./assets/pipeline.png)
+![Run the pipeline](https://raw.githubusercontent.com/huggingface/data-is-better-together/3ac24642454764c8c7d56f0ffdd1a134c1cd37b1/domain-specific-datasets/assets/pipeline.png)
 
 #### 4.1. Generate Instructions
 

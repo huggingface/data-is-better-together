@@ -144,13 +144,16 @@ if st.button("💻 Run pipeline locally", key="run_pipeline_local"):
             hub_token=hub_token,
             pipeline_config_path=PIPELINE_PATH,
             argilla_dataset_name=argilla_dataset_name,
+            argilla_api_key=argilla_api_key,
+            argilla_api_url=argilla_url,
         )
         st.code(
             f"""
             pip install git+https://github.com/argilla-io/distilabel.git
-            git clone https://huggingface.co/{hub_username}/{project_name}
+            git clone https://huggingface.co/datasets/{hub_username}/{project_name}
             cd {project_name}
-            {' '.join(command_to_run[2:])}
+            pip install -r requirements.txt
+            {' '.join(["python"] + command_to_run[1:])}
         """,
             language="bash",
         )
@@ -199,7 +202,13 @@ if CODELESS_DISTILABEL:
                 )
 
             with st.spinner("Starting the pipeline..."):
-                logs = run_pipeline(PIPELINE_PATH)
+                logs = run_pipeline(
+                    pipeline_config_path=PIPELINE_PATH,
+                    argilla_api_key=argilla_api_key,
+                    argilla_api_url=argilla_url,
+                    hub_token=hub_token,
+                    argilla_dataset_name=argilla_dataset_name,
+                )
 
             st.success(f"Pipeline started successfully! 🚀")
 

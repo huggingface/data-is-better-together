@@ -144,6 +144,8 @@ def serialize_pipeline(
 
 def create_pipelines_run_command(
     hub_token: str,
+    argilla_api_key: str,
+    argilla_api_url: str,
     pipeline_config_path: str = "pipeline.yaml",
     argilla_dataset_name: str = "domain_specific_datasets",
 ):
@@ -159,6 +161,10 @@ def create_pipelines_run_command(
         "--param",
         f"text_generation_to_argilla.dataset_name={argilla_dataset_name}",
         "--param",
+        f"text_generation_to_argilla.api_key={argilla_api_key}",
+        "--param",
+        f"text_generation_to_argilla.api_url={argilla_api_url}",
+        "--param",
         f"self-instruct.llm.api_key={hub_token}",
         "--param",
         f"evol_instruction_complexity.llm.api_key={hub_token}",
@@ -171,6 +177,8 @@ def create_pipelines_run_command(
 
 def run_pipeline(
     hub_token: str,
+    argilla_api_key: str,
+    argilla_api_url: str,
     pipeline_config_path: str = "pipeline.yaml",
     argilla_dataset_name: str = "domain_specific_datasets",
 ):
@@ -180,6 +188,8 @@ def run_pipeline(
         hub_token=hub_token,
         pipeline_config_path=pipeline_config_path,
         argilla_dataset_name=argilla_dataset_name,
+        argilla_api_key=argilla_api_key,
+        argilla_api_url=argilla_api_url,
     )
 
     # Run the script file

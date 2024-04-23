@@ -84,13 +84,23 @@ with tab_domain_perspectives:
 
     perspectives = st.session_state.get(
         "perspectives",
-        [st.text_input(f"Domain Perspective 0", value=DEFAULT_PERSPECTIVES[0])],
+        [DEFAULT_PERSPECTIVES[0]],
     )
+    perspectives_container = st.container()
 
-    if st.button("Add New Perspective"):
+    perspectives = [
+        perspectives_container.text_input(
+            f"Domain Perspective {i + 1}", value=perspective
+        )
+        for i, perspective in enumerate(perspectives)
+    ]
+
+    if st.button("Add Perspective", key="add_perspective"):
         n = len(perspectives)
         value = DEFAULT_PERSPECTIVES[n] if n < N_PERSPECTIVES else ""
-        perspectives.append(st.text_input(f"Domain Perspective {n}", value=""))
+        perspectives.append(
+            perspectives_container.text_input(f"Domain Perspective {n + 1}", value="")
+        )
         st.session_state["perspectives"] = perspectives
 
 
@@ -104,14 +114,19 @@ with tab_domain_topics:
         """Topics are the main themes or subjects that are relevant to the domain. For example, the domain of farming can have topics like soil health, crop rotation, or livestock management."""
     )
     topics = st.session_state.get(
-        "topics", [st.text_input(f"Domain Topic 0", value=DEFAULT_TOPICS[0])]
+        "topics",
+        [DEFAULT_TOPICS[0]],
     )
-    new_topic = st.button("Add New Topic")
+    topics_container = st.container()
+    topics = [
+        topics_container.text_input(f"Domain Topic {i + 1}", value=topic)
+        for i, topic in enumerate(topics)
+    ]
 
-    if new_topic:
+    if st.button("Add Topic", key="add_topic"):
         n = len(topics)
         value = DEFAULT_TOPICS[n] if n < N_TOPICS else ""
-        topics.append(st.text_input(f"Domain Topic {n}", value=value))
+        topics.append(topics_container.text_input(f"Domain Topics {n + 1}", value=""))
         st.session_state["topics"] = topics
 
 

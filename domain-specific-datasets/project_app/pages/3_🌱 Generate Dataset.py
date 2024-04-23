@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit.errors import EntryNotFoundError
 
 from hub import pull_seed_data_from_repo, push_pipeline_to_hub
 from defaults import (
@@ -28,38 +27,57 @@ project_sidebar()
 st.header("🧑‍🌾 Domain Data Grower")
 st.divider()
 st.subheader("Step 3. Run the pipeline to generate synthetic data")
-st.write(
-    "Define the project details, including the project name, domain, and API credentials"
-)
+st.write("Define the project repos and models that the pipeline will use.")
 
-
+st.divider()
 ###############################################################
 # CONFIGURATION
 ###############################################################
 
-st.divider()
+st.markdown("## Pipeline Configuration")
 
-st.markdown("### Pipeline Configuration")
-
-st.write("🤗 Hub details to pull the seed data")
+st.markdown("#### 🤗 Hub details to pull the seed data")
 hub_username = st.text_input("Hub Username", HUB_USERNAME)
 project_name = st.text_input("Project Name", PROJECT_NAME)
 repo_id = f"{hub_username}/{project_name}"
 hub_token = st.text_input("Hub Token", type="password")
 
-st.write("🤖 Inference configuration")
+st.divider()
+
+st.markdown("#### 🤖 Inference configuration")
 
 st.write(
     "Add the url of the Huggingface inference API or endpoint that your pipeline should use. You can find compatible models here:"
 )
-st.link_button(
-    "🤗 Inference compaptible models on the hub",
-    "https://huggingface.co/models?pipeline_tag=text-generation&other=endpoints_compatible&sort=trending",
+
+with st.expander("🤗 Recommended Models"):
+    st.write("All inference endpoint compatible models can be found via the link below")
+    st.link_button(
+        "🤗 Inference compaptible models on the hub",
+        "https://huggingface.co/models?pipeline_tag=text-generation&other=endpoints_compatible&sort=trending",
+    )
+    st.write("🔋Projects with sufficient resources could take advantage of LLama3 70b")
+    st.code("https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-70B")
+
+    st.write("🪫Projects with less resources could take advantage of LLama 3 8b")
+    st.code("https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B")
+
+    st.write("🍃Projects with even less resources could take advantage of Phi-2")
+    st.code("https://api-inference.huggingface.co/models/microsoft/phi-2")
+
+    st.write("Note Hugggingface Pro gives access to more compute resources")
+    st.link_button(
+        "🤗 Huggingface Pro",
+        "https://huggingface.co/pricing",
+    )
+
+
+base_url = st.text_input(
+    label="Base URL for the Inference API",
+    value="https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta",
 )
-
-base_url = st.text_input("Base URL")
-
-st.write("🔬 Argilla API details to push the generated dataset")
+st.divider()
+st.markdown("#### 🔬 Argilla API details to push the generated dataset")
 argilla_url = st.text_input("Argilla API URL", ARGILLA_URL)
 argilla_api_key = st.text_input("Argilla API Key", "owner.apikey")
 argilla_dataset_name = st.text_input("Argilla Dataset Name", project_name)
@@ -69,7 +87,7 @@ st.divider()
 # LOCAL
 ###############################################################
 
-st.markdown("### Run the pipeline")
+st.markdown("## Run the pipeline")
 
 st.write(
     "Once you've defined the pipeline configuration, you can run the pipeline from your local machine."
@@ -107,7 +125,7 @@ if st.button("💻 Run pipeline locally", key="run_pipeline_local"):
                     repo_id=f"{hub_username}/{project_name}",
                     hub_token=hub_token,
                 )
-            except EntryNotFoundError:
+            except Exception:
                 st.error(
                     "Seed data not found. Please make sure you pushed the data seed in Step 2."
                 )
@@ -188,7 +206,7 @@ if CODELESS_DISTILABEL:
                         repo_id=f"{hub_username}/{project_name}",
                         hub_token=hub_token,
                     )
-                except EntryNotFoundError:
+                except Exception as e:
                     st.error(
                         "Seed data not found. Please make sure you pushed the data seed in Step 2."
                     )

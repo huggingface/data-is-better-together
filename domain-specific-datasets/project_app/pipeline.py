@@ -142,6 +142,7 @@ def serialize_pipeline(
 
 
 def create_pipelines_run_command(
+    hub_token: str,
     pipeline_config_path: str = "pipeline.yaml",
     argilla_dataset_name: str = "domain_specific_datasets",
 ):
@@ -156,6 +157,13 @@ def create_pipelines_run_command(
         pipeline_config_path,
         "--param",
         f"text_generation_to_argilla.dataset_name={argilla_dataset_name}",
+        "--param",
+        f"self-instruct.llm.api_key={hub_token}",
+        "--param",
+        f"evol_instruction_complexity.llm.api_key={hub_token}",
+        "--param",
+        f"domain_expert.llm.api_key={hub_token}",
+        "--ignore-cache",
     ]
     return command_to_run
 
@@ -168,6 +176,7 @@ def run_pipeline(
     """Run the pipeline and yield the output as a generator of logs."""
 
     command_to_run = create_pipelines_run_command(
+        hub_token=hub_token,
         pipeline_config_path=pipeline_config_path,
         argilla_dataset_name=argilla_dataset_name,
     )

@@ -79,7 +79,7 @@ st.write(
 
 st.write(
     """We recommend running the pipeline locally if you're planning on generating a large dataset. \
-        but running the pipeline on this space is a handy way to get started quickly. Your synthetic
+        But running the pipeline on this space is a handy way to get started quickly. Your synthetic
         samples will be pushed to Argilla and available for review.
         """
 )
@@ -102,39 +102,37 @@ if st.button("💻 Run pipeline locally", key="run_pipeline_local"):
             argilla_dataset_name,
         ]
     ):
-        st.spinner("Pulling seed data from the Hub...")
+        with st.spinner("Pulling seed data from the Hub..."):
+            seed_data = pull_seed_data_from_repo(
+                repo_id=f"{hub_username}/{project_name}",
+                hub_token=hub_token,
+            )
 
-        seed_data = pull_seed_data_from_repo(
-            repo_id=f"{hub_username}/{project_name}",
-            hub_token=hub_token,
-        )
+            domain = seed_data["domain"]
+            perspectives = seed_data["perspectives"]
+            topics = seed_data["topics"]
+            examples = seed_data["examples"]
+            domain_expert_prompt = seed_data["domain_expert_prompt"]
 
-        domain = seed_data["domain"]
-        perspectives = seed_data["perspectives"]
-        topics = seed_data["topics"]
-        examples = seed_data["examples"]
-        domain_expert_prompt = seed_data["domain_expert_prompt"]
-
-        st.spinner("Serializing the pipeline configuration...")
-
-        serialize_pipeline(
-            argilla_api_key=argilla_api_key,
-            argilla_dataset_name=argilla_dataset_name,
-            argilla_api_url=argilla_url,
-            topics=topics,
-            perspectives=perspectives,
-            pipeline_config_path=PIPELINE_PATH,
-            domain_expert_prompt=domain_expert_prompt or DEFAULT_SYSTEM_PROMPT,
-            hub_token=hub_token,
-            endpoint_base_url=base_url,
-            examples=examples,
-        )
-        push_pipeline_to_hub(
-            pipeline_path=PIPELINE_PATH,
-            hub_token=hub_token,
-            hub_username=hub_username,
-            project_name=project_name,
-        )
+        with st.spinner("Serializing the pipeline configuration..."):
+            serialize_pipeline(
+                argilla_api_key=argilla_api_key,
+                argilla_dataset_name=argilla_dataset_name,
+                argilla_api_url=argilla_url,
+                topics=topics,
+                perspectives=perspectives,
+                pipeline_config_path=PIPELINE_PATH,
+                domain_expert_prompt=domain_expert_prompt or DEFAULT_SYSTEM_PROMPT,
+                hub_token=hub_token,
+                endpoint_base_url=base_url,
+                examples=examples,
+            )
+            push_pipeline_to_hub(
+                pipeline_path=PIPELINE_PATH,
+                hub_token=hub_token,
+                hub_username=hub_username,
+                project_name=project_name,
+            )
 
         st.success(f"Pipeline configuration saved to {hub_username}/{project_name}")
 
@@ -145,6 +143,7 @@ if st.button("💻 Run pipeline locally", key="run_pipeline_local"):
             "Execute the following command to generate a synthetic dataset from the seed data:"
         )
         command_to_run = create_pipelines_run_command(
+            hub_token=hub_token,
             pipeline_config_path=PIPELINE_PATH,
             argilla_dataset_name=argilla_dataset_name,
         )
@@ -176,37 +175,33 @@ if st.button("🔥 Run pipeline right here, right now!"):
             argilla_dataset_name,
         ]
     ):
-        st.spinner("Pulling seed data from the Hub...")
+        with st.spinner("Pulling seed data from the Hub..."):
+            seed_data = pull_seed_data_from_repo(
+                repo_id=f"{hub_username}/{project_name}",
+                hub_token=hub_token,
+            )
+            domain = seed_data["domain"]
+            perspectives = seed_data["perspectives"]
+            topics = seed_data["topics"]
+            examples = seed_data["examples"]
+            domain_expert_prompt = seed_data["domain_expert_prompt"]
 
-        seed_data = pull_seed_data_from_repo(
-            repo_id=f"{hub_username}/{project_name}",
-            hub_token=hub_token,
-        )
-        domain = seed_data["domain"]
-        perspectives = seed_data["perspectives"]
-        topics = seed_data["topics"]
-        examples = seed_data["examples"]
-        domain_expert_prompt = seed_data["domain_expert_prompt"]
+        with st.spinner("Serializing the pipeline configuration..."):
+            serialize_pipeline(
+                argilla_api_key=argilla_api_key,
+                argilla_dataset_name=argilla_dataset_name,
+                argilla_api_url=argilla_url,
+                topics=topics,
+                perspectives=perspectives,
+                pipeline_config_path=PIPELINE_PATH,
+                domain_expert_prompt=domain_expert_prompt or DEFAULT_SYSTEM_PROMPT,
+                hub_token=hub_token,
+                endpoint_base_url=base_url,
+                examples=examples,
+            )
 
-        st.spinner("Serializing the pipeline configuration...")
-
-        serialize_pipeline(
-            argilla_api_key=argilla_api_key,
-            argilla_dataset_name=argilla_dataset_name,
-            argilla_api_url=argilla_url,
-            topics=topics,
-            perspectives=perspectives,
-            pipeline_config_path=PIPELINE_PATH,
-            domain_expert_prompt=domain_expert_prompt or DEFAULT_SYSTEM_PROMPT,
-            hub_token=hub_token,
-            endpoint_base_url=base_url,
-            examples=examples,
-        )
-        st.success(f"Pipeline configuration saved to {PIPELINE_PATH}")
-
-        st.spinner("Running the pipeline...")
-
-        logs = run_pipeline(PIPELINE_PATH)
+        with st.spinner("Starting the pipeline..."):
+            logs = run_pipeline(PIPELINE_PATH)
 
         st.success(f"Pipeline started successfully! 🚀")
 

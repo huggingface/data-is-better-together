@@ -4,11 +4,11 @@ ENDPOINT_NAME: "solar-10-7b-instruct-v1-0-bli" # The endpoint name for the model
 
 # Inference settings
 INFERENCE_ENDPOINTS_URL: "https://fqk8v1jpa972cklj.us-east-1.aws.endpoints.huggingface.cloud"
-MAX_NEW_TOKENS: 1024 # Maximum number of new tokens to generate
+MAX_NEW_TOKENS: 2048 # Maximum number of new tokens to generate
 
 # Dataset configuration
 INPUT_DATASET_HUB_ID: "DIBT/aya_dataset_dutch_example" # The input dataset ID on Hugging Face Hub
-OUTPUT_DATASET_HUB_ID: "DIBT/aya_dutch_dpo" # The output dataset ID on Hugging Face Hub
+OUTPUT_DATASET_HUB_ID: "DIBT/aya_dutch_dpo_raw" # The output dataset ID on Hugging Face Hub
 SPLIT: "train" # The dataset split to use (e.g., train, validation, test)
 
 # Processing settings
@@ -16,5 +16,5 @@ INPUT_BATCH_SIZE: 10 # The batch size for processing input data
 
 # External service integration
 ARGILLA_SPACE_URL: "https://dibt-demo-argilla-space.hf.space" # The URL for the Argilla space
-ARGILLA_DATASET_NAME: "aya_nl_dpo"
+ARGILLA_DATASET_NAME: "aya_dutch_dpo" # The dataset name in the Argilla space
 ARGILLA_WORKSPACE_NAME: "admin"

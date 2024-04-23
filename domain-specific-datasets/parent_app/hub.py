@@ -14,6 +14,14 @@ def setup_dataset_on_hub(repo_id, hub_token):
         repo_type="dataset",
     )
 
+    # upload the seed data
+    hf_api.upload_file(
+        path_or_fileobj="seed_data.json",
+        path_in_repo="seed_data.json",
+        repo_id=repo_id,
+        hub_token=hub_token,
+    )
+
 
 def duplicate_space_on_hub(source_repo, target_repo, hub_token, private=False):
     duplicate_space(

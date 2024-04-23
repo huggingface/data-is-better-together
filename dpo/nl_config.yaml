@@ -9,7 +9,7 @@ MAX_NEW_TOKENS: 2048 # Maximum number of new tokens to generate
 # Dataset configuration
 INPUT_DATASET_HUB_ID: "DIBT/aya_dataset_dutch_example" # The input dataset ID on Hugging Face Hub
 OUTPUT_DATASET_HUB_ID: "DIBT/aya_dutch_dpo_raw" # The output dataset ID on Hugging Face Hub
-SPLIT: "train" # The dataset split to use (e.g., train, validation, test)
+SPLIT: "test" # The dataset split to use (e.g., train, validation, test)
 
 # Processing settings
 INPUT_BATCH_SIZE: 10 # The batch size for processing input data

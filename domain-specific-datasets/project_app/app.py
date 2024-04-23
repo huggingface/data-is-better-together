@@ -45,13 +45,12 @@ st.markdown(
     """
 ## 🗺️ The process
 
-### Step 1: Setup the project
+### Step 1: ~~Setup the project~~
 
-Define the project details, including the project name, domain, and API credentials. Create Dataset Repo on the Hub.
+~~Define the project details, including the project name, domain, and API credentials. Create Dataset Repo on the Hub.~~
 """
 )
-# TODO: add a link to the DIBT parent app
-st.link_button("🚀 Setup Project via the parent app", DIBT_PARENT_APP_URL)
+st.link_button("🚀 ~~Setup Project via the parent app~~", DIBT_PARENT_APP_URL)
 
 st.markdown(
     """

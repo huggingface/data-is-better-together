@@ -14,6 +14,7 @@ from defaults import (
     N_TOPICS,
     SEED_DATA_PATH,
     PIPELINE_PATH,
+    DATASET_REPO_ID,
 )
 from utils import project_sidebar
 
@@ -163,23 +164,21 @@ with tab_examples:
 
 st.divider()
 
+hub_username = DATASET_REPO_ID.split("/")[0]
+project_name = DATASET_REPO_ID.split("/")[1]
+st.write("Define the dataset repo details on the Hub")
+st.session_state["project_name"] = st.text_input("Project Name", project_name)
+st.session_state["hub_username"] = st.text_input("Hub Username", hub_username)
+st.session_state["hub_token"] = st.text_input("Hub Token", type="password", value=None)
 
-with st.expander("🤗 Repository Details"):
-    st.write("Define the dataset repo details on the Hub")
-    st.session_state["project_name"] = st.text_input("Project Name", None)
-    st.session_state["hub_username"] = st.text_input("Hub Username", None)
-    st.session_state["hub_token"] = st.text_input(
-        "Hub Token", type="password", value=None
+if all(
+    (
+        st.session_state.get("project_name"),
+        st.session_state.get("hub_username"),
+        st.session_state.get("hub_token"),
     )
-
-    if all(
-        (
-            st.session_state.get("project_name"),
-            st.session_state.get("hub_username"),
-            st.session_state.get("hub_token"),
-        )
-    ):
-        st.success(f"Using the dataset repo {hub_username}/{project_name} on the Hub")
+):
+    st.success(f"Using the dataset repo {hub_username}/{project_name} on the Hub")
 
 
 if st.button("🤗 Push Dataset Seed") and all(

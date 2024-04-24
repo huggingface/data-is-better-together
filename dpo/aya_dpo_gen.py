@@ -196,9 +196,11 @@ if __name__ == "__main__":
                 "split": SPLIT,
             },
             "text_generation": {
-                "generation_kwargs": {
-                    "max_new_tokens": MAX_NEW_TOKENS,
-                    "return_full_text": False,
+                "llm": {
+                    "generation_kwargs": {
+                        "max_new_tokens": MAX_NEW_TOKENS,
+                        "do_sample": True,
+                    }
                 }
             },
             "to_argilla": {"dataset_name": ARGILLA_DATASET_NAME},

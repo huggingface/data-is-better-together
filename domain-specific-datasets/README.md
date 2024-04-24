@@ -55,6 +55,14 @@ Next we can move on to generating the dataset from the seed data.
 
 ![Run the pipeline](https://raw.githubusercontent.com/huggingface/data-is-better-together/3ac24642454764c8c7d56f0ffdd1a134c1cd37b1/domain-specific-datasets/assets/pipeline.png)
 
+For generating instructions and responses, you're going to need an endpoint. You can find compatible models from the Hugging Face Inference API here:
+
+-   🔋Projects with sufficient resources could take advantage of [LLama3 70b](https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-70B)
+-   🪫Projects with less resources could take advantage of [LLama 3 8b](https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B)
+-   🍃Projects with even less resources could take advantage of [Phi-2](https://api-inference.huggingface.co/models/microsoft/phi-2)
+
+[Hugggingface Pro](https://huggingface.co/pricing) gives access to more compute resources.
+
 #### 4.1. Generate Instructions
 
 The pipeline takes the topic and perspective and generates instructions for the dataset, then the instructions are evolved by an LLM to create more instructions.

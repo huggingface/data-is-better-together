@@ -20,17 +20,6 @@ from huggingface_hub import InferenceClient, login
 
 load_dotenv()
 
-
-## We define some of the pipeline parameters in a separate config file
-def load_config(file_path: str) -> dict:
-    with open(file_path, "r") as file:
-        config = yaml.safe_load(file)
-    return config
-
-
-# Configuration
-config = load_config("nl_config.yaml")
-
 # Model Configuration
 MODEL_ID = config["MODEL_ID"]  # Model ID is the model name in the Hugging Face Hub
 INPUT_BATCH_SIZE = config[

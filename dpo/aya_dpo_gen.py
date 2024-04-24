@@ -15,35 +15,36 @@ from distilabel.steps import (
     step,
 )
 from distilabel.steps.tasks import TextGeneration
+from distilabel.steps.tasks.text_generation import TextGeneration
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient, login
 
 load_dotenv()
 
 # Model Configuration
-MODEL_ID = config["MODEL_ID"]  # Model ID is the model name in the Hugging Face Hub
-INPUT_BATCH_SIZE = config[
-    "INPUT_BATCH_SIZE"
-]  # Input batch size for the model via the Inference Endpoints API
-MAX_NEW_TOKENS = config["MAX_NEW_TOKENS"]  # Maximum number of new tokens to generate
+MODEL_ID = "upstage/SOLAR-10.7B-Instruct-v1.0"
+MAX_NEW_TOKENS = 2000  # Maximum number of new tokens to generate
 
 # Inference Endpoints Configuration
-INFERENCE_ENDPOINTS_URL = config["INFERENCE_ENDPOINTS_URL"]  # Inference endpoints URL
+INFERENCE_ENDPOINTS_URL = "https://fqk8v1jpa972cklj.us-east-1.aws.endpoints.huggingface.cloud"  # Inference endpoints URL
+ENDPOINT_NAME = "solar-10-7b-instruct-v1-0-bli"
+INPUT_BATCH_SIZE = 20  # Input batch size for the model via the Inference Endpoints API, you can adjust this based on the model's requirements and the hardware you are using to deploy the model
 
 # Argilla Configuration
-ARGILLA_SPACE_URL = config["ARGILLA_SPACE_URL"]  # Argilla Space URL
-ARGILLA_DATASET_NAME = config["ARGILLA_DATASET_NAME"]  # Argilla dataset name
-ARGILLA_WORKSPACE_NAME = config["ARGILLA_WORKSPACE_NAME"]  # Argilla workspace name
+ARGILLA_SPACE_URL = "https://dibt-demo-argilla-space.hf.space"  # Argilla Space URL
+ARGILLA_DATASET_NAME = "aya_dutch_dpo"  # Argilla dataset name
+ARGILLA_WORKSPACE_NAME = "admin"  # Argilla workspace name
 # Dataset Configuration
-INPUT_DATASET_HUB_ID = config[
-    "INPUT_DATASET_HUB_ID"
-]  # Input dataset hub ID (created in the previous step)
-OUTPUT_DATASET_HUB_ID = config["OUTPUT_DATASET_HUB_ID"]  # Output dataset hub ID
-SPLIT = config[
-    "SPLIT"
-]  # Split of the dataset to use. We use testing whilst developing the pipeline
+INPUT_DATASET_HUB_ID = "DIBT/aya_dataset_dutch_example"  # Input dataset hub ID (created in the previous step)
+OUTPUT_DATASET_HUB_ID = "DIBT/aya_dutch_dpo_raw"  # Output dataset hub ID
+SPLIT = (
+    "test"  # Split of the dataset to use. We use testing whilst developing the pipeline
+)
 
 HUGGINGFACE_TOKEN = os.getenv("HF_API_KEY")
+assert (
+    HUGGINGFACE_TOKEN is not None
+), "Please set the HF_API_KEY environment variable or authenticate with the Hugging Face CLI using `huggingface-cli login`"
 login(token=HUGGINGFACE_TOKEN)
 ARGILLA_API_KEY = os.getenv("ARGILLA_API_KEY")
 
@@ -53,10 +54,12 @@ assert (
 ), "Please set the ARGILLA_API_KEY environment variable or pass it as a parameter"
 
 # Initialize the Argilla client
-rg.init(api_url=config["ARGILLA_SPACE_URL"], api_key=ARGILLA_API_KEY, workspace="admin")
+rg.init(
+    api_url=ARGILLA_SPACE_URL, api_key=ARGILLA_API_KEY, workspace=ARGILLA_WORKSPACE_NAME
+)
 
 
-def remove_existing_dataset(dataset_name: str):
+def remove_existing_dataset(ARGILLA_DATASET_NAME: str):
     """Remove an existing dataset from Argilla. This is useful when re-running the pipeline."""
     try:
         argilla_ds = rg.FeedbackDataset.from_argilla(ARGILLA_DATASET_NAME)
@@ -131,6 +134,20 @@ def update_argilla_dataset_with_metadata(
     dataset.update_records(modified_records)
 
 
+system_prompt = """Je bent een meertalige AI-assistent. Je primaire taal is Nederlands. Beantwoord de meeste vragen en prompts in het Nederlands, tenzij specifiek gevraagd wordt om een andere taal te gebruiken.
+Als je gevraagd wordt om te vertalen tussen twee andere talen, bijvoorbeeld van Frans naar Engels, voer dan de gevraagde vertaling uit. Wanneer citaten of passages in een andere taal in een prompt worden gegeven, ga er dan van uit dat de gebruiker wil dat je ze begrijpt en ernaar verwijst bij het formuleren van je Nederlandse antwoord. Vertaal de anderstalige tekst zelf niet, tenzij dit specifiek wordt gevraagd."""
+
+
+class DutchTextGeneration(TextGeneration):
+    """A TextGeneration task adds an additional system prompt."""
+
+    def format_input(self, input: Dict[str, Any]) -> "ChatType":
+        return [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": input["instruction"]},
+        ]
+
+
 with Pipeline(name="generate-dpo-responses") as pipeline:
     # Load the dataset from the Hugging Face Hub
     load_hub_dataset = LoadHubDataset(
@@ -138,17 +155,17 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
         output_mappings={"inputs": "instruction"},
     )
     # Generate responses using the model
-    text_generation = TextGeneration(
+    text_generation = DutchTextGeneration(
         name="text_generation",
         llm=InferenceEndpointsLLM(
-            base_url=INFERENCE_ENDPOINTS_URL,
+            endpoint_name=ENDPOINT_NAME,
             tokenizer_id=MODEL_ID,
             model_display_name=MODEL_ID,
             api_key=HUGGINGFACE_TOKEN,
         ),
         input_batch_size=INPUT_BATCH_SIZE,
         output_mappings={"model_name": "generation_model"},
-        num_generations=2,
+        num_generations=1,
     )
     load_hub_dataset.connect(text_generation)
     language_prediction = LanguagePredict(name="language_prediction")
@@ -175,6 +192,7 @@ if __name__ == "__main__":
     # time the pipeline
     start_time = time.time()
     if ARGILLA_DATASET_NAME:
+        print(f"Removing existing dataset: {ARGILLA_DATASET_NAME}")
         remove_existing_dataset(ARGILLA_DATASET_NAME)
     # run the pipeline
     dataset = pipeline.run(
@@ -204,7 +222,7 @@ if __name__ == "__main__":
         languages = hub_dataset["predicted_generation_language"]
         update_argilla_dataset_with_metadata(
             dataset_name=ARGILLA_DATASET_NAME,
-            workspace="admin",
+            workspace=ARGILLA_WORKSPACE_NAME,
             hub_dataset=hub_dataset,
         )
     except ValueError as e:

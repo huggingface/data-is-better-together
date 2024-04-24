@@ -3,7 +3,6 @@ import time
 from typing import List
 
 import argilla as rg
-import yaml
 from datasets import Dataset, load_dataset
 from distilabel.llms import InferenceEndpointsLLM
 from distilabel.pipeline import Pipeline

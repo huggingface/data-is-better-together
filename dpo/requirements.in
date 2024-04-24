@@ -1,9 +1,7 @@
-distilabel[hf-inference-endpoints]>=1.0.0
+distilabel
 argilla==1.27.0
 ipykernel
-matplotlib
 python-dotenv
-seaborn
-squarify
 transformers
 ipywidgets
+huggingface_hub

@@ -183,10 +183,6 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
         api_key=ARGILLA_API_KEY,
         dataset_workspace=ARGILLA_WORKSPACE_NAME,
         num_generations=2,
-        input_mappings={
-            "instruction": "instruction",
-            "generations": "generations",
-        },
     )
     combine_columns.connect(to_argilla)
 

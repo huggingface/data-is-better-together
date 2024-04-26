@@ -181,6 +181,15 @@ if st.button("💻 Run pipeline locally", key="run_pipeline_local"):
         """,
             language="bash",
         )
+        st.subheader(
+            "👩‍🚀 If you want to access the pipeline and manipulate the locally, you can do:"
+        )
+        st.code(
+            """
+            git clone https://github.com/huggingface/data-is-better-together
+            cd domain-specific-datasets
+            """
+        )
     else:
         st.error("Please fill all the required fields.")
 

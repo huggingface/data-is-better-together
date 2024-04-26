@@ -44,7 +44,7 @@ dill==0.3.8
     # via
     #   datasets
     #   multiprocess
-distilabel==1.0.1
+distilabel==1.0.3
 executing==2.0.1
     # via stack-data
 filelock==3.13.4
@@ -146,7 +146,7 @@ parso==0.8.4
     # via jedi
 pexpect==4.9.0
     # via ipython
-platformdirs==4.2.0
+platformdirs==4.2.1
     # via jupyter-core
 prompt-toolkit==3.0.43
     # via ipython
@@ -234,7 +234,7 @@ traitlets==5.14.3
     #   jupyter-client
     #   jupyter-core
     #   matplotlib-inline
-transformers==4.40.0
+transformers==4.40.1
 typer==0.9.4
     # via
     #   argilla

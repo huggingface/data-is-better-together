@@ -4,7 +4,6 @@ from hub import (
     setup_dataset_on_hub,
     duplicate_space_on_hub,
     add_project_config_to_space_repo,
-    push_pipeline_to_hub,
 )
 
 import streamlit as st
@@ -107,13 +106,6 @@ if st.button("🤗 Setup Project Resources"):
             project_name=project_name,
             argilla_space_repo_id=f"{hub_username}/{argilla_name}",
             project_space_repo_id=f"{hub_username}/{space_name}",
-        )
-        
-        push_pipeline_to_hub(
-            pipeline_path="pipeline.py",
-            hub_username=hub_username,
-            hub_token=hub_token,
-            project_name=project_name,
         )
 
     st.subheader("👢 Next Steps")

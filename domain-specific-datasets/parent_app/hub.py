@@ -74,21 +74,3 @@ def pull_seed_data_from_repo(repo_id, hub_token):
     return json.load(open(tempfile_path))
 
 
-def push_pipeline_to_hub(
-    pipeline_path,
-    hub_username,
-    hub_token: str,
-    project_name,
-):
-    repo_id = f"{hub_username}/{project_name}"
-
-    # upload the pipeline to the hub
-    hf_api.upload_file(
-        path_or_fileobj=pipeline_path,
-        path_in_repo="pipeline.py",
-        token=hub_token,
-        repo_id=repo_id,
-        repo_type="dataset",
-    )
-
-    print(f"pipeline.py uploaded to {repo_id}")

@@ -1,16 +1,18 @@
 import os
 import requests
 
-HF_API_KEY = os.getenv("HF_API_KEY")
 API_URL = (
     "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2"
 )
-headers = {"Authorization": f"Bearer {HF_API_KEY}"}
 
 
-def query(question):
+
+
+
+def query(question, hub_token: str):
     payload = {
         "inputs": question,
     }
+    headers = {"Authorization": f"Bearer {hub_token}"}
     response = requests.post(API_URL, headers=headers, json=payload)
     return response.json()[0]["generated_text"]

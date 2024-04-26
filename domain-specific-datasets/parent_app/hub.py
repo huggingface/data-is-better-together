@@ -1,4 +1,6 @@
 import json
+from tempfile import mktemp
+
 
 from huggingface_hub import duplicate_space, HfApi
 
@@ -61,3 +63,32 @@ def add_project_config_to_space_repo(
         repo_id=project_space_repo_id,
         repo_type="space",
     )
+
+
+def pull_seed_data_from_repo(repo_id, hub_token):
+    tempfile_path = mktemp()
+    # pull the dataset repo from the hub
+    hf_api.hf_hub_download(
+        repo_id=repo_id, token=hub_token, repo_type="dataset", filename=tempfile_path
+    )
+    return json.load(open(tempfile_path))
+
+
+def push_pipeline_to_hub(
+    pipeline_path,
+    hub_username,
+    hub_token: str,
+    project_name,
+):
+    repo_id = f"{hub_username}/{project_name}"
+
+    # upload the pipeline to the hub
+    hf_api.upload_file(
+        path_or_fileobj=pipeline_path,
+        path_in_repo="pipeline.py",
+        token=hub_token,
+        repo_id=repo_id,
+        repo_type="dataset",
+    )
+
+    print(f"pipeline.py uploaded to {repo_id}")

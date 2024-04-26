@@ -22,12 +22,12 @@ from huggingface_hub import InferenceClient, login
 load_dotenv()
 
 # Model Configuration
-MODEL_ID = "upstage/SOLAR-10.7B-Instruct-v1.0"
+MODEL_ID = "meta-llama/Meta-Llama-3-70B-Instruct"
 MAX_NEW_TOKENS = 2000  # Maximum number of new tokens to generate
 
 # Inference Endpoints Configuration
-INFERENCE_ENDPOINTS_URL = "https://fqk8v1jpa972cklj.us-east-1.aws.endpoints.huggingface.cloud"  # Inference endpoints URL
-ENDPOINT_NAME = "solar-10-7b-instruct-v1-0-bli"
+# INFERENCE_ENDPOINTS_URL = "https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-70B-Instruct"  # Inference endpoints URL
+# ENDPOINT_NAME = "meta-llama/Meta-Llama-3-70B-Instruct"
 INPUT_BATCH_SIZE = 20  # Input batch size for the model via the Inference Endpoints API, you can adjust this based on the model's requirements and the hardware you are using to deploy the model
 
 # Argilla Configuration
@@ -134,7 +134,7 @@ def update_argilla_dataset_with_metadata(
     dataset.update_records(modified_records)
 
 
-system_prompt = """Je bent een meertalige AI-assistent. Je primaire taal is Nederlands. Beantwoord de meeste vragen en prompts in het Nederlands, tenzij specifiek gevraagd wordt om een andere taal te gebruiken.
+system_prompt = """Je bent een AI-assistent. Je primaire taal is Nederlands. Beantwoord de meeste vragen en prompts in het Nederlands, tenzij specifiek gevraagd wordt om een andere taal te gebruiken.
 Als je gevraagd wordt om te vertalen tussen twee andere talen, bijvoorbeeld van Frans naar Engels, voer dan de gevraagde vertaling uit. Wanneer citaten of passages in een andere taal in een prompt worden gegeven, ga er dan van uit dat de gebruiker wil dat je ze begrijpt en ernaar verwijst bij het formuleren van je Nederlandse antwoord. Vertaal de anderstalige tekst zelf niet, tenzij dit specifiek wordt gevraagd."""
 
 
@@ -158,7 +158,8 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
     text_generation = DutchTextGeneration(
         name="text_generation",
         llm=InferenceEndpointsLLM(
-            endpoint_name=ENDPOINT_NAME,
+            model_id=MODEL_ID,
+            # endpoint_name=ENDPOINT_NAME,
             tokenizer_id=MODEL_ID,
             model_display_name=MODEL_ID,
             api_key=HUGGINGFACE_TOKEN,
@@ -206,6 +207,7 @@ if __name__ == "__main__":
                     "generation_kwargs": {
                         "max_new_tokens": MAX_NEW_TOKENS,
                         "do_sample": True,
+                        "stop_sequences": ["<|end_of_text|>", "<|eot_id|>"],
                     }
                 }
             },

@@ -17,6 +17,7 @@ from distilabel.steps.tasks import TextGeneration
 from distilabel.steps.tasks.text_generation import TextGeneration
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient, login
+from distilabel.steps.tasks import TextGeneration, UltraFeedback
 
 load_dotenv()
 
@@ -100,7 +101,7 @@ def CombineAyaAndModelResponse(
     """A step to combine the Aya and model responses and add the response sources."""
     for input in inputs:
         input["generations"] = [input["targets"], input["generation"]]
-        input["response_source"] = ["aya", MODEL_ID]
+        input["generation_models"] = ["aya", MODEL_ID]
     yield inputs
 
 
@@ -113,7 +114,7 @@ def update_argilla_dataset_with_metadata(
     """Update an Argilla dataset with metadata from the dataset."""
     # by default, we add the predicted generation language and response source
     if metadata_keys is None:
-        metadata_keys = ["predicted_generation_language", "response_source"]
+        metadata_keys = ["predicted_generation_language", "generation_models"]
     dataset = rg.FeedbackDataset.from_argilla(
         dataset_name,
         workspace=workspace,
@@ -154,16 +155,18 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
         name="load_dataset",
         output_mappings={"inputs": "instruction"},
     )
+    llm = InferenceEndpointsLLM(
+        model_id=MODEL_ID,
+        # endpoint_name=ENDPOINT_NAME,
+        tokenizer_id=MODEL_ID,
+        model_display_name=MODEL_ID,
+        api_key=HUGGINGFACE_TOKEN,
+    )
+
     # Generate responses using the model
     text_generation = DutchTextGeneration(
         name="text_generation",
-        llm=InferenceEndpointsLLM(
-            model_id=MODEL_ID,
-            # endpoint_name=ENDPOINT_NAME,
-            tokenizer_id=MODEL_ID,
-            model_display_name=MODEL_ID,
-            api_key=HUGGINGFACE_TOKEN,
-        ),
+        llm=llm,
         input_batch_size=INPUT_BATCH_SIZE,
         output_mappings={"model_name": "generation_model"},
         num_generations=1,
@@ -174,7 +177,12 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
     combine_columns = CombineAyaAndModelResponse(
         name="combine_columns",
     )
+
     language_prediction.connect(combine_columns)
+    ultrafeedback = UltraFeedback(
+        name="ultrafeedback", aspect="overall-rating", llm=llm
+    )
+    combine_columns.connect(ultrafeedback)
     to_argilla = PreferenceToArgilla(
         name="to_argilla",
         dataset_name=ARGILLA_DATASET_NAME,
@@ -183,7 +191,7 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
         dataset_workspace=ARGILLA_WORKSPACE_NAME,
         num_generations=2,
     )
-    combine_columns.connect(to_argilla)
+    ultrafeedback.connect(to_argilla)
 
 if __name__ == "__main__":
     # time the pipeline

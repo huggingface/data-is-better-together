@@ -3,7 +3,7 @@ import json
 
 SEED_DATA_PATH = "seed_data.json"
 PIPELINE_PATH = "pipeline.yaml"
-REMOTE_CODE_PATHS = ["defaults.py", "domain.py", "pipeline.py", "requirements.txt"]
+REMOTE_CODE_PATHS = ["requirements.txt"]
 DIBT_PARENT_APP_URL = "https://argilla-domain-specific-datasets-welcome.hf.space/"
 N_PERSPECTIVES = 5
 N_TOPICS = 5

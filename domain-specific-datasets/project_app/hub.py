@@ -94,7 +94,7 @@ def push_pipeline_to_hub(
     # upload the pipeline to the hub
     hf_api.upload_file(
         path_or_fileobj=pipeline_path,
-        path_in_repo="pipeline.yaml",
+        path_in_repo="pipeline.py",
         token=hub_token,
         repo_id=repo_id,
         repo_type="dataset",
@@ -136,15 +136,16 @@ def push_pipeline_params(
     project_name,
 ):
     repo_id = f"{hub_username}/{project_name}"
-
+    temp_path = mktemp()
+    with open(temp_path, "w") as f:
+        json.dump(pipeline_params, f)
     # upload the pipeline to the hub
     hf_api.upload_file(
-        path_or_fileobj=json.dumps(pipeline_params),
+        path_or_fileobj=temp_path,
         path_in_repo="pipeline_params.json",
         token=hub_token,
         repo_id=repo_id,
         repo_type="dataset",
     )
 
-    print(f"Pipeline params uploaded to {repo_id}"
-)
+    print(f"Pipeline params uploaded to {repo_id}")

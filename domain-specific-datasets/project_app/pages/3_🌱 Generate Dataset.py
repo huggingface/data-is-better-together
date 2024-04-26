@@ -1,7 +1,7 @@
 import streamlit as st
 
 from defaults import ARGILLA_URL
-from hub import push_pipeline_params
+from hub import push_pipeline_params, push_pipeline_to_hub
 from utils import project_sidebar
 
 st.set_page_config(
@@ -97,12 +97,19 @@ if all(
             "argilla_api_url": argilla_url,
             "argilla_dataset_name": argilla_dataset_name,
             "endpoint_base_url": base_url,
-            "hub_token": hub_token,
         },
         hub_username=hub_username,
         hub_token=hub_token,
         project_name=project_name,
     )
+    
+    push_pipeline_to_hub(
+        pipeline_path="pipeline.py",
+        hub_username=hub_username,
+        hub_token=hub_token,
+        project_name=project_name,
+    )
+
     st.markdown(
         "To run the pipeline locally, you need to have the `distilabel` library installed. You can install it using the following command:"
     )

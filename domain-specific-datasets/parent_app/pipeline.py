@@ -73,33 +73,24 @@ class DomainExpert(TextGeneration):
 
 
 if __name__ == "__main__":
-    import argparse
+
+    import os
     import json
 
-    parser = argparse.ArgumentParser(
-        description="Run the pipeline to generate domain-specific datasets."
-    )
-    parser.add_argument("--hub-token", type=str, help="The Hugging Face API token.")
-    parser.add_argument("--argilla-api-key", type=str, help="The Argilla API key.")
-    parser.add_argument("--argilla-api-url", type=str, help="The Argilla API URL.")
-    parser.add_argument(
-        "--argilla-dataset-name", type=str, help="The name of the dataset in Argilla."
-    )
-    parser.add_argument(
-        "--seed_data_path",
-        type=str,
-        help="The path to the seed data.",
-        default="seed_data.json",
-    )
-    parser.add_argument(
-        "--endpoint-base-url", type=str, help="The base URL of the inference endpoint."
-    )
+    # load pipeline parameters
 
-    args = parser.parse_args()
+    with open("pipeline_params.json", "r") as f:
+        params = json.load(f)
+
+    argilla_api_key = params.get("argilla_api_key")
+    argilla_api_url = params.get("argilla_api_url")
+    argilla_dataset_name = params.get("argilla_dataset_name")
+    endpoint_base_url = params.get("endpoint_base_url")
+    hub_token = os.environ.get("hub_token")
 
     # collect our seed data
 
-    with open(args.seed_data_path, "r") as f:
+    with open("seed_data.json", "r") as f:
         seed_data = json.load(f)
 
     topics = seed_data.get("topics", [])
@@ -129,8 +120,8 @@ if __name__ == "__main__":
             num_instructions=5,
             input_batch_size=8,
             llm=InferenceEndpointsLLM(
-                base_url=args.endpoint_base_url,
-                api_key=args.hub_token,
+                base_url=endpoint_base_url,
+                api_key=hub_token,
             ),
         )
 
@@ -141,8 +132,8 @@ if __name__ == "__main__":
         domain_expert = DomainExpert(
             name="domain_expert",
             llm=InferenceEndpointsLLM(
-                base_url=args.endpoint_base_url,
-                api_key=args.hub_token,
+                base_url=endpoint_base_url,
+                api_key=hub_token,
             ),
             input_batch_size=8,
             system_prompt=domain_expert_prompt,
@@ -150,10 +141,10 @@ if __name__ == "__main__":
 
         to_argilla = TextGenerationToArgilla(
             name="text_generation_to_argilla",
-            dataset_name=args.argilla_dataset_name,
+            dataset_name=argilla_dataset_name,
             dataset_workspace="admin",
-            api_url=args.argilla_api_url,
-            api_key=args.argilla_api_key,
+            api_url=argilla_api_url,
+            api_key=argilla_api_key,
         )
 
         # Connect up the pipeline
@@ -168,15 +159,15 @@ if __name__ == "__main__":
     pipeline.run(
         parameters={
             "self_instruct": {
-                "llm": {"api_key": args.hub_token, "base_url": args.endpoint_base_url}
+                "llm": {"api_key": hub_token, "base_url": endpoint_base_url}
             },
             "domain_expert": {
-                "llm": {"api_key": args.hub_token, "base_url": args.endpoint_base_url}
+                "llm": {"api_key": hub_token, "base_url": endpoint_base_url}
             },
             "text_generation_to_argilla": {
-                "dataset_name": args.argilla_dataset_name,
-                "api_key": args.argilla_api_key,
-                "api_url": args.argilla_api_url,
+                "dataset_name": argilla_dataset_name,
+                "api_key": argilla_api_key,
+                "api_url": argilla_api_url,
             },
         },
         use_cache=False,

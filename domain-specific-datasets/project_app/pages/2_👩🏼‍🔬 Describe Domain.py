@@ -46,12 +46,14 @@ st.write(
     tab_domain_perspectives,
     tab_domain_topics,
     tab_examples,
+    tab_raw_seed,
 ) = st.tabs(
     tabs=[
         "👩🏼‍🔬 Domain Expert",
         "🔍 Domain Perspectives",
         "🕸️ Domain Topics",
         "📚 Examples",
+        "🌱 Raw Seed Data",
     ]
 )
 
@@ -101,7 +103,8 @@ with tab_domain_perspectives:
         perspectives.append(
             perspectives_container.text_input(f"Domain Perspective {n + 1}", value="")
         )
-        st.session_state["perspectives"] = perspectives
+
+    st.session_state["perspectives"] = perspectives
 
 
 ################################################################################
@@ -127,7 +130,8 @@ with tab_domain_topics:
         n = len(topics)
         value = DEFAULT_TOPICS[n] if n < N_TOPICS else ""
         topics.append(topics_container.text_input(f"Domain Topics {n + 1}", value=""))
-        st.session_state["topics"] = topics
+
+    st.session_state["topics"] = topics
 
 
 ################################################################################
@@ -146,32 +150,61 @@ with tab_examples:
     """
     )
 
-    questions_answers = st.session_state.get(
-        "questions_answers",
+    examples = st.session_state.get(
+        "examples",
         [
-            (
-                st.text_area(
-                    "Question", key="question_0", value=DEFAULT_EXAMPLES[0]["question"]
-                ),
-                st.text_area(
-                    "Answer", key="answer_0", value=DEFAULT_EXAMPLES[0]["answer"]
-                ),
-            )
+            {
+                "question": "",
+                "answer": "",
+            }
         ],
     )
 
-    if st.button("Add New Example"):
-        n = len(questions_answers)
-        default_question, default_answer = DEFAULT_EXAMPLES[n].values()
-        st.subheader(f"Example {n + 1}")
-        if st.button("Generate New Answer", key=f"generate_{n}"):
-            default_answer = query(default_question)
-        _question = st.text_area(
-            "Question", key=f"question_{n}", value=default_question
-        )
-        _answer = st.text_area("Answer", key=f"answer_{n}", value=default_answer)
-        questions_answers.append((_question, _answer))
-        st.session_state["questions_answers"] = questions_answers
+    for n, example in enumerate(examples, 1):
+        question = example["question"]
+        answer = example["answer"]
+        examples_container = st.container()
+        question_column, answer_column = examples_container.columns(2)
+
+        if st.button(f"Generate Answer {n}"):
+            if st.session_state["hub_token"] is None:
+                st.error("Please provide a Hub token to generate answers")
+            else:
+                answer = query(question, st.session_state["hub_token"])
+        with question_column:
+            question = st.text_area(f"Question {n}", value=question)
+
+        with answer_column:
+            answer = st.text_area(f"Answer {n}", value=answer)
+        examples[n - 1] = {"question": question, "answer": answer}
+        st.session_state["examples"] = examples
+        st.divider()
+
+    if st.button("Add Example"):
+        examples.append({"question": "", "answer": ""})
+        st.session_state["examples"] = examples
+        st.rerun()
+
+################################################################################
+# Save Domain Data
+################################################################################
+
+perspectives = list(filter(None, perspectives))
+topics = list(filter(None, topics))
+
+domain_data = {
+    "domain": domain,
+    "perspectives": perspectives,
+    "topics": topics,
+    "examples": examples,
+    "domain_expert_prompt": domain_expert_prompt,
+}
+
+with open(SEED_DATA_PATH, "w") as f:
+    json.dump(domain_data, f, indent=2)
+
+with tab_raw_seed:
+    st.code(json.dumps(domain_data, indent=2), language="json", line_numbers=True)
 
 ################################################################################
 # Setup Dataset on the Hub
@@ -220,21 +253,6 @@ if st.button("🤗 Push Dataset Seed") and all(
             "Please create a dataset repo on the Hub before pushing the dataset seed"
         )
         st.stop()
-
-    perspectives = list(filter(None, perspectives))
-    topics = list(filter(None, topics))
-    examples = [{"question": q, "answer": a} for q, a in questions_answers]
-
-    domain_data = {
-        "domain": domain,
-        "perspectives": perspectives,
-        "topics": topics,
-        "examples": examples,
-        "domain_expert_prompt": domain_expert_prompt,
-    }
-
-    with open(SEED_DATA_PATH, "w") as f:
-        json.dump(domain_data, f, indent=2)
 
     push_dataset_to_hub(
         domain_seed_data_path=SEED_DATA_PATH,

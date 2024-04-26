@@ -235,7 +235,7 @@ if st.button("🤗 Push Dataset Seed") and all(
         domain_expert_prompt,
         perspectives,
         topics,
-        questions_answers,
+        examples,
     )
 ):
     if all(

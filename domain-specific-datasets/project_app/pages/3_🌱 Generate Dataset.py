@@ -1,6 +1,7 @@
 import streamlit as st
 
 from defaults import ARGILLA_URL
+from hub import push_pipeline_params
 from utils import project_sidebar
 
 st.set_page_config(
@@ -90,6 +91,18 @@ if all(
         argilla_dataset_name,
     ]
 ):
+    push_pipeline_params(
+        pipeline_params={
+            "argilla_api_key": argilla_api_key,
+            "argilla_api_url": argilla_url,
+            "argilla_dataset_name": argilla_dataset_name,
+            "endpoint_base_url": base_url,
+            "hub_token": hub_token,
+        },
+        hub_username=hub_username,
+        hub_token=hub_token,
+        project_name=project_name,
+    )
     st.markdown(
         "To run the pipeline locally, you need to have the `distilabel` library installed. You can install it using the following command:"
     )
@@ -106,19 +119,18 @@ if all(
 
     st.code(
         f"""
-        # Clone the project and install the requirements
         git clone https://huggingface.co/datasets/{hub_username}/{project_name}
         cd {project_name}
         pip install -r requirements.txt
-        
-        # Run the pipeline
-        python pipeline.py 
-            --argilla-api-key {argilla_api_key} 
-            --argilla-api-url {argilla_url} 
-            --argilla-dataset-name {argilla_dataset_name} 
-            --endpoint-base-url {base_url}
-            --hub-token {st.session_state["hub_token"]}
-        """,
+        """
+    )
+
+    st.markdown("Finally, you can run the pipeline using the following command:")
+
+    st.code(
+        """
+        huggingface-cli login
+        python pipeline.py""",
         language="bash",
     )
     st.markdown(

@@ -127,3 +127,24 @@ def push_argilla_dataset_to_hub(
     feedback_dataset = rg.FeedbackDataset.from_argilla(name=name, workspace=workspace)
     local_dataset = feedback_dataset.pull()
     local_dataset.push_to_huggingface(repo_id=repo_id)
+
+
+def push_pipeline_params(
+    pipeline_params,
+    hub_username,
+    hub_token: str,
+    project_name,
+):
+    repo_id = f"{hub_username}/{project_name}"
+
+    # upload the pipeline to the hub
+    hf_api.upload_file(
+        path_or_fileobj=json.dumps(pipeline_params),
+        path_in_repo="pipeline_params.json",
+        token=hub_token,
+        repo_id=repo_id,
+        repo_type="dataset",
+    )
+
+    print(f"Pipeline params uploaded to {repo_id}"
+)

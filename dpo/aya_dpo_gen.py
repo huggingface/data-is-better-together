@@ -68,28 +68,29 @@ def remove_existing_dataset(ARGILLA_DATASET_NAME: str):
         print(e)
 
 
-class LanguagePredict(Step):
-    def process(self, inputs: StepInput) -> StepOutput:
-        """
-        A step to predict the language of the generated text.
-        Sometimes models fail to generate text in the desired language.
-        """
-        for input in inputs:
-            try:
-                cleaned_input = input["generation"].replace("\n", " ")
-                resp = InferenceClient("laurievb/OpenLID").text_classification(
-                    cleaned_input
-                )
-                top_prediction = resp[
-                    0
-                ]  # top prediction is the first element in the list
-                input["predicted_generation_language"] = top_prediction.label
-                input["predicted_generation_language_score"] = top_prediction.score
-            except Exception as e:
-                print(e)
-                input["predicted_generation_language"] = "error"
-                input["predicted_generation_language_score"] = 0.0
-        yield inputs
+@step(
+    inputs=["generation"],
+    outputs=["predicted_generation_language", "predicted_generation_language_score"],
+)
+def language_predict(inputs: StepInput) -> StepOutput:
+    """
+    A step to predict the language of the generated text.
+    Sometimes models fail to generate text in the desired language.
+    """
+    for input in inputs:
+        try:
+            cleaned_input = input.replace("\n", " ")
+            resp = InferenceClient("laurievb/OpenLID").text_classification(
+                cleaned_input
+            )
+            top_prediction = resp[0]  # top prediction is the first element in the list
+            input["predicted_generation_language"] = top_prediction.label
+            input["predicted_generation_language_score"] = top_prediction.score
+        except Exception as e:
+            print(e)
+            input["predicted_generation_language"] = "error"
+            input["predicted_generation_language_score"] = 0.0
+    yield inputs
 
 
 # Define a step to combine the Aya and model responses and add the response sources
@@ -169,7 +170,7 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
         num_generations=1,
     )
     load_hub_dataset.connect(text_generation)
-    language_prediction = LanguagePredict(name="language_prediction")
+    language_prediction = language_predict(name="language_prediction")
     text_generation.connect(language_prediction)
     combine_columns = CombineAyaAndModelResponse(
         name="combine_columns",

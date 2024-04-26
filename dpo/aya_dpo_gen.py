@@ -13,11 +13,10 @@ from distilabel.steps import (
     StepOutput,
     step,
 )
-from distilabel.steps.tasks import TextGeneration
-from distilabel.steps.tasks.text_generation import TextGeneration
+from distilabel.steps.tasks import TextGeneration, UltraFeedback
+from distilabel.steps.tasks.typing import ChatType
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient, login
-from distilabel.steps.tasks import TextGeneration, UltraFeedback
 
 load_dotenv()
 
@@ -37,9 +36,7 @@ ARGILLA_WORKSPACE_NAME = "admin"  # Argilla workspace name
 # Dataset Configuration
 INPUT_DATASET_HUB_ID = "DIBT/aya_dataset_dutch_example"  # Input dataset hub ID (created in the previous step)
 OUTPUT_DATASET_HUB_ID = "DIBT/aya_dutch_dpo_raw"  # Output dataset hub ID
-SPLIT = (
-    "test"  # Split of the dataset to use. We use testing whilst developing the pipeline
-)
+SPLIT = "train"
 
 HUGGINGFACE_TOKEN = os.getenv("HF_API_KEY")
 assert (

@@ -9,7 +9,6 @@ from distilabel.pipeline import Pipeline
 from distilabel.steps import (
     LoadHubDataset,
     PreferenceToArgilla,
-    Step,
     StepInput,
     StepOutput,
     step,

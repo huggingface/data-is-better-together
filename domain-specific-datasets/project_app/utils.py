@@ -26,8 +26,30 @@ def project_sidebar():
     )
     st.sidebar.link_button(f"📚 Dataset Repo", DATASET_URL)
     st.sidebar.link_button(f"🤖 Argilla Space", ARGILLA_URL)
-    st.sidebar.divider()
-    st.sidebar.link_button("🧑‍🌾 New Project", DIBT_PARENT_APP_URL)
+    hub_username = DATASET_REPO_ID.split("/")[0]
+    project_name = DATASET_REPO_ID.split("/")[1]
+    st.session_state["project_name"] = project_name
+    st.session_state["hub_username"] = hub_username
+    st.session_state["hub_token"] = st.sidebar.text_input(
+        "Hub Token", type="password", value=None
+    )
     st.sidebar.link_button(
         "🤗 Get your Hub Token", "https://huggingface.co/settings/tokens"
     )
+    if all(
+        (
+            st.session_state.get("project_name"),
+            st.session_state.get("hub_username"),
+            st.session_state.get("hub_token"),
+        )
+    ):
+        st.success(f"Using the dataset repo {hub_username}/{project_name} on the Hub")
+
+    st.sidebar.divider()
+
+    st.sidebar.link_button("🧑‍🌾 New Project", DIBT_PARENT_APP_URL)
+    
+    if st.session_state["hub_token"] is None:
+        st.error("Please provide a Hub token to generate answers")
+        st.stop()
+

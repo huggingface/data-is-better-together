@@ -2,14 +2,9 @@ import json
 
 import streamlit as st
 
-from hub import push_dataset_to_hub
+from hub import push_dataset_to_hub, pull_seed_data_from_repo
 from infer import query
 from defaults import (
-    DEFAULT_DOMAIN,
-    DEFAULT_PERSPECTIVES,
-    DEFAULT_TOPICS,
-    DEFAULT_EXAMPLES,
-    DEFAULT_SYSTEM_PROMPT,
     N_PERSPECTIVES,
     N_TOPICS,
     SEED_DATA_PATH,
@@ -18,11 +13,13 @@ from defaults import (
 )
 from utils import project_sidebar
 
+
 st.set_page_config(
     page_title="Domain Data Grower",
     page_icon="🧑‍🌾",
 )
 project_sidebar()
+
 
 ################################################################################
 # HEADER
@@ -36,6 +33,23 @@ st.subheader(
 st.write(
     "Define the project details, including the project name, domain, and API credentials"
 )
+
+
+################################################################################
+# LOAD EXISTING DOMAIN DATA
+################################################################################
+
+DATASET_REPO_ID = (
+    f"{st.session_state['hub_username']}/{st.session_state['project_name']}"
+)
+SEED_DATA = pull_seed_data_from_repo(
+    DATASET_REPO_ID, hub_token=st.session_state["hub_token"]
+)
+DEFAULT_DOMAIN = SEED_DATA.get("domain", "")
+DEFAULT_PERSPECTIVES = SEED_DATA.get("perspectives", [""])
+DEFAULT_TOPICS = SEED_DATA.get("topics", [""])
+DEFAULT_EXAMPLES = SEED_DATA.get("examples", [{"question": "", "answer": ""}])
+DEFAULT_SYSTEM_PROMPT = SEED_DATA.get("domain_expert_prompt", "")
 
 ################################################################################
 # Domain Expert Section
@@ -211,22 +225,6 @@ with tab_raw_seed:
 ################################################################################
 
 st.divider()
-
-hub_username = DATASET_REPO_ID.split("/")[0]
-project_name = DATASET_REPO_ID.split("/")[1]
-st.write("Define the dataset repo details on the Hub")
-st.session_state["project_name"] = st.text_input("Project Name", project_name)
-st.session_state["hub_username"] = st.text_input("Hub Username", hub_username)
-st.session_state["hub_token"] = st.text_input("Hub Token", type="password", value=None)
-
-if all(
-    (
-        st.session_state.get("project_name"),
-        st.session_state.get("hub_username"),
-        st.session_state.get("hub_token"),
-    )
-):
-    st.success(f"Using the dataset repo {hub_username}/{project_name} on the Hub")
 
 
 if st.button("🤗 Push Dataset Seed") and all(

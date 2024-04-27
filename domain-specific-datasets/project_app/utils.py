@@ -1,13 +1,13 @@
+from textwrap import dedent
+
 import streamlit as st
 
 from defaults import (
-    ARGILLA_SPACE_REPO_ID,
     PROJECT_NAME,
     ARGILLA_URL,
     DIBT_PARENT_APP_URL,
     DATASET_URL,
     DATASET_REPO_ID,
-    ARGILLA_SPACE_REPO_ID,
 )
 
 
@@ -48,8 +48,35 @@ def project_sidebar():
     st.sidebar.divider()
 
     st.sidebar.link_button("🧑‍🌾 New Project", DIBT_PARENT_APP_URL)
-    
+
     if st.session_state["hub_token"] is None:
         st.error("Please provide a Hub token to generate answers")
         st.stop()
 
+
+def create_seed_terms(topics: list[str], perspectives: list[str]) -> list[str]:
+    """Create seed terms for self intruct to start from."""
+
+    return [
+        f"{topic} from a {perspective} perspective"
+        for topic in topics
+        for perspective in perspectives
+    ]
+
+
+def create_application_instruction(domain: str, examples: list[dict[str, str]]) -> str:
+    """Create the instruction for Self-Instruct task."""
+    system_prompt = dedent(
+        f"""You are an AI assistant than generates queries around the domain of {domain}.
+            Your should not expect basic but profound questions from your users.
+            The queries should reflect a diversxamity of vision and economic positions and political positions.
+            The queries may know about different methods of {domain}.
+            The queries can be positioned politically, economically, socially, or practically.
+            Also take into account the impact of diverse causes on diverse domains."""
+    )
+    for example in examples:
+        question = example["question"]
+        answer = example["answer"]
+        system_prompt += f"""\n- Question: {question}\n- Answer: {answer}\n"""
+
+    return system_prompt

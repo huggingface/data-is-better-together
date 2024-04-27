@@ -1,7 +1,7 @@
 import streamlit as st
 
 from defaults import ARGILLA_URL
-from hub import push_pipeline_params, push_pipeline_to_hub
+from hub import push_pipeline_params
 from utils import project_sidebar
 
 st.set_page_config(
@@ -20,15 +20,26 @@ st.divider()
 st.subheader("Step 3. Run the pipeline to generate synthetic data")
 st.write("Define the distilabel pipeline for generating the dataset.")
 
-###############################################################
-# CONFIGURATION
-###############################################################
-
 hub_username = st.session_state.get("hub_username")
 project_name = st.session_state.get("project_name")
 hub_token = st.session_state.get("hub_token")
 
+###############################################################
+# CONFIGURATION
+###############################################################
+
 st.divider()
+
+st.markdown("## 🧰 Pipeline Configuration")
+
+st.write(
+    "Now we need to define the configuration for the pipeline that will generate the synthetic data."
+)
+st.write(
+    "⚠️ Model and parameter choice significantly affect the quality of the generated data. \
+    We reccomend that you start with a few samples and review the data. The scale up from there."
+)
+
 
 st.markdown("#### 🤖 Inference configuration")
 
@@ -43,13 +54,19 @@ with st.expander("🤗 Recommended Models"):
         "https://huggingface.co/models?pipeline_tag=text-generation&other=endpoints_compatible&sort=trending",
     )
     st.write("🔋Projects with sufficient resources could take advantage of LLama3 70b")
-    st.code("https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-70B")
+    st.code(
+        "https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct"
+    )
 
     st.write("🪫Projects with less resources could take advantage of LLama 3 8b")
-    st.code("https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B")
+    st.code(
+        "https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct"
+    )
 
-    st.write("🍃Projects with even less resources could take advantage of Phi-2")
-    st.code("https://api-inference.huggingface.co/models/microsoft/phi-2")
+    st.write("🍃Projects with even less resources could use Phi-3-mini-4k-instruct")
+    st.code(
+        "https://api-inference.huggingface.co/models/microsoft/Phi-3-mini-4k-instruct"
+    )
 
     st.write("Note Hugggingface Pro gives access to more compute resources")
     st.link_button(
@@ -58,10 +75,27 @@ with st.expander("🤗 Recommended Models"):
     )
 
 
-base_url = st.text_input(
-    label="Base URL for the Inference API",
-    value="https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta",
+self_instruct_base_url = st.text_input(
+    label="Model base URL for instruction generation",
+    value="https://api-inference.huggingface.co/models/microsoft/Phi-3-mini-4k-instruct",
 )
+domain_expert_base_url = st.text_input(
+    label="Model base URL for domain expert response",
+    value="https://api-inference.huggingface.co/models/microsoft/Phi-3-mini-4k-instruct",
+)
+
+st.divider()
+st.markdown("#### 🧮 Parameters configuration")
+
+self_intruct_num_generations = st.slider(
+    "Number of generations for self-instruction", 1, 10, 2
+)
+domain_expert_num_generations = st.slider(
+    "Number of generations for domain expert", 1, 10, 2
+)
+self_instruct_temperature = st.slider("Temperature for self-instruction", 0.1, 1.0, 0.9)
+domain_expert_temperature = st.slider("Temperature for domain expert", 0.1, 1.0, 0.9)
+
 st.divider()
 st.markdown("#### 🔬 Argilla API details to push the generated dataset")
 argilla_url = st.text_input("Argilla API URL", ARGILLA_URL)
@@ -84,30 +118,38 @@ if all(
     [
         argilla_api_key,
         argilla_url,
-        base_url,
-        hub_token,
+        self_instruct_base_url,
+        domain_expert_base_url,
+        self_intruct_num_generations,
+        domain_expert_num_generations,
+        self_instruct_temperature,
+        domain_expert_temperature,
+        hub_username,
         project_name,
         hub_token,
         argilla_dataset_name,
     ]
-):
-    push_pipeline_params(
-        pipeline_params={
-            "argilla_api_key": argilla_api_key,
-            "argilla_api_url": argilla_url,
-            "argilla_dataset_name": argilla_dataset_name,
-            "endpoint_base_url": base_url,
-        },
-        hub_username=hub_username,
-        hub_token=hub_token,
-        project_name=project_name,
-    )
-    
-    push_pipeline_to_hub(
-        pipeline_path="pipeline.py",
-        hub_username=hub_username,
-        hub_token=hub_token,
-        project_name=project_name,
+) and st.button("💾 Save Pipeline Config"):
+    with st.spinner("Pushing pipeline to the Hub..."):
+        push_pipeline_params(
+            pipeline_params={
+                "argilla_api_key": argilla_api_key,
+                "argilla_api_url": argilla_url,
+                "argilla_dataset_name": argilla_dataset_name,
+                "self_instruct_base_url": self_instruct_base_url,
+                "domain_expert_base_url": domain_expert_base_url,
+                "self_instruct_temperature": self_instruct_temperature,
+                "domain_expert_temperature": domain_expert_temperature,
+                "self_intruct_num_generations": self_intruct_num_generations,
+                "domain_expert_num_generations": domain_expert_num_generations,
+            },
+            hub_username=hub_username,
+            hub_token=hub_token,
+            project_name=project_name,
+        )
+
+    st.success(
+        f"Pipeline configuration pushed to the dataset repo {hub_username}/{project_name} on the Hub."
     )
 
     st.markdown(
@@ -118,7 +160,7 @@ if all(
         f"""
         
         # Install the distilabel library
-        pip install git+https://github.com/argilla-io/distilabel.git
+        pip install distilabel
         """
     )
 
@@ -126,8 +168,8 @@ if all(
 
     st.code(
         f"""
-        git clone https://huggingface.co/datasets/{hub_username}/{project_name}
-        cd {project_name}
+        git clone https://github.com/huggingface/data-is-better-together
+        cd data-is-better-together/domain-specific-datasets/pipelines
         pip install -r requirements.txt
         """
     )
@@ -135,9 +177,9 @@ if all(
     st.markdown("Finally, you can run the pipeline using the following command:")
 
     st.code(
-        """
+        f"""
         huggingface-cli login
-        python pipeline.py""",
+        python domain_expert_pipeline.py {hub_username}/{project_name}""",
         language="bash",
     )
     st.markdown(

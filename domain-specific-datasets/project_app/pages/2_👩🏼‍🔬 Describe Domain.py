@@ -11,7 +11,7 @@ from defaults import (
     PIPELINE_PATH,
     DATASET_REPO_ID,
 )
-from utils import project_sidebar
+from utils import project_sidebar, create_seed_terms, create_application_instruction
 
 
 st.set_page_config(
@@ -212,6 +212,8 @@ domain_data = {
     "topics": topics,
     "examples": examples,
     "domain_expert_prompt": domain_expert_prompt,
+    "application_instruction": create_application_instruction(domain, examples),
+    "seed_terms": create_seed_terms(topics, perspectives),
 }
 
 with open(SEED_DATA_PATH, "w") as f:

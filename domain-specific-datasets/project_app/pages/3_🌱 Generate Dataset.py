@@ -30,22 +30,28 @@ hub_token = st.session_state.get("hub_token")
 
 st.divider()
 
-st.markdown("## 🧰 Pipeline Configuration")
+st.markdown("## 🧰 Data Generation Pipeline")
 
-st.write(
-    "Now we need to define the configuration for the pipeline that will generate the synthetic data."
-)
-st.write(
-    "⚠️ Model and parameter choices significantly affect the quality of the generated data. \
-    We reccomend that you start with generating a few samples and review the data. Then scale up from there. \
-    You can run the pipeline multiple times with different configurations and append it to the same Argilla dataset."
+st.markdown(
+    """
+            Now we need to define the configuration for the pipeline that will generate the synthetic data.
+            The pipeline will generate synthetic data by combining self-instruction and domain expert responses.
+            The self-instruction step generates instructions based on seed terms, and the domain expert step generates \
+            responses to those instructions. Take a look at the [distilabel docs](https://distilabel.argilla.io/latest/sections/learn/tasks/text_generation/#self-instruct) for more information.
+            """
 )
 
+###############################################################
+# INFERENCE
+###############################################################
 
 st.markdown("#### 🤖 Inference configuration")
 
 st.write(
-    "Add the url of the Huggingface inference API or endpoint that your pipeline should use. You can find compatible models here:"
+    """Add the url of the Huggingface inference API or endpoint that your pipeline should use to generate instruction and response pairs. \
+    Some domain tasks may be challenging for smaller models, so you may need to iterate over your task definition and model selection. \
+    This is a part of the process of generating high-quality synthetic data, human feedback is key to this process. \
+    You can find compatible models here:"""
 )
 
 with st.expander("🤗 Recommended Models"):
@@ -85,8 +91,23 @@ domain_expert_base_url = st.text_input(
     value="https://api-inference.huggingface.co/models/microsoft/Phi-3-mini-4k-instruct",
 )
 
+###############################################################
+# PARAMETERS
+###############################################################
+
 st.divider()
 st.markdown("#### 🧮 Parameters configuration")
+
+st.write(
+    "⚠️ Model and parameter choices significantly affect the quality of the generated data. \
+    We reccomend that you start with generating a few samples and review the data. Then scale up from there. \
+    You can run the pipeline multiple times with different configurations and append it to the same Argilla dataset."
+)
+
+st.markdown(
+    "Number of generations are the samples that each model will generate for each seed term, \
+    so if you have 10 seed terms, 2 instruction generations, and 2 response generations, you will have 40 samples in total."
+)
 
 self_intruct_num_generations = st.slider(
     "Number of generations for self-instruction", 1, 10, 2
@@ -94,18 +115,33 @@ self_intruct_num_generations = st.slider(
 domain_expert_num_generations = st.slider(
     "Number of generations for domain expert response", 1, 10, 2
 )
+
+st.markdown(
+    "Temperature is a hyperparameter that controls the randomness of the generated text. \
+        Lower temperatures will generate more deterministic text, while higher temperatures \
+        will add more variation to generations."
+)
+
 self_instruct_temperature = st.slider("Temperature for self-instruction", 0.1, 1.0, 0.9)
 domain_expert_temperature = st.slider("Temperature for domain expert", 0.1, 1.0, 0.9)
 
+###############################################################
+# ARGILLA API
+###############################################################
+
 st.divider()
 st.markdown("#### 🔬 Argilla API details to push the generated dataset")
+st.markdown(
+    "Here you can define the Argilla API details to push the generated dataset to your Argilla space. \
+        These are the defaults that were set up for the project. You can change them if needed."
+)
 argilla_url = st.text_input("Argilla API URL", ARGILLA_URL)
 argilla_api_key = st.text_input("Argilla API Key", "owner.apikey")
 argilla_dataset_name = st.text_input("Argilla Dataset Name", project_name)
 st.divider()
 
 ###############################################################
-# LOCAL
+# Pipeline Run
 ###############################################################
 
 st.markdown("## Run the pipeline")
@@ -154,37 +190,40 @@ if all(
     )
 
     st.markdown(
-        "To run the pipeline locally, you need to have the `distilabel` library installed. You can install it using the following command:"
+        "To run the pipeline locally, you need to have the `distilabel` library installed. \
+            You can install it using the following command:"
     )
 
     st.code(
-        f"""
-        
+        body="""
         # Install the distilabel library
         pip install distilabel
-        """
+        """,
+        language="bash",
     )
 
-    st.markdown("Next, you'll need to clone your dataset repo and run the pipeline:")
+    st.markdown("Next, you'll need to clone the pipeline code and install dependencies:")
 
     st.code(
-        f"""
+        """
         git clone https://github.com/huggingface/data-is-better-together
         cd data-is-better-together/domain-specific-datasets/pipelines
         pip install -r requirements.txt
-        """
+        huggingface-cli login
+        """,
+        language="bash",
     )
 
     st.markdown("Finally, you can run the pipeline using the following command:")
 
     st.code(
         f"""
-        huggingface-cli login
         python domain_expert_pipeline.py {hub_username}/{project_name}""",
         language="bash",
     )
     st.markdown(
-        "👩‍🚀 If you want to customise the pipeline take a look in `pipeline.py` and teh [distilabel docs](https://distilabel.argilla.io/)"
+        "👩‍🚀 If you want to customise the pipeline take a look in `domain_expert_pipeline.py` \
+            and the [distilabel docs](https://distilabel.argilla.io/)"
     )
 
     st.markdown(

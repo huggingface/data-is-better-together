@@ -36,8 +36,9 @@ st.write(
     "Now we need to define the configuration for the pipeline that will generate the synthetic data."
 )
 st.write(
-    "⚠️ Model and parameter choice significantly affect the quality of the generated data. \
-    We reccomend that you start with a few samples and review the data. The scale up from there."
+    "⚠️ Model and parameter choices significantly affect the quality of the generated data. \
+    We reccomend that you start with generating a few samples and review the data. Then scale up from there. \
+    You can run the pipeline multiple times with different configurations and append it to the same Argilla dataset."
 )
 
 
@@ -91,7 +92,7 @@ self_intruct_num_generations = st.slider(
     "Number of generations for self-instruction", 1, 10, 2
 )
 domain_expert_num_generations = st.slider(
-    "Number of generations for domain expert", 1, 10, 2
+    "Number of generations for domain expert response", 1, 10, 2
 )
 self_instruct_temperature = st.slider("Temperature for self-instruction", 0.1, 1.0, 0.9)
 domain_expert_temperature = st.slider("Temperature for domain expert", 0.1, 1.0, 0.9)
@@ -184,6 +185,20 @@ if all(
     )
     st.markdown(
         "👩‍🚀 If you want to customise the pipeline take a look in `pipeline.py` and teh [distilabel docs](https://distilabel.argilla.io/)"
+    )
+
+    st.markdown(
+        "🚀 Once you've run the pipeline your records will be available in the Argilla space"
+    )
+
+    st.link_button("🔗 Argilla Space", argilla_url)
+
+    st.markdown("Once you've reviewed the data, you can publish it on the next page:")
+
+    st.page_link(
+        page="pages/4_🔍 Review Generated Data.py",
+        label="Review Generated Data",
+        icon="🔍",
     )
 
 else:

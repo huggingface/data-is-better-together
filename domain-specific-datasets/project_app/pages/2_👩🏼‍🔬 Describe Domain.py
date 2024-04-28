@@ -113,7 +113,6 @@ with tab_domain_perspectives:
 
     if st.button("Add Perspective", key="add_perspective"):
         n = len(perspectives)
-        value = DEFAULT_PERSPECTIVES[n] if n < N_PERSPECTIVES else ""
         perspectives.append(
             perspectives_container.text_input(f"Domain Perspective {n + 1}", value="")
         )
@@ -142,7 +141,6 @@ with tab_domain_topics:
 
     if st.button("Add Topic", key="add_topic"):
         n = len(topics)
-        value = DEFAULT_TOPICS[n] if n < N_TOPICS else ""
         topics.append(topics_container.text_input(f"Domain Topics {n + 1}", value=""))
 
     st.session_state["topics"] = topics

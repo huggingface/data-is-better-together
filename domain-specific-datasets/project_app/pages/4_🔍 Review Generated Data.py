@@ -44,5 +44,6 @@ if st.button("🚀 Publish the generated dataset"):
             url=argilla_url,
             api_key=argilla_api_key,
             workspace="admin",
+            hub_token=st.session_state["hub_token"],
         )
     st.success("The generated dataset has been published to the Hub.")

@@ -35,7 +35,7 @@ We start by selecting a domain and finding collaborators who can help us to crea
 
 ### 2. Setup your project
 
-First, you need to set up the project and its tools. For this, we use [this application](https://huggingface.co/spaces/argilla/domain-specific-seed). 
+First you need o setup the project and its tools. For this, we use [this application](https://huggingface.co/spaces/argilla/domain-specific-datasets-welcome). 
 
 ### 3. Define the domain knowledge
 

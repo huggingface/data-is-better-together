@@ -1,0 +1,5 @@
+datasets
+python_dotenv
+streamlit
+huggingface_hub
+argilla

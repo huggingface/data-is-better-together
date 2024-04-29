@@ -16,16 +16,16 @@ The goal of this project is to share and collaborate with domain experts to crea
 
 ### How can you contribute?
 
-🧑🏼‍🔬 If you are a domain expert, you can contribute by sharing your expertise and collaborating with us to create domain-specific datasets. We're working with user easy to use applications that help you to define the seed data and create the dataset. We're also working on tools that help you to annotate the dataset and improve the quality of the dataset.
+🧑🏼‍🔬 If you are a domain expert, you can contribute by sharing your expertise and collaborating with us to create domain-specific datasets. We're working with user-friendly, easy-to-use applications that help you define the seed data and create the dataset. We're also working on tools that help you to annotate the dataset and improve the quality of the dataset.
 
-🧑🏻‍🔧 If you are a (inspiring) Machine Learning engineer, you can setup the project and its tools. You can run the synthetic data generation pipelines. And maybe even get round to training models.
+🧑🏻‍🔧 If you are an (inspiring) Machine Learning engineer, you can set up the project and its tools. You can run the synthetic data generation pipelines. And maybe even get around to training models.
 
 
 ## Project Overview
 
 ### 1. Select a domain and find collaborators
 
-We start by selecting a domain and finding colaborators who can help us to create the dataset. 
+We start by selecting a domain and finding collaborators who can help us to create the dataset. 
 
 🧑🏼‍🔬 If you are a domain expert, you could find an ML engineer to help you to create the dataset. 
 
@@ -39,27 +39,27 @@ First you need o setup the project and its tools. For this, we use [this applica
 
 ### 3. Define the domain knowledge
 
-Next we need to get the domain expert to define the seed data. This is the data that is used to create the dataset. Once the seed data is defined, we add it to the dataset repo.
+Next, we need to get the domain expert to define the seed data, which is used to create the dataset. Once the seed data is defined, we add it to the dataset repo.
 
 ![Setup the project](https://raw.githubusercontent.com/huggingface/data-is-better-together/3ac24642454764c8c7d56f0ffdd1a134c1cd37b1/domain-specific-datasets/assets/setup.png)
 
-> **Domain topics** are the topics that the domain expert wants to include in the dataset. For example, if the domain is farming, the domain topics could be "soil", "crops", "weather", etc.
+> **Domain topics** are the topics the domain expert wants to include in the dataset. For example, if the domain is farming, the domain topics could be "soil", "crops", "weather", etc.
 
 > **Domain description** is a description of the domain. For example, if the domain is farming, the domain description could be "Farming is the practice of cultivating crops and livestock for food, fiber, biofuel, medicinal plants, and other products used to sustain and enhance human life."
 
-> **Domain perspectives** are the perspectives that the domain expert wants to include in the dataset. For example, if the domain is farming, the domain perspectives could be "farmer", "agricultural scientist", "agricultural economist", etc.
+> **Domain perspectives** are the perspectives the domain expert wants to include in the dataset. For example, if the domain is farming, the domain perspectives could be "farmer", "agricultural scientist", "agricultural economist", etc.
 
 ### 4. Generate the dataset
 
-Next we can move on to generating the dataset from the seed data.
+Next, we can move on to generating the dataset from the seed data.
 
 ![Run the pipeline](https://raw.githubusercontent.com/huggingface/data-is-better-together/3ac24642454764c8c7d56f0ffdd1a134c1cd37b1/domain-specific-datasets/assets/pipeline.png)
 
-For generating instructions and responses, you're going to need an endpoint. You can find compatible models from the Hugging Face Inference API here:
+To generate instructions and responses, you're going to need an endpoint. You can find compatible models from the Hugging Face Inference API here:
 
 -   🔋Projects with sufficient resources could take advantage of [LLama3 70b](https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-70B)
 -   🪫Projects with less resources could take advantage of [LLama 3 8b](https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B)
--   🍃Projects with even less resources could take advantage of [Phi-2](https://api-inference.huggingface.co/models/microsoft/phi-2)
+-   🍃Projects with even fewer resources could take advantage of [Phi-2](https://api-inference.huggingface.co/models/microsoft/phi-2)
 
 [Hugggingface Pro](https://huggingface.co/pricing) gives access to more compute resources.
 
@@ -83,9 +83,9 @@ Here's a video guide that walks you through the process from end-to-end.
 
 ### Project Structure
 
-- `app/` : A streamlit app to help domain experts to define seed data like system prompt and topics, by creating an empty dataset on the hub.
-- `app/pipeline.py` : The distilabel pipeline code that is used to create the dataset.
-- `scripts/` : Adhoc scripts that we used to ease annotation with vector search.
+- `app/` : A Streamlit app to help domain experts to define seed data, like system prompts and topics, by creating an empty dataset on the hub.
+- `app/pipeline.py`: The distilabel pipeline code that is used to create the dataset.
+- `scripts/`: Adhoc scripts that we used to ease annotation with vector search.
 ### Example Farming Project
 
 Here are examples of the resources for our farming example:

@@ -75,6 +75,12 @@ The pipeline takes the instructions and generates responses for the dataset, the
 
 Finally, the pipeline pushes the dataset to the hub and Argilla space. The domain expert can then refine the dataset by annotating the dataset and improving the quality of the dataset.
 
+### Video Tutorial
+
+Here's a video guide that walks you through the process from end-to-end.
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/99f32d7882764d9d8f4dc6ce3d824319?sid=5974bcc9-134a-4929-807a-104bcd250bf3" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+
 ### Project Structure
 
 - `app/` : A streamlit app to help domain experts to define seed data like system prompt and topics, by creating an empty dataset on the hub.

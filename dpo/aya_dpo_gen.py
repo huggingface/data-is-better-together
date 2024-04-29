@@ -17,6 +17,7 @@ from distilabel.steps.tasks import TextGeneration, UltraFeedback
 from distilabel.steps.tasks.typing import ChatType
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient, login
+from argilla_pref import CustomPreferenceToArgilla
 
 load_dotenv()
 
@@ -180,14 +181,29 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
         name="ultrafeedback", aspect="overall-rating", llm=llm
     )
     combine_columns.connect(ultrafeedback)
-    to_argilla = PreferenceToArgilla(
+    # to_argilla = PreferenceToArgilla(
+    #     name="to_argilla",
+    #     dataset_name=ARGILLA_DATASET_NAME,
+    #     api_url=ARGILLA_SPACE_URL,
+    #     api_key=ARGILLA_API_KEY,
+    #     dataset_workspace=ARGILLA_WORKSPACE_NAME,
+    #     num_generations=2,
+    # )
+    to_argilla = CustomPreferenceToArgilla(
         name="to_argilla",
         dataset_name=ARGILLA_DATASET_NAME,
         api_url=ARGILLA_SPACE_URL,
         api_key=ARGILLA_API_KEY,
         dataset_workspace=ARGILLA_WORKSPACE_NAME,
         num_generations=2,
+        metadata_properties=[
+            rg.TermsMetadataProperty(name="predicted_generation_language"),
+            rg.FloatMetadataProperty(
+                name="predicted_generation_language_score", min=0.0, max=1.0
+            ),
+        ],
     )
+
     ultrafeedback.connect(to_argilla)
 
 if __name__ == "__main__":

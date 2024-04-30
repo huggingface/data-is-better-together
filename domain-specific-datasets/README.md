@@ -81,10 +81,31 @@ Here's a video guide that walks you through the process from end-to-end.
 
 [![Walkthrough](https://cdn-uploads.huggingface.co/production/uploads/62d648291fa3e4e7ae3fa6e8/2e-QzuIv2dtkaPKL446yi.png)](https://www.loom.com/embed/99f32d7882764d9d8f4dc6ce3d824319?sid=c273876f-6715-4491-a79d-a27220e7a7d8)
 
+### Run the `distilabel` pipeline 
+
+st.markdown("## Run the pipeline")
+
+With the pipeline configuration define in the app and pushed to the dataset repo {hub_username}/{project_name}, you can run the pipeline via this repo.
+
+You'll need to change directory, install dependencies, and log in to the Hugging Face Hub. You can do this by running the following commands:
+
+```bash
+cd data-is-better-together/domain-specific-datasets/distilabel_pipelines
+pip install -r requirements.txt
+huggingface-cli login
+```
+
+Then you can run the pipeline using the following command:
+
+```bash
+python domain_expert_pipeline.py {hub_username}/{project_name}""",
+```
+
+
 ### Project Structure
 
 - `app/` : A streamlit app to help domain experts to define seed data like system prompt and topics, by creating an empty dataset on the hub.
-- `app/pipeline.py` : The distilabel pipeline code that is used to create the dataset.
+- `distilabel_pipelines/domain_expert_pipeline.py` : The distilabel pipeline code that is used to create the dataset.
 - `scripts/` : Adhoc scripts that we used to ease annotation with vector search.
 ### Example Farming Project
 

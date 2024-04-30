@@ -19,8 +19,14 @@ with open(SEED_DATA_PATH) as f:
 
 DEFAULT_DOMAIN = DEFAULT_DATA["domain"]
 DEFAULT_PERSPECTIVES = DEFAULT_DATA["perspectives"]
+if DEFAULT_PERSPECTIVES is None or len(DEFAULT_PERSPECTIVES) == 0:
+    DEFAULT_PERSPECTIVES = [""]
 DEFAULT_TOPICS = DEFAULT_DATA["topics"]
+if DEFAULT_TOPICS is None or len(DEFAULT_TOPICS) == 0:
+    DEFAULT_TOPICS = [""]
 DEFAULT_EXAMPLES = DEFAULT_DATA["examples"]
+if DEFAULT_EXAMPLES is None or len(DEFAULT_EXAMPLES) == 0:
+    DEFAULT_EXAMPLES = [{"question": "", "answer": ""}]
 DEFAULT_SYSTEM_PROMPT = DEFAULT_DATA["domain_expert_prompt"]
 
 ################################################

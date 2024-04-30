@@ -170,7 +170,6 @@ if all(
     with st.spinner("Pushing pipeline to the Hub..."):
         push_pipeline_params(
             pipeline_params={
-                "argilla_api_key": argilla_api_key,
                 "argilla_api_url": argilla_url,
                 "argilla_dataset_name": argilla_dataset_name,
                 "self_instruct_base_url": self_instruct_base_url,
@@ -183,7 +182,7 @@ if all(
             hub_username=hub_username,
             hub_token=hub_token,
             project_name=project_name,
-        )
+        )   
 
     st.success(
         f"Pipeline configuration pushed to the dataset repo {hub_username}/{project_name} on the Hub."
@@ -202,12 +201,14 @@ if all(
         language="bash",
     )
 
-    st.markdown("Next, you'll need to clone the pipeline code and install dependencies:")
+    st.markdown(
+        "Next, you'll need to clone the pipeline code and install dependencies:"
+    )
 
     st.code(
         """
         git clone https://github.com/huggingface/data-is-better-together
-        cd data-is-better-together/domain-specific-datasets/pipelines
+        cd data-is-better-together/domain-specific-datasets/distilabel_pipelines
         pip install -r requirements.txt
         huggingface-cli login
         """,

@@ -52,6 +52,9 @@ There are not enough language-specific benchmarks for open LLMs! We want to crea
 - In the second one, you'll see how to upload the prompt translation data for the language of your choice.
 - In the third one, we show how to set up a dashboard to track the annotation efforts easily.
 
+### 3. Domain Specific Datasets
+
+This project aims to bootstrap the creation of more domain-specific datasets for training models. The goal is to create a set of tools that help users to collaborate with domain experts. Find out more in the [Domain Specific Datasets README.](domain-specific-datasets/README.md)
 
 ## Other guides
 

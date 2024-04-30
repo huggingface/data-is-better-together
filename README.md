@@ -6,19 +6,19 @@
 
 # Data is Better Together
 
-Data is Better Together is a collab between 🤗 Hugging Face, 🏓 Argilla, and the Open Source ML community. Our goal is to empower the open source community to collectively build impactful datasets. 
+Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argilla, and the Open-Source ML community. We aim to empower the open-source community to build impactful datasets collectively. 
 
 ## What have we done so far?
 
 The community has created a dataset of 10k prompts [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked) ranked by quality as part of Data is Better Together.
 
-## What are currently working on?
+## What are we currently working on?
 
 We are working on several strands of work. Here are current active projects.
 
 ### 1. Prompt ranking
 
-Our first DIBT activity is focused on ranking the quality of prompts. We have already released version 1.0 of this dataset [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked). So far over 385 people have contributed annotations to this dataset but we are continuing to collect more annotations!
+Our first DIBT activity is focused on ranking the quality of prompts. We have already released version 1.0 of this dataset [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked). So far, over 385 people have contributed annotations to this dataset, but we are continuing to collect more annotations!
 
 - Follow the progress of this effort in this [dashboard](https://huggingface.co/spaces/DIBT/prompt-collective-dashboard)
 - You can contribute to the ranking of prompts [here](https://huggingface.co/spaces/DIBT/prompt-collective)
@@ -50,7 +50,7 @@ There are not enough language-specific benchmarks for open LLMs! We want to crea
 
 - In the first one, you'll learn how to set up a prompt translation space using Argilla and Hugging Face Spaces.
 - In the second one, you'll see how to upload the prompt translation data for the language of your choice.
-- In the third one, we show how to easily set up a dashboard to track the annotation efforts.
+- In the third one, we show how to set up a dashboard to track the annotation efforts easily.
 
 
 ## Other guides

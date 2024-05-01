@@ -1,6 +1,7 @@
 import json
 from typing import Any, Dict
 
+import argilla as rg
 from distilabel.llms import InferenceEndpointsLLM
 from distilabel.pipeline import Pipeline
 from distilabel.steps import (
@@ -14,6 +15,50 @@ from distilabel.steps.tasks import (
 )
 from distilabel.steps.tasks.typing import ChatType
 from huggingface_hub import hf_hub_download
+
+
+################################################################################
+# Define custom Argilla Dataset
+################################################################################
+
+
+def create_argilla_dataset(
+    api_url: str,
+    api_key: str,
+    dataset_name: str,
+    workspace: str,
+):
+    """Create a dataset in Argilla."""
+
+    rg.init(api_url, api_key)
+    rg_dataset = rg.FeedbackDataset(
+        fields=[
+            rg.TextField(name="id", title="id"),  # type: ignore
+            rg.TextField(name="instruction", title="instruction"),  # type: ignore
+            rg.TextField(name="generation", title="generation"),  # type: ignore
+        ],
+        questions=[
+            rg.LabelQuestion(  # type: ignore
+                name="quality",
+                title=f"What's the quality of the generation for the given instruction?",
+                labels={"bad": "👎", "good": "👍"},
+            ),
+            rg.TextQuestion(
+                name="improved_instruction",
+                title="How would you improve the instruction?",
+                required=False,
+            ),
+            rg.TextQuestion(
+                name="improved_response",
+                title="How would you improve the response?",
+                required=False,
+            ),
+        ],
+    )
+    try:
+        rg_dataset.push_to_argilla(name=dataset_name, workspace=workspace)
+    except RuntimeError as e:
+        print(f"Failed to create the dataset in Argilla: {e} Moving on...")
 
 
 ################################################################################
@@ -102,6 +147,15 @@ if __name__ == "__main__":
     domain_name = seed_data.get("domain")
     terms = seed_data.get("seed_terms")
 
+    # Create the Argilla dataset
+
+    create_argilla_dataset(
+        api_url=argilla_api_url,
+        api_key=argilla_api_key,
+        dataset_name=argilla_dataset_name,
+        workspace="admin",
+    )
+
     # Define the distilabel pipeline
 
     with Pipeline(domain_name) as pipeline:
@@ -158,24 +212,16 @@ if __name__ == "__main__":
         parameters={
             "self_instruct": {
                 "llm": {
-                    "api_key": hub_token,
-                    "base_url": self_instruct_base_url,
-                    "num_instructions": self_intruct_num_generations,
-                    "application_description": "",
                     "generation_kwargs": {
-                        "max_new_tokens": 1024,
+                        "max_new_tokens": 2048,
                         "temperature": self_instruct_temperature,
                     },
                 }
             },
             "domain_expert": {
                 "llm": {
-                    "api_key": hub_token,
-                    "base_url": domain_expert_base_url,
-                    "num_generations": domain_expert_num_generations,
-                    "system_prompt": "",
                     "generation_kwargs": {
-                        "max_new_tokens": 1024,
+                        "max_new_tokens": 2048,
                         "temperature": domain_expert_temperature,
                     },
                 }

@@ -6,7 +6,8 @@ An overview of the steps we'll take to generate a DPO/ORPO dataset for a new lan
 graph LR
 A[Load Aya Dataset] --> B[Filter Aya to focus on target language]
 B --> C[Generate new responses using Inference Endpoints]
-C --> D[Label preferences using Argilla]
+C --> D[UltraFeedback is used to rank responses]
+D --> E[Validate preferences using Argilla]
 ```
 
 ## The resources and tools we'll be using

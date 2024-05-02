@@ -43,4 +43,4 @@ As part of Data Is Better Together, we're supporting the community in generating
 
 ## Instructions
 
-You can find more detailed instructions on how to generate a DPO/ORPO dataset for a new language in the [instructions.md](./instructions.md) file.
+You can find more detailed instructions on how to generate a DPO/ORPO dataset for a new language in the [instructions](./instructions.md).

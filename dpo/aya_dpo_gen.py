@@ -1,14 +1,12 @@
 import os
 import time
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 import argilla as rg
-from datasets import Dataset, load_dataset
 from distilabel.llms import InferenceEndpointsLLM
 from distilabel.pipeline import Pipeline
 from distilabel.steps import (
     LoadHubDataset,
-    PreferenceToArgilla,
     StepInput,
     StepOutput,
     step,
@@ -17,9 +15,17 @@ from distilabel.steps.tasks import TextGeneration, UltraFeedback
 from distilabel.steps.tasks.typing import ChatType
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient, login
-from argilla_pref import CustomPreferenceToArgilla
+
+from custom_preference_to_argilla import CustomPreferenceToArgilla
 
 load_dotenv()
+
+##################################
+# Configuration
+# This section contains the configuration for the pipeline.
+# This is where you can define the model ID, the maximum number of new tokens to generate, the input batch size for the model via the Inference Endpoints API, and the Argilla configuration.
+##################################
+
 
 # Model Configuration
 MODEL_ID = "meta-llama/Meta-Llama-3-70B-Instruct"
@@ -28,7 +34,7 @@ MAX_NEW_TOKENS = 2000  # Maximum number of new tokens to generate
 # Inference Endpoints Configuration
 # INFERENCE_ENDPOINTS_URL = "https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-70B-Instruct"  # Inference endpoints URL
 # ENDPOINT_NAME = "meta-llama/Meta-Llama-3-70B-Instruct"
-INPUT_BATCH_SIZE = 20  # Input batch size for the model via the Inference Endpoints API, you can adjust this based on the model's requirements and the hardware you are using to deploy the model
+INPUT_BATCH_SIZE = 5  # Input batch size for the model via the Inference Endpoints API, you can adjust this based on the model's requirements and the hardware you are using to deploy the model
 
 # Argilla Configuration
 ARGILLA_SPACE_URL = "https://dibt-demo-argilla-space.hf.space"  # Argilla Space URL
@@ -37,9 +43,13 @@ ARGILLA_WORKSPACE_NAME = "admin"  # Argilla workspace name
 # Dataset Configuration
 INPUT_DATASET_HUB_ID = "DIBT/aya_dataset_dutch_example"  # Input dataset hub ID (created in the previous step)
 OUTPUT_DATASET_HUB_ID = "DIBT/aya_dutch_dpo_raw"  # Output dataset hub ID
-SPLIT = "test"
+SPLIT = "test"  # Split of the dataset to use. Start with test whilst you are testing the pipeline and then switch to train when you are ready to generate the full dataset
 
 HUGGINGFACE_TOKEN = os.getenv("HF_API_KEY")
+
+#######################################
+# Check required environment variables
+#######################################
 assert (
     HUGGINGFACE_TOKEN is not None
 ), "Please set the HF_API_KEY environment variable or authenticate with the Hugging Face CLI using `huggingface-cli login`"
@@ -51,11 +61,14 @@ assert (
     ARGILLA_API_KEY is not None
 ), "Please set the ARGILLA_API_KEY environment variable or pass it as a parameter"
 
+#####################
+# Helper functions
+#####################
+
 
 def remove_existing_dataset(argilla_dataset_name: str):
-    """Remove an existing dataset from Argilla. This is useful when re-running the pipeline."""
+    """Remove an existing dataset from Argilla. This is useful when re-running the pipeline multiple times."""
     try:
-        # Initialize the Argilla client
         rg.init(
             api_url=ARGILLA_SPACE_URL,
             api_key=ARGILLA_API_KEY,
@@ -67,6 +80,11 @@ def remove_existing_dataset(argilla_dataset_name: str):
         print(e)
 
 
+#####################################
+# Define distilabel custom steps
+#####################################
+
+
 @step(
     inputs=["generation"],
     outputs=["predicted_generation_language", "predicted_generation_language_score"],
@@ -75,6 +93,7 @@ def language_predict(inputs: StepInput) -> StepOutput:
     """
     A step to predict the language of the generated text.
     Sometimes models fail to generate text in the desired language.
+    This step helps to identify such cases using an external language prediction model.
     """
     for input in inputs:
         try:
@@ -84,7 +103,9 @@ def language_predict(inputs: StepInput) -> StepOutput:
             )
             top_prediction = resp[0]  # top prediction is the first element in the list
             input["predicted_generation_language"] = top_prediction.label
-            input["predicted_generation_language_score"] = top_prediction.score
+            input["predicted_generation_language_score"] = min(
+                1.0, top_prediction.score
+            )  # ensure score is between 0 and 1
         except Exception as e:
             print(e)
             input["predicted_generation_language"] = "error"
@@ -92,7 +113,6 @@ def language_predict(inputs: StepInput) -> StepOutput:
     yield inputs
 
 
-# Define a step to combine the Aya and model responses and add the response sources
 @step(inputs=["targets", "generation"], outputs=["generations"])
 def CombineAyaAndModelResponse(
     inputs: StepInput,
@@ -104,57 +124,16 @@ def CombineAyaAndModelResponse(
     yield inputs
 
 
-def update_argilla_dataset_with_metadata(
-    dataset_name: str,
-    workspace: str,
-    hub_dataset: Dataset,
-    metadata_keys: List[str] = None,
-):
-    """Update an Argilla dataset with metadata from the dataset."""
-    # by default, we add the predicted generation language and response source
-    if metadata_keys is None:
-        metadata_keys = ["predicted_generation_language", "generation_models"]
-    argilla_ds = rg.FeedbackDataset.from_argilla(
-        dataset_name,
-        workspace=workspace,
-    )
-    metadata_values = [hub_dataset[key] for key in metadata_keys]
-    if any(len(values) != len(argilla_ds.records) for values in metadata_values):
-        raise ValueError(
-            f"Number of metadata values does not match the number of records ({len(argilla_ds.records)})"
-        )
-    modified_records = []
-    for record, *metadata in zip(argilla_ds.records, *metadata_values):
-        for key, value in zip(metadata_keys, metadata):
-            record.metadata[key] = value
-        modified_records.append(record)
-    argilla_ds.update_records(modified_records)
-    try:
-        add_language_filters_to_argilla_ds(dataset_name, workspace)
-    except Exception as e:
-        print(e)
+#######################################################################
+# Define a custom TextGeneration task focused on our target language
+#######################################################################
 
 
-# TODO Rename this here and in `update_argilla_dataset_with_metadata`
-def add_language_filters_to_argilla_ds(dataset_name, workspace):
-    argilla_ds = rg.FeedbackDataset.from_argilla(
-        dataset_name,
-        workspace=workspace,
-    )
-    langs = {
-        record.metadata.get("predicted_generation_language")
-        for record in argilla_ds.records
-    }
-    terms_metadata_property = rg.TermsMetadataProperty(
-        name="language", title="Predicted generation language", values=list(langs)
-    )
-    argilla_ds.add_metadata_property(terms_metadata_property)
-    modified_records = list(argilla_ds.records)
-    for record in modified_records:
-        record.metadata["language"] = record.metadata.get(
-            "predicted_generation_language"
-        )
-    argilla_ds.update_records(modified_records)
+# Custom system prompt
+# This translates to something like:
+# You are an AI assistant. Your primary language is Dutch. Answer most questions and prompts in Dutch, unless specifically asked to use another language.
+# If you are asked to translate between two other languages, for example from French to English, perform the requested translation.
+# When quotes or passages in another language are given in a prompt, assume that the user wants you to understand them and refer to them when formulating your English response. Do not translate the foreign text yourself, unless specifically requested.
 
 
 system_prompt = """Je bent een AI-assistent. Je primaire taal is Nederlands. Beantwoord de meeste vragen en prompts in het Nederlands, tenzij specifiek gevraagd wordt om een andere taal te gebruiken.
@@ -171,15 +150,21 @@ class DutchTextGeneration(TextGeneration):
         ]
 
 
+#####################################
+# Define the pipeline
+#####################################
+
 with Pipeline(name="generate-dpo-responses") as pipeline:
     # Load the dataset from the Hugging Face Hub
     load_hub_dataset = LoadHubDataset(
         name="load_dataset",
         output_mappings={"inputs": "instruction"},
     )
+    #####################################
+    # Define the LLM
+    #####################################
     llm = InferenceEndpointsLLM(
         model_id=MODEL_ID,
-        # endpoint_name=ENDPOINT_NAME,
         tokenizer_id=MODEL_ID,
         model_display_name=MODEL_ID,
         api_key=HUGGINGFACE_TOKEN,
@@ -205,23 +190,31 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
         name="ultrafeedback", aspect="overall-rating", llm=llm
     )
     combine_columns.connect(ultrafeedback)
-    to_argilla = PreferenceToArgilla(
+    to_argilla = CustomPreferenceToArgilla(
         name="to_argilla",
-        dataset_name=ARGILLA_DATASET_NAME,
         api_url=ARGILLA_SPACE_URL,
         api_key=ARGILLA_API_KEY,
+        dataset_name=ARGILLA_DATASET_NAME,
         dataset_workspace=ARGILLA_WORKSPACE_NAME,
         num_generations=2,
+        metadata_properties=[
+            rg.TermsMetadataProperty(name="predicted_generation_language").dict(),  # type: ignore
+            rg.FloatMetadataProperty(  # type: ignore
+                name="predicted_generation_language_score", min=0.0, max=1.0
+            ).dict(),
+        ],
     )
     ultrafeedback.connect(to_argilla)
 
+#####################################
+# Run the pipeline
+#####################################
+
 if __name__ == "__main__":
-    # time the pipeline
     start_time = time.time()
     if ARGILLA_DATASET_NAME:
         print(f"Removing existing dataset: {ARGILLA_DATASET_NAME}")
         remove_existing_dataset(ARGILLA_DATASET_NAME)
-    # run the pipeline
     dataset = pipeline.run(
         parameters={
             "load_dataset": {
@@ -240,19 +233,7 @@ if __name__ == "__main__":
             "to_argilla": {"dataset_name": ARGILLA_DATASET_NAME},
         }
     )
-    # push the dataset to the hub
     dataset.push_to_hub(OUTPUT_DATASET_HUB_ID, token=HUGGINGFACE_TOKEN)
     end_time = time.time()
     print(f"Output dataset: https://huggingface.co/datasets/{OUTPUT_DATASET_HUB_ID}")
-    print("Updating Argilla dataset with extra metadata...")
-    try:
-        hub_dataset = load_dataset(OUTPUT_DATASET_HUB_ID, split="train")
-        # languages = hub_dataset["predicted_generation_language"]
-        update_argilla_dataset_with_metadata(
-            dataset_name=ARGILLA_DATASET_NAME,
-            workspace=ARGILLA_WORKSPACE_NAME,
-            hub_dataset=hub_dataset,
-        )
-    except ValueError as e:
-        print(e)
     print(f"Time taken: {end_time - start_time} seconds")

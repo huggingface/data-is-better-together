@@ -15,8 +15,10 @@ if TYPE_CHECKING:
 
 
 class CustomPreferenceToArgilla(PreferenceToArgilla):
-    """Custom PreferenceToArgilla step that adds metadata properties to the feedback records.
-    This allows filtering based on metadata properties in the Argilla UI."""
+    """
+    Custom PreferenceToArgilla step that adds metadata properties to the feedback records.
+    This allows filtering based on metadata properties in the Argilla UI.
+    """
 
     metadata_properties: List[Dict[str, Any]]
 

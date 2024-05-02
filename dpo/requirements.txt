@@ -47,7 +47,7 @@ dill==0.3.8
 distilabel==1.0.3
 executing==2.0.1
     # via stack-data
-filelock==3.13.4
+filelock==3.14.0
     # via
     #   datasets
     #   huggingface-hub
@@ -68,7 +68,7 @@ httpx==0.26.0
     # via
     #   argilla
     #   distilabel
-huggingface-hub==0.22.2
+huggingface-hub==0.23.0
     # via
     #   datasets
     #   tokenizers
@@ -80,7 +80,7 @@ idna==3.7
     #   requests
     #   yarl
 ipykernel==6.29.4
-ipython==8.23.0
+ipython==8.24.0
     # via
     #   ipykernel
     #   ipywidgets
@@ -182,11 +182,11 @@ pyyaml==6.0.1
     #   datasets
     #   huggingface-hub
     #   transformers
-pyzmq==26.0.2
+pyzmq==26.0.3
     # via
     #   ipykernel
     #   jupyter-client
-regex==2024.4.16
+regex==2024.4.28
     # via transformers
 requests==2.31.0
     # via

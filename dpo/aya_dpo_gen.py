@@ -37,7 +37,7 @@ ARGILLA_WORKSPACE_NAME = "admin"  # Argilla workspace name
 # Dataset Configuration
 INPUT_DATASET_HUB_ID = "DIBT/aya_dataset_dutch_example"  # Input dataset hub ID (created in the previous step)
 OUTPUT_DATASET_HUB_ID = "DIBT/aya_dutch_dpo_raw"  # Output dataset hub ID
-SPLIT = "train"
+SPLIT = "test"
 
 HUGGINGFACE_TOKEN = os.getenv("HF_API_KEY")
 assert (
@@ -51,16 +51,17 @@ assert (
     ARGILLA_API_KEY is not None
 ), "Please set the ARGILLA_API_KEY environment variable or pass it as a parameter"
 
-# Initialize the Argilla client
-rg.init(
-    api_url=ARGILLA_SPACE_URL, api_key=ARGILLA_API_KEY, workspace=ARGILLA_WORKSPACE_NAME
-)
 
-
-def remove_existing_dataset(ARGILLA_DATASET_NAME: str):
+def remove_existing_dataset(argilla_dataset_name: str):
     """Remove an existing dataset from Argilla. This is useful when re-running the pipeline."""
     try:
-        argilla_ds = rg.FeedbackDataset.from_argilla(ARGILLA_DATASET_NAME)
+        # Initialize the Argilla client
+        rg.init(
+            api_url=ARGILLA_SPACE_URL,
+            api_key=ARGILLA_API_KEY,
+            workspace=ARGILLA_WORKSPACE_NAME,
+        )
+        argilla_ds = rg.FeedbackDataset.from_argilla(argilla_dataset_name)
         argilla_ds.delete()
     except ValueError as e:
         print(e)
@@ -77,7 +78,7 @@ def language_predict(inputs: StepInput) -> StepOutput:
     """
     for input in inputs:
         try:
-            cleaned_input = input.replace("\n", " ")
+            cleaned_input = input["generation"].replace("\n", " ")
             resp = InferenceClient("laurievb/OpenLID").text_classification(
                 cleaned_input
             )
@@ -113,24 +114,47 @@ def update_argilla_dataset_with_metadata(
     # by default, we add the predicted generation language and response source
     if metadata_keys is None:
         metadata_keys = ["predicted_generation_language", "generation_models"]
-    dataset = rg.FeedbackDataset.from_argilla(
+    argilla_ds = rg.FeedbackDataset.from_argilla(
         dataset_name,
         workspace=workspace,
     )
-
     metadata_values = [hub_dataset[key] for key in metadata_keys]
-
-    if any(len(values) != len(dataset.records) for values in metadata_values):
+    if any(len(values) != len(argilla_ds.records) for values in metadata_values):
         raise ValueError(
-            f"Number of metadata values does not match the number of records ({len(dataset.records)})"
+            f"Number of metadata values does not match the number of records ({len(argilla_ds.records)})"
         )
-
     modified_records = []
-    for record, *metadata in zip(dataset.records, *metadata_values):
+    for record, *metadata in zip(argilla_ds.records, *metadata_values):
         for key, value in zip(metadata_keys, metadata):
             record.metadata[key] = value
         modified_records.append(record)
-    dataset.update_records(modified_records)
+    argilla_ds.update_records(modified_records)
+    try:
+        add_language_filters_to_argilla_ds(dataset_name, workspace)
+    except Exception as e:
+        print(e)
+
+
+# TODO Rename this here and in `update_argilla_dataset_with_metadata`
+def add_language_filters_to_argilla_ds(dataset_name, workspace):
+    argilla_ds = rg.FeedbackDataset.from_argilla(
+        dataset_name,
+        workspace=workspace,
+    )
+    langs = {
+        record.metadata.get("predicted_generation_language")
+        for record in argilla_ds.records
+    }
+    terms_metadata_property = rg.TermsMetadataProperty(
+        name="language", title="Predicted generation language", values=list(langs)
+    )
+    argilla_ds.add_metadata_property(terms_metadata_property)
+    modified_records = list(argilla_ds.records)
+    for record in modified_records:
+        record.metadata["language"] = record.metadata.get(
+            "predicted_generation_language"
+        )
+    argilla_ds.update_records(modified_records)
 
 
 system_prompt = """Je bent een AI-assistent. Je primaire taal is Nederlands. Beantwoord de meeste vragen en prompts in het Nederlands, tenzij specifiek gevraagd wordt om een andere taal te gebruiken.
@@ -181,29 +205,14 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
         name="ultrafeedback", aspect="overall-rating", llm=llm
     )
     combine_columns.connect(ultrafeedback)
-    # to_argilla = PreferenceToArgilla(
-    #     name="to_argilla",
-    #     dataset_name=ARGILLA_DATASET_NAME,
-    #     api_url=ARGILLA_SPACE_URL,
-    #     api_key=ARGILLA_API_KEY,
-    #     dataset_workspace=ARGILLA_WORKSPACE_NAME,
-    #     num_generations=2,
-    # )
-    to_argilla = CustomPreferenceToArgilla(
+    to_argilla = PreferenceToArgilla(
         name="to_argilla",
         dataset_name=ARGILLA_DATASET_NAME,
         api_url=ARGILLA_SPACE_URL,
         api_key=ARGILLA_API_KEY,
         dataset_workspace=ARGILLA_WORKSPACE_NAME,
         num_generations=2,
-        metadata_properties=[
-            rg.TermsMetadataProperty(name="predicted_generation_language"),
-            rg.FloatMetadataProperty(
-                name="predicted_generation_language_score", min=0.0, max=1.0
-            ),
-        ],
     )
-
     ultrafeedback.connect(to_argilla)
 
 if __name__ == "__main__":
@@ -238,7 +247,7 @@ if __name__ == "__main__":
     print("Updating Argilla dataset with extra metadata...")
     try:
         hub_dataset = load_dataset(OUTPUT_DATASET_HUB_ID, split="train")
-        languages = hub_dataset["predicted_generation_language"]
+        # languages = hub_dataset["predicted_generation_language"]
         update_argilla_dataset_with_metadata(
             dataset_name=ARGILLA_DATASET_NAME,
             workspace=ARGILLA_WORKSPACE_NAME,

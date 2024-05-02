@@ -3,10 +3,15 @@ from typing import TYPE_CHECKING, Any, Dict, List
 
 import argilla as rg
 from distilabel.steps import PreferenceToArgilla, StepInput
-from typing_extensions import override
 
 if TYPE_CHECKING:
-    from distilabel.steps.typing import StepOutput
+    from distilabel.steps.typing import (
+        RatingQuestion,
+        StepOutput,
+        TextQuestion,
+    )
+    from typing import Union
+    from typing_extensions import override
 
 
 class CustomPreferenceToArgilla(PreferenceToArgilla):
@@ -34,6 +39,19 @@ class CustomPreferenceToArgilla(PreferenceToArgilla):
             else:
                 break
             self._rg_dataset.add_metadata_property(metadata_property)  # type: ignore
+
+    def _rating_rationale_pairs(
+        self,
+    ) -> List[Union["RatingQuestion", "TextQuestion"]]:
+        questions = super()._rating_rationale_pairs()
+        questions.append(
+            rg.TextQuestion(  # type: ignore
+                name="improved_response",
+                title="How would you improve the response?",
+                required=False,
+            )
+        )
+        return questions
 
     @override
     def process(self, inputs: StepInput) -> "StepOutput":  # type: ignore

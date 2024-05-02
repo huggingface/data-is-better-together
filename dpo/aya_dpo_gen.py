@@ -34,7 +34,7 @@ MAX_NEW_TOKENS = 2000  # Maximum number of new tokens to generate
 # Inference Endpoints Configuration
 # INFERENCE_ENDPOINTS_URL = "https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-70B-Instruct"  # Inference endpoints URL
 # ENDPOINT_NAME = "meta-llama/Meta-Llama-3-70B-Instruct"
-INPUT_BATCH_SIZE = 5  # Input batch size for the model via the Inference Endpoints API, you can adjust this based on the model's requirements and the hardware you are using to deploy the model
+INPUT_BATCH_SIZE = 10  # Input batch size `for the model via the Inference Endpoints API, you can adjust this based on the model's requirements and the hardware you are using to deploy the model
 
 # Argilla Configuration
 ARGILLA_SPACE_URL = "https://dibt-demo-argilla-space.hf.space"  # Argilla Space URL
@@ -169,7 +169,6 @@ with Pipeline(name="generate-dpo-responses") as pipeline:
         model_display_name=MODEL_ID,
         api_key=HUGGINGFACE_TOKEN,
     )
-
     # Generate responses using the model
     text_generation = DutchTextGeneration(
         name="text_generation",

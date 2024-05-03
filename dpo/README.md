@@ -4,7 +4,9 @@
 
 # Generating DPO/ORPO datasets for more languages
 
-Currently, many languages do not have DPO datasets openly shared on the Hugging Face Hub. The goal of this project is to help foster a community of people building more DPO datasets for different languages.
+Currently, many languages do not have DPO datasets openly shared on the Hugging Face Hub. The [DIBT/preference_data_by_language](https://huggingface.co/spaces/DIBT/preference_data_by_language) Space gives you an overview of language coverage of DPO datasets for different languages. At the time of this commit, there are 14 languages with DPO datasets available on the Hugging Face Hub.
+
+The goal of this project is to help foster a community of people building more DPO datasets for different languages.
 
 ## tl;dr what is the output of this project?
 
@@ -50,3 +52,9 @@ As part of Data Is Better Together, we're supporting the community in generating
 ## Instructions
 
 You can find more detailed instructions on how to generate a DPO/ORPO dataset for a new language in the [instructions](./instructions.md).
+
+## FAQs
+
+### I'm GPU-poor, can I still get involved?
+
+Yes! The example scripts in this repository use Hugging Face Inference Endpoints for the inference component. This means you can run the scripts on your local machine without needing a GPU. We can provide you with GPU grants to run the `distilabel` script if you need them. Please reach out to us on the Hugging Face Discord server if you need a GPU grant. **Note** we will want to ensure that you have a plan for how you will use the GPU grant before providing it, in particular, we'll want to see that you have set up an Argilla Space for your project already and have already done some work to identify the language you want to work on and the models you want to use.

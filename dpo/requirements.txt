@@ -219,7 +219,7 @@ tornado==6.4
     # via
     #   ipykernel
     #   jupyter-client
-tqdm==4.66.2
+tqdm==4.66.4
     # via
     #   argilla
     #   datasets

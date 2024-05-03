@@ -10,7 +10,10 @@ Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argil
 
 ## What have we done so far?
 
-The community has created a dataset of 10k prompts [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked) ranked by quality as part of Data is Better Together.
+- The community has created a dataset of 10k prompts [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked) ranked by quality as part of Data is Better Together.
+- The community has translated these prompts into the following languages (see [here](https://github.com/huggingface/data-is-better-together?tab=readme-ov-file#contribute-translations) for current efforts) 
+    - [Dutch](https://huggingface.co/datasets/DIBT/MPEP_DUTCH)
+ 
 
 ## What are we currently working on?
 

@@ -56,6 +56,12 @@ There are not enough language-specific benchmarks for open LLMs! We want to crea
 
 This project aims to bootstrap the creation of more domain-specific datasets for training models. The goal is to create a set of tools that help users to collaborate with domain experts. Find out more in the [Domain Specific Datasets README.](domain-specific-datasets/README.md)
 
+### 4. DPO/ORPO datasets for more languages 
+
+Currently, many languages do not have DPO datasets openly shared on the Hugging Face Hub. The DIBT/preference_data_by_language Space gives you an overview of language coverage of DPO datasets for different languages. At the time of this commit, there are 14 languages with DPO datasets available on the Hugging Face Hub.
+
+The goal of this project is to help foster a community of people building more DPO datasets for different languages. Find out more in this [DPO/ORPO datasets README](dpo/README.md).
+
 ## Other guides
 
 The Data is Better Together community has created several guides to support efforts to create valuable datasets via the open source community. Currently, we have the following guides:

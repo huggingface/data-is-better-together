@@ -1,0 +1,7 @@
+distilabel
+argilla==1.27.0
+ipykernel
+python-dotenv
+transformers
+ipywidgets
+huggingface_hub

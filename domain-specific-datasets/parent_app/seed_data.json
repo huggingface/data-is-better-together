@@ -1,0 +1,16 @@
+{
+  "domain": "farming",
+  "perspectives": [
+    "Family Farming"
+  ],
+  "topics": [
+    "animal welfare"
+  ],
+  "examples": [
+    {
+      "question": "Compare and contrast the environmental footprint of industrial and small-scale farming.",
+      "answer": "Regenerative agriculture practices aim to restore soil health through methods that increase soil organic matter, enhance microbial activity, and improve soil structure. These practices include no-till farming, cover cropping, diverse crop rotations, and integrated livestock management. According to LaCanne and Lundgren (2018), soil health improves due to increased biodiversity and organic matter, enhancing its water retention and nutrient efficiency. Moreover, Jones (2012) in \"Soil carbon & organic farming\" reports that these practices significantly elevate biodiversity, both above and below the soil surface, promoting resilient ecosystems and agroecological balances."
+    }
+  ],
+  "domain_expert_prompt": "You will be asked about family farming and agribusiness related topics, from different perspectives.\n Your answer should be logical and supported by facts, don't fabricate arguments. \n Try to gather a diverse point of view taking into account current theories in agronomy, biology, economics, anthropology and ecology."
+}

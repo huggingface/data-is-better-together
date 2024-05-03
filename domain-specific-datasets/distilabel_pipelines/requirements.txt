@@ -1,0 +1,6 @@
+datasets
+python_dotenv
+streamlit
+huggingface_hub
+argilla
+git+https://github.com/argilla-io/distilabel.git

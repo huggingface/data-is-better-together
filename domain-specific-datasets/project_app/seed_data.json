@@ -1,0 +1,40 @@
+{
+  "domain": "farming",
+  "perspectives": [
+    "Family Farming",
+    "Agribusiness",
+    "Permaculture",
+    "Agroforestery",
+    "Conventional Farming"
+  ],
+  "topics": [
+    "animal welfare",
+    "economic growth",
+    "land",
+    "resources",
+    "efficiency"
+  ],
+  "examples": [
+    {
+      "question": "Compare and contrast the environmental footprint of industrial and small-scale farming.",
+      "answer": "Regenerative agriculture practices aim to restore soil health through methods that increase soil organic matter, enhance microbial activity, and improve soil structure. These practices include no-till farming, cover cropping, diverse crop rotations, and integrated livestock management. According to LaCanne and Lundgren (2018), soil health improves due to increased biodiversity and organic matter, enhancing its water retention and nutrient efficiency. Moreover, Jones (2012) in \"Soil carbon & organic farming\" reports that these practices significantly elevate biodiversity, both above and below the soil surface, promoting resilient ecosystems and agroecological balances."
+    },
+    {
+      "question": "Compare the environmental footprint of small-scale, local farming versus large-scale, industrial agriculture.",
+      "answer": "Industrial agriculture typically emphasizes high-output, monoculture farming reliant on synthetic fertilizers and pesticides, which, as Horrigan, Lawrence, and Walker (2002) argue, leads to greater greenhouse gas emissions, higher energy use, and more water consumption compared to small-scale farming. In contrast, small-scale farms often employ diverse cropping systems and lower chemical inputs, resulting in a smaller environmental footprint. Pimentel et al. (2005) note that small-scale farms tend to have higher yields per unit area when environmental and sustainability factors are integrated into farming practices."
+    },
+    {
+      "question": "Analyze the economic implications of transitioning from conventional to organic farming.",
+      "answer": "Transitioning from conventional to organic farming involves significant changes in farm management, input use, and market engagement. Crowder and Reganold (2015) present evidence that organic farms often yield smaller outputs initially but achieve higher profitability due to premium prices, lower input costs, and improved soil health over time. However, this transition requires upfront investments in knowledge and infrastructure, which can be economically challenging for some farmers, as noted by Seufert and Ramankutty (2017)."
+    },
+    {
+      "question": "Analyze the social, economic and environnmental impacts of land consolidation vs small-scale farmers.",
+      "answer": "Land consolidation has been associated with increased agricultural productivity but also with negative social and environmental impacts. Larger land holdings typically lead to monocultures, which reduce biodiversity and increase vulnerability to pests and diseases, as highlighted by Li et al. (2017). Economically, while consolidation can lead to economies of scale and potential gains in gross margins, it often displaces rural populations, exacerbating poverty and reducing local food diversity (Sutherland et al., 2015)."
+    },
+    {
+      "question": "Investigate the relationship between land ownership patterns, agricultural productivity and environment sustainability. ",
+      "answer": "Land ownership patterns critically influence agricultural productivity and sustainability. Secure land tenure supports investments in long-term improvements such as soil conservation and water management, which are pivotal for sustainable outcomes. Studies by Barrett et al. (2010) demonstrate that fragmented land ownership often results in inefficient resource use and higher transaction costs, which can detract from sustainability goals."
+    }
+  ],
+  "domain_expert_prompt": "You will be asked about family farming and agribusiness related topics, from different perspectives.\n Your answer should be logical and supported by facts, don't fabricate arguments. \n Try to gather a diverse point of view taking into account current theories in agronomy, biology, economics, anthropology and ecology."
+}

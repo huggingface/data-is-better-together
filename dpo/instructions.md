@@ -169,4 +169,20 @@ This will allow you to quickly filter the responses and focus on the ones that a
 > [!TIP]
 > If the LLM judge is doing a good job you may choose to only annotate a subset of the responses. If the LLM judge is not doing a good job you may choose to annotate all of the responses. This will give you a sense of how well the LLM judge is doing and how much work is required to get a good dataset. If you setup Argilla with HF OAuth enabled you can also share the dataset with the community and get help with the annotation!
 
+This video shows some of the features available in the Argilla interface:
+
 https://github.com/huggingface/data-is-better-together/assets/8995957/f597ee36-a15a-4746-873c-6e13f97db5de
+
+## 5. Load the annotated dataset and generate the final DPO/ORPO dataset
+
+The [02_load_from_argilla.ipynb](./02_load_from_argilla.ipynb) notebook walks through the process of loading the annotated dataset from Argilla and generating the final DPO/ORPO dataset. This notebook will also give you a chance to explore the annotated dataset and get a sense of the preferences that have been assigned to each response. You will likely want to adapt this notebook to your use case but it should provide a good starting point.
+
+## (optional) Share your scripts with the community
+
+To help others generate DPO/ORPO datasets for more languages, you can share your scripts with the community. You can do this by creating a pull request to the overall [README](../README.md) for this project. You can already see some examples of how this has been done for the Dutch example. You can either directly add your scripts, notebooks etc to a subfolder of the `dpo` folder or you can add a link to a repository where you have stored your scripts.
+
+## (optional) Train a model using the generated DPO/ORPO dataset and push forward the state of the art in your language 🚀
+
+[The Alignment Handbook](https://github.com/huggingface/alignment-handbook) has a great guide on how to train a model using a DPO/ORPO dataset.
+
+Alternatively, if you prefer to take a more hands of approach you could try using [AutoTrain](https://github.com/huggingface/autotrain-advanced) to train a model using the generated DPO/ORPO dataset. AutoTrain is a tool that allows you to train a model using a dataset and a configuration file.

@@ -139,7 +139,13 @@ This custom system prompt is passed to the model along with the prompt and the m
 
 Since we are running on Inference Endpoints, the script will use the Hugging Face Inference API to generate the responses. This means most of the heavy computation is happening on the Hugging Face servers and you don't need to have a powerful machine to run the script.
 
-The script will generate a second response for each prompt in the filtered Aya dataset. The responses will be saved to a new dataset. The script will also generate an LLM ranking for each response. It is an open question how well LLMs will do as judges for non English languages. For Dutch the LLM rankings seem pretty good using LLama 3. If after doing a few runs it seems like the LLM rankings are not very good, you could remove this step from the pipeline.
+You can run the script by running the following command:
+
+```bash
+python aya_dpo_gen.py
+```
+
+The script will generate a second response for each prompt in the filtered Aya dataset. The responses will be saved to a Huggingface dataset at the end of the run. The script will also generate an LLM ranking for each response. It is an open question how well LLMs will do as judges for non English languages. For Dutch the LLM rankings seem pretty good using LLama 3. If after doing a few runs it seems like the LLM rankings are not very good, you could remove this step from the pipeline.
 
 > [!TIP]
 > Whilst the LLM judge may not be very good it may still be worth keeping that in the pipeline. When you annotate the data in Argilla you can use the LLM ranking as a starting point and assign a human ranking. This will also give you a sense of how well the LLM judge is doing. This alone could be a valuable contribution to the community.

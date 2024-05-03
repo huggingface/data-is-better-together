@@ -30,7 +30,9 @@ There are not enough language-specific benchmarks for open LLMs! We want to crea
 #### Contribute translations
 
 *Want to contribute translations?* Currently, these translation efforts are underway:
-
+<details>
+  <summary>Current Translation Efforts</summary>
+  
 - [Dutch](https://dibt-dutch-prompt-translation-for-dutch.hf.space)
 - [Russian](https://dibt-russian-prompt-translation-for-russian.hf.space)
 - [Tagalog](https://dibt-filipino-prompt-translation-for-filipino.hf.space/)
@@ -45,6 +47,7 @@ There are not enough language-specific benchmarks for open LLMs! We want to crea
 - [Portuguese](https://dibt-portuguese-prompt-translation-for-portuguese.hf.space)
 - [Cantonese](https://dibt-cantonese-prompt-translation-for-cantonese.hf.space/)
 - [Slovak](https://dibt-slovak-prompt-translation-for-slovak.hf.space/)
+</details>
 
 *Want to work on a language that's not listed?* You can follow the steps to set up a new annotation effort by going to `prompt_translation/` and checking out the three notebooks:
 

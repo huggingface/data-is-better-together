@@ -203,7 +203,7 @@ if all(
             hub_username=hub_username,
             hub_token=hub_token,
             project_name=project_name,
-        )
+        )   
 
     st.success(
         f"Pipeline configuration pushed to the dataset repo {hub_username}/{project_name} on the Hub."

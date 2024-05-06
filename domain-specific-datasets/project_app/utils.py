@@ -1,4 +1,4 @@
-from textwrap import dedent
+import os
 
 import streamlit as st
 
@@ -31,8 +31,10 @@ def project_sidebar():
     st.session_state["project_name"] = project_name
     st.session_state["hub_username"] = hub_username
     st.session_state["hub_token"] = st.sidebar.text_input(
-        "Hub Token", type="password", value=None
+        "Hub Token", type="password", value=os.environ.get("HF_TOKEN", None)
     )
+    if st.session_state["hub_token"] is not None:
+        os.environ["HF_TOKEN"] = st.session_state["hub_token"]
     st.sidebar.link_button(
         "🤗 Get your Hub Token", "https://huggingface.co/settings/tokens"
     )
@@ -64,19 +66,21 @@ def create_seed_terms(topics: list[str], perspectives: list[str]) -> list[str]:
     ]
 
 
-def create_application_instruction(domain: str, examples: list[dict[str, str]]) -> str:
+def create_application_instruction(
+    domain: str, system_prompt: str, examples: list[dict[str, str]]
+) -> str:
     """Create the instruction for Self-Instruct task."""
-    system_prompt = dedent(
-        f"""You are an AI assistant than generates queries around the domain of {domain}.
-            Your should not expect basic but profound questions from your users.
-            The queries should reflect a diversxamity of vision and economic positions and political positions.
-            The queries may know about different methods of {domain}.
-            The queries can be positioned politically, economically, socially, or practically.
-            Also take into account the impact of diverse causes on diverse domains."""
-    )
+    system_prompt = f"""AI assistant in the domain of {domain}. {system_prompt}"""
+    examples_str = ""
     for example in examples:
         question = example["question"]
         answer = example["answer"]
-        system_prompt += f"""\n- Question: {question}\n- Answer: {answer}\n"""
-
+        if len(answer) and len(question):
+            examples_str += f"""\n- Question: {question}\n- Answer: {answer}\n"""
+            examples_str += f"""\n- Question: {question}\n- Answer: {answer}\n"""
+    if len(examples_str):
+        system_prompt += """Below are some examples of questions and answers \
+                            that the AI assistant would generate:"""
+        system_prompt += "\nExamples:"
+        system_prompt += f"\n{examples_str}"
     return system_prompt

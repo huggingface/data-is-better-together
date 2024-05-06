@@ -121,6 +121,8 @@ if __name__ == "__main__":
     domain_expert_num_generations = params.get("domain_expert_num_generations", 2)
     self_instruct_temperature = params.get("self_instruct_temperature", 0.9)
     domain_expert_temperature = params.get("domain_expert_temperature", 0.9)
+    self_instruct_max_new_tokens = params.get("self_instruct_max_new_tokens", 2048)
+    domain_expert_max_new_tokens = params.get("domain_expert_max_new_tokens", 2048)
 
     if not all(
         [
@@ -213,7 +215,7 @@ if __name__ == "__main__":
             "self_instruct": {
                 "llm": {
                     "generation_kwargs": {
-                        "max_new_tokens": 2048,
+                        "max_new_tokens": self_instruct_max_new_tokens,
                         "temperature": self_instruct_temperature,
                     },
                 }
@@ -221,7 +223,7 @@ if __name__ == "__main__":
             "domain_expert": {
                 "llm": {
                     "generation_kwargs": {
-                        "max_new_tokens": 2048,
+                        "max_new_tokens": self_instruct_max_new_tokens,
                         "temperature": domain_expert_temperature,
                     },
                 }

@@ -10,7 +10,7 @@ C --> D[UltraFeedback is used to rank responses]
 D --> E[Validate preferences using Argilla]
 ```
 
-## The resources and tools we'll be using
+## Prerequisites
 
 - [CohereForAI/aya_dataset](https://huggingface.co/datasets/CohereForAI/aya_dataset): a dataset of human-annotated prompt-completion pairs across 71 languages.
 - [`distilabel`](https://github.com/argilla-io/distilabel/): a library for generating synthetic datasets.
@@ -21,7 +21,7 @@ D --> E[Validate preferences using Argilla]
 
 To make things a bit easier, we'll start by filtering the Aya dataset to focus on the language you are interested in. This will make it easier to generate new responses using inference endpoints. Aya includes data for 71 languages, so hopefully you'll be able to find the language you are interested in. If not, feel free to reach out on the Hugging Face Discord server to see if there are other resources available for your language and we can help you get started.
 
-For this step you can use the [dataset prep](./01_datasets_prep.ipynb) notebook to filter the Aya dataset to the language you are interested in. This notebook also gives you a chance to explore the Aya dataset a little bit more and get a sense of the data you'll be working with.
+For this step you can use the [dataset prep](cookbook-efforts/dpo/01_data_prep.ipynb) notebook to filter the Aya dataset to the language you are interested in. This notebook also gives you a chance to explore the Aya dataset a little bit more and get a sense of the data you'll be working with.
 
 ## 2. Identify a strong base model for your language
 
@@ -42,13 +42,13 @@ The serverless option doesn't require any setup but is restricted to a smaller s
 > [!TIP]
 > If you are able to use the serverless option, it is the easiest way to get started. You can find more information on how to use the serverless option in the [docs](https://huggingface.co/docs/inference-endpoints/index). You will have higher rate limits with a Pro account. If you are using a free account, you will have a lower rate limit.
 
-The dedicated endpoints option allows a large number of the models on the Hugging Face Hub to be deployed. This option requires a bit more setup but is more flexible. You can find more information on how to set up an endpoint in the [docs](https://huggingface.co/docs/inference-endpoints/index). We recommend you consider the following when setting up an endpoint:
-
-- Scaling to zero after a period of inactivity. This can be defined in the settings of the endpoint when you are creating it or updated later. This will ensure you are not charged for the endpoint when it is not in use.
-- Some models will require a [custom inference handler](https://huggingface.co/docs/inference-endpoints/guides/custom_handler). This won't be necessary for many models but is something to keep in mind.
+The dedicated endpoints option allows a large number of the models on the Hugging Face Hub to be deployed. This option requires a bit more setup but is more flexible. You can find more information on how to set up an endpoint in the [docs](https://huggingface.co/docs/inference-endpoints/index).
 
 > [!WARNING]
 > Be aware that you will be charged for the use of the Inference Endpoints. You can find more information on the pricing in the [pricing docs](https://huggingface.co/docs/inference-endpoints/pricing). It is very strongly recommend to enable the autoscaling option when setting up the endpoint to avoid unnecessary charges.
+
+> [!WARNING]
+> Although we used the dedicated endpoints in this example, we highly recommend you to use the serverless option. If you need to run an unavailable model, you can easily use them with [other frameworks](https://distilabel.argilla.io/latest/components-gallery/llms/) such as Ollama or vLLM.
 
 ## 3. Use `distilabel` to generate a second response for each prompt in the filtered Aya dataset
 
@@ -88,7 +88,7 @@ We will use the `distilabel` library to generate a second response for each prom
 
 Use the `aya_dpo_gen.py` script to generate a second response for each prompt in the filtered Aya dataset. This script will use the strong base model identified in step 2 to generate the second response. This script is fairly heavily commented so you should be able to follow along with what is happening. I will highlight a few key points.
 
-At the top of the script is a section for configuration. You should update the configuration to match your setup. Here is an example of the configuration section:
+At the top of the script, there is a section for configuration. You should update the configuration to match your setup. Here is an example of the configuration section:
 
 ```python
 # Model Configuration
@@ -109,6 +109,9 @@ INPUT_DATASET_HUB_ID = "DIBT/aya_dataset_dutch_example"  # Input dataset hub ID 
 OUTPUT_DATASET_HUB_ID = "DIBT/aya_dutch_dpo_raw"  # Output dataset hub ID
 SPLIT = "test"  # Split of the dataset to use. Start with test whilst you are testing the pipeline and then switch to train when you are ready to generate the full dataset
 ```
+
+> [!WARNING]
+> Although we used the dedicated endpoints in this example, we highly recommend you to use the serverless option. If you need to run an unavailable model, you can easily use them with [other frameworks](https://distilabel.argilla.io/latest/components-gallery/llms/) such as Ollama or vLLM.
 
 If you are using the serverless option for the Inference Endpoints, you only need to pass the model ID. If you are using the dedicated endpoints option, you will need to pass the Inference Endpoints URL and the endpoint name.
 
@@ -179,7 +182,7 @@ The [02_load_from_argilla.ipynb](./02_load_from_argilla.ipynb) notebook walks th
 
 ## (optional) Share your scripts with the community
 
-To help others generate DPO/ORPO datasets for more languages, you can share your scripts with the community. You can do this by creating a pull request to the overall [README](../README.md) for this project. You can already see some examples of how this has been done for the Dutch example. You can either directly add your scripts, notebooks etc to a subfolder of the `dpo` folder or you can add a link to a repository where you have stored your scripts.
+To help others generate DPO/ORPO datasets for more languages, you can share your scripts with the community. You can do this by creating a pull request to the overall [README](./README.md) for this project. You can already see some examples of how this has been done for the Dutch example. You can either directly add your scripts, notebooks etc to a subfolder of the `dpo` folder or you can add a link to a repository where you have stored your scripts.
 
 ## (optional) Train a model using the generated DPO/ORPO dataset and push forward the state of the art in your language 🚀
 

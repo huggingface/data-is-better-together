@@ -20,14 +20,13 @@ The goal of this project is to share and collaborate with domain experts to crea
 
 🧑🏻‍🔧 If you are an (inspiring) Machine Learning engineer, you can set up the project and its tools. You can run the synthetic data generation pipelines. And maybe even get around to training models.
 
-
 ## Project Overview
 
 ### 1. Select a domain and find collaborators
 
-We start by selecting a domain and finding collaborators who can help us to create the dataset. 
+We start by selecting a domain and finding collaborators who can help us to create the dataset.
 
-🧑🏼‍🔬 If you are a domain expert, you could find an ML engineer to help you to create the dataset. 
+🧑🏼‍🔬 If you are a domain expert, you could find an ML engineer to help you to create the dataset.
 
 🧑🏻‍🔧 If you are an ML engineer, you could find a domain expert to help you to create the dataset.
 
@@ -35,7 +34,7 @@ We start by selecting a domain and finding collaborators who can help us to crea
 
 ### 2. Setup your project
 
-First you need o setup the project and its tools. For this, we use [this application](https://huggingface.co/spaces/argilla/domain-specific-datasets-welcome). 
+First you need o setup the project and its tools. For this, we use [this application](https://huggingface.co/spaces/argilla/domain-specific-datasets-welcome).
 
 ### 3. Define the domain knowledge
 
@@ -81,11 +80,11 @@ Here's a video guide that walks you through the process from end-to-end.
 
 [![Walkthrough](https://cdn-uploads.huggingface.co/production/uploads/62d648291fa3e4e7ae3fa6e8/2e-QzuIv2dtkaPKL446yi.png)](https://www.loom.com/embed/99f32d7882764d9d8f4dc6ce3d824319?sid=c273876f-6715-4491-a79d-a27220e7a7d8)
 
-### Run the `distilabel` pipeline 
+### Run the `distilabel` pipeline
 
 st.markdown("## Run the pipeline")
 
-With the pipeline configuration define in the app and pushed to the dataset repo {hub_username}/{project_name}, you can run the pipeline via this repo.
+With the pipeline configuration defined in the app and pushed to the dataset repo {hub_username}/{project_name}, you can run the pipeline via this repo.
 
 You'll need to change directory, install dependencies, and log in to the Hugging Face Hub. You can do this by running the following commands:
 
@@ -101,16 +100,8 @@ Then you can run the pipeline using the following command:
 python domain_expert_pipeline.py {hub_username}/{project_name}""",
 ```
 
-
 ### Project Structure
 
 - `app/` : A streamlit app to help domain experts to define seed data like system prompt and topics, by creating an empty dataset on the hub.
 - `distilabel_pipelines/domain_expert_pipeline.py` : The distilabel pipeline code that is used to create the dataset.
 - `scripts/` : Adhoc scripts that we used to ease annotation with vector search.
-### Example Farming Project
-
-Here are examples of the resources for our farming example:
-- The seeding space: https://huggingface.co/spaces/argilla/domain-specific-seed for the domain expert.
-- The demo dataset: https://huggingface.co/datasets/argilla/farming we've created
-- The argilla space: https://huggingface.co/spaces/argilla/farming
-- The pipeline code: https://github.com/argilla-io/distilabel-workbench/tree/main/projects/farming

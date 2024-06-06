@@ -43,7 +43,7 @@ Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argil
   <details>
   <summary><strong>DPO/ORPO Datasets</strong></summary>
 
-  Many languages do not have DPO datasets openly shared on the Hugging Face Hub. The [DIBT/preference_data_by_language](https://huggingface.co/spaces/DIBT/preference_data_by_language) Space gives you an overview of language coverage of DPO datasets for different languages. The **goal** of this project is to help foster a community of people building more DPO-style datasets for different languages. Find out more in this [DPO/ORPO datasets README](cookbook-efforts/dpo/README.md).
+  Many languages do not have DPO datasets openly shared on the Hugging Face Hub. The [DIBT/preference_data_by_language](https://huggingface.co/spaces/DIBT/preference_data_by_language) Space gives you an overview of language coverage of DPO datasets for different languages. The **goal** of this project is to help foster a community of people building more DPO-style datasets for different languages. Find out more in this [DPO/ORPO datasets README](cookbook-efforts/dpo-orpo-preference/README.md).
 </details>
 
   <details>

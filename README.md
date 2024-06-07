@@ -49,7 +49,7 @@ Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argil
   <details>
   <summary><strong>KTO Datasets</strong></summary>
 
-  KTO is another type of preference dataset that can be used to train models to make decisions. Unlike DPO, it doesn't require two candidate responses. Instead, it relies on a simple binary preference i.e. 👍👎. Thus, data is easier to collect and annotate. The **goal** of this project is to help the community to create their own KTO dataset. Find out more in this [KTO datasets README](cookbook-efforts/kto-preference/README.md)
+  KTO is another type of preference dataset that can be used to train models to make decisions. Unlike DPO, it doesn't require two candidate responses. Instead, it relies on a simple binary preference, i.e. 👍👎. Thus, data is easier to collect and annotate. The **goal** of this project is to help the community create their own KTO dataset. Find out more in this [KTO datasets README](cookbook-efforts/kto-preference/README.md)
 
   </details>
   </ul>

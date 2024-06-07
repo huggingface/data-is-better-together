@@ -111,7 +111,7 @@ SPLIT = "test"  # Split of the dataset to use. Start with test whilst you are te
 ```
 
 > [!WARNING]
-> Although we used the dedicated endpoints in this example, we highly recommend you to use the serverless option. If you need to run an unavailable model, you can easily use them with [other frameworks](https://distilabel.argilla.io/latest/components-gallery/llms/) such as Ollama or vLLM.
+If you have local GPUs available, you can also adapt this approach using other [inference frameworks](https://distilabel.argilla.io/latest/components-gallery/llms/) such as Ollama or vLLM.
 
 If you are using the serverless option for the Inference Endpoints, you only need to pass the model ID. If you are using the dedicated endpoints option, you will need to pass the Inference Endpoints URL and the endpoint name.
 

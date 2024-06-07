@@ -76,7 +76,7 @@ We can use Hugging Face's free inference API to generate our haiku responses. Th
 One of our models, "NousResearch/Nous-Hermes-2-Yi-34B" is hosted using [Inference Endpoints](https://huggingface.co/inference-endpoints/dedicated) instead. In the code, this part is commented out so it should be possible to run the code without needing to set up dedicated inference endpoints.
 
 > [!WARNING]
-> We highly recommend you to use the serverless option. If you need to run an unavailable model, you can easily use them with [other frameworks](https://distilabel.argilla.io/latest/components-gallery/llms/) such as Ollama or vLLM.
+> If you have local GPUs available, you can also adapt this approach using other [inference frameworks](https://distilabel.argilla.io/latest/components-gallery/llms/) such as Ollama or vLLM.
 
 #### The dataset produced
 

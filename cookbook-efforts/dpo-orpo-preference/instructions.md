@@ -48,7 +48,7 @@ The dedicated endpoints option allows a large number of the models on the Huggin
 > Be aware that you will be charged for the use of the Inference Endpoints. You can find more information on the pricing in the [pricing docs](https://huggingface.co/docs/inference-endpoints/pricing). It is very strongly recommend to enable the autoscaling option when setting up the endpoint to avoid unnecessary charges.
 
 > [!WARNING]
-> Although we used the dedicated endpoints in this example, we highly recommend you to use the serverless option. If you need to run an unavailable model, you can easily use them with [other frameworks](https://distilabel.argilla.io/latest/components-gallery/llms/) such as Ollama or vLLM.
+> If you have local GPUs available, you can also adapt this approach using other [inference frameworks](https://distilabel.argilla.io/latest/components-gallery/llms/) such as Ollama or vLLM.
 
 ## 3. Use `distilabel` to generate a second response for each prompt in the filtered Aya dataset
 

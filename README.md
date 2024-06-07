@@ -54,6 +54,6 @@ Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argil
   </details>
   </ul>
 
-**🤝​ How can I contribute to the cookbook efforts?** That's easy! You can contribute by following the instructions in the README of the project you are interested in. The, share your results with the community!
+**🤝​ How can I contribute to the cookbook efforts?** That's easy! You can contribute by following the instructions in the README of the project you are interested in. Then, share your results with the community!
 
 </details>

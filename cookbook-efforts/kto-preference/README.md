@@ -2,15 +2,18 @@
   <img src="assets/b822ac33-a10e-4da7-a36a-682b96d1fe0e.webp" width="500px"/>
 </p>
 
-# Creating a KTO Preference dataset
+# KTO Dataset Project
 
-The goal of this project is to help foster a community of people building more KTO datasets for different languages or the domains they are interested in.
+The KTO Dataset Project aims to create more preference data according to the KTO format. With the provided tools, the community will be able to easily generate a KTO dataset in any language or domain they are interested in. This type of preference data is easier to collect than others like DPO, and can be used to train models to better align with human preferences. By following two simple steps, you will be able to create your KTO dataset.
 
-## Introduction
+## What is the goal of this project?
 
-Here we walk through one possible approach to leveraging a community to collectively create a preference dataset. If you already now what a preference dataset is, differences between DPO/KTO and are just looking for a way to create one, you can skip to the next section.
+The goal of this project is to create more KTO datasets for different languages or domains. This will help the community to train models that better align with human preferences. The project will provide the tools and resources to easily generate a KTO dataset.
 
-### What is a preference dataset?
+### Why do we need more KTO datasets?
+
+<details>
+<summary><strong>What is a preference dataset?</strong></summary>
 
 Preference tuning is a step often performed when creating a chat/instruction following model with the goal of more closely aligning the model's outputs with the "human preferences" (or more accurately one set of human preferences). Often this is done through some form of reinforcement learning. Increasingly instead of having a separate reward model, we can use a preference dataset to directly train the model. Two prominent approaches to this are:
 
@@ -24,8 +27,10 @@ We won't dive into all of the technical details here but instead focus on what t
 - Rank/rate the responses to the prompts
 
 We'll use the example of haiku here but this could be any kind of text generation task.
+</details>
 
-### DPO vs KTO
+<details>
+<summary><strong>What is the difference between DPO vs KTO?</strong></summary>
 
 Whilst both DPO and KTO are methods for preference tuning (and sound like things that would be shouted at the end of a street fighter level), they differ in the kinds of data they require. DPO requires a preference dataset where we have two sets of responses with one "chosen" and one "rejected". We can take a look at a screenshot from a dataset server of a DPO dataset below:
 
@@ -36,14 +41,18 @@ As you can see, we have one column containing "chosen" responses and another con
 There are different ways we could do this. We could ask humans to rate the haiku on a scale of 1-5, we could ask them to pick their favorite haiku from a set of 5, we could ask them to rank the haiku from best to worst etc. One disadvantage of DPO is that generating this kind of data from humans is quite cognitively demanding. It can be hard to compare two things and say which one is better and even with an optimized interface, it can be quite time-consuming. This is where KTO can provide an alternative.
 
 In contrast to DPO, KTO doesn't require two candidate responses i.e. "chosen" and "rejected". Instead, it can rely on a simple binary preference i.e. 👍👎. This is arguably much easier for an annotator to create.
+</details><br>
 
-### Why should we generate responses to prompts?
+As we know, preference data is crucial for training models that better align with human preferences. However, collecting this DPO-formatted data can be time-consuming and expensive. This is where KTO datasets come in. KTO datasets are easier to collect than DPO datasets as they only require a prompt-response dataset with binary preference i.e. 👍👎. By creating more KTO datasets, we aim to improve our models more simply.
 
+<details open>
+<summary><strong>Why should we generate responses to prompts?</strong></summary>
 We could of course collect all of our preferences data by hand i.e. we could write a prompt like: "Write a recipe for banana bread" and then write two sets of responses one which we prefer over the other. However, this is time-consuming and not scalable. Instead, we can use a model to generate responses to our prompts and then use human feedback to determine which response we prefer. In our case, we can ask different LLMs to write haiku based on a prompt and then ask humans to rate the haiku.
 
 ![preference data](assets/dpo.png)
+</details>
 
-### How can you contribute?
+## How can you contribute?
 
 As part of Data Is Better Together, we're supporting the community in generating more KTO datasets for different languages or the domains they are interested in. If you would like to help, you can follow the steps below to generate a KTO dataset. There are already many communities working together on the Hugging Face Discord server, so you can also join the server to collaborate with others on this project 🤗.
 

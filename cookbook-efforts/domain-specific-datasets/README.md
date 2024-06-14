@@ -1,20 +1,18 @@
 # Domain Specific Dataset Project
 
-This is project to bootstrap the creation of domain-specific datasets for training models. The goal is to create a set of tools that help users to collaborate with domain experts.
+The domain specific dataset project aims to bootstrap the creation of domain-specific datasets for training models. The creation of this set of tools will help users to collaborate with domain experts. This can be really significant as models are trained on large-scale datasets that are often biased, incomplete, or unrepresentative. By simply joining forces between domain experts and ML engineers, we can plant the seed to generate meaningful data.
 
-## Collaboration
-
-### Why we need domain specific datasets?
-
-LLMs are increasingly used as economical alternatives to human participants across various domains such as computational social science, user testing, annotation tasks, and opinion surveys. However, the utility of LLMs in replicating specific human nuances and expertises is limited by inherent training constraints. Models are trained on large-scale datasets that are often biased, incomplete, or unrepresentative of the diverse human experiences they aim to replicate. This problems impacts specific expert domains like as well as underrepresented groups in the training data.
-
-Also, building synthetic datasets that are representative of the domain can help to improve the performance of models in the domain.
-
-### What is the goal of this project?
+## What is the goal of this project?
 
 The goal of this project is to share and collaborate with domain experts to create domain-specific datasets that can be used to train models. We aim to create a set of tools that help users to collaborate with domain experts to create datasets that are representative of the domain. We aim to share the datasets openly on the hub and share the tools and skills to build these datasets.
 
-### How can you contribute?
+## Why do we need domain specific datasets?
+
+LLMs are increasingly used as economical alternatives to human participants across various domains such as computational social science, user testing, annotation tasks, and opinion surveys. However, the utility of LLMs in replicating specific human nuances and expertises is limited by inherent training constraints. Models are trained on large-scale datasets that are often biased, incomplete, or unrepresentative of the diverse human experiences they aim to replicate. This problem impacts specific expert domains as well as underrepresented groups in the training data.
+
+Also, building synthetic datasets that are representative of the domain can help to improve the performance of models in the domain.
+
+## How can you contribute?
 
 🧑🏼‍🔬 If you are a domain expert, you can contribute by sharing your expertise and collaborating with us to create domain-specific datasets. We're working with user-friendly, easy-to-use applications that help you define the seed data and create the dataset. We're also working on tools that help you to annotate the dataset and improve the quality of the dataset.
 

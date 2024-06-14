@@ -31,27 +31,34 @@ To make easier the translation set up for users, we also created a series of not
 
 ## What did we achieve?
 
-We started efforts to translate the prompts into several languages (shown below). Some of them successfully completed. The successful ones were [Dutch](https://huggingface.co/datasets/DIBT/MPEP_DUTCH) and [Russian](https://huggingface.co/datasets/DIBT/MPEP_RUSSIAN), and almost finished with [Spanish](https://huggingface.co/datasets/DIBT/MPEP_SPANISH). Many groups began to work on translating the prompts into other languages. You can look at the resulting datasets [here](https://huggingface.co/DIBT).
+We started efforts to translate the prompts into several languages (shown below). Some of them successfully completed. The successful ones were Dutch and Russian, and almost finished with Spanish. Many groups began to work on translating the prompts into other languages. You can look at the resulting datasets [here](https://huggingface.co/datasets?search=MPEP_).
 
 <table>
     <tr>
-        <td>Dutch</td>
-        <td>Russian</td>
-        <td>Tagalog</td>
-        <td>Spanish</td>
-        <td>Malagasy</td>
-    </tr>
-    <tr>
-        <td>Czech</td>
         <td>Arabic</td>
-        <td>French</td>
-        <td>Turkish</td>
-        <td>German</td>
+        <td>Cantonese</td>
+        <td>Czech</td>
+        <td>Dutch</td>
+        <td>Filipino</td>
     </tr>
     <tr>
-        <td>Vietnamese</td>
+        <td>French</td>
+        <td>German</td>
+        <td>Hungarian</td>
+        <td>Malagasy</td>
         <td>Portuguese</td>
-        <td>Cantonese</td>
+    </tr>
+    <tr>
+        <td>Russian</td>
         <td>Slovak</td>
+        <td>Spanish</td>
+        <td>Swahili</td>
+        <td>Tagalog</td>
+    </tr>
+    <tr>
+        <td>Tamil</td>
+        <td>Telugu</td>
+        <td>Turkish</td>
+        <td>Vietnamese</td>
     </tr>
 </table>

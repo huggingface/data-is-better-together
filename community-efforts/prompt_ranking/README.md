@@ -25,7 +25,7 @@ For the prompt ranking project, we used two tools to help us manage the annotati
 
 ## What did we achieve?
 
-Thanks to the contribution of over 385 people, we were able to create version 1.0 of the [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked) dataset with 10,331 examples. 
+Thanks to the contribution of over 385 people, we were able to create the [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked) dataset with 10,331 examples. 
 
 Moreover, we could analyze the decision behavior of the annotators. Below, you can see that the human-generated prompts were ranked higher than the synthetic ones. This is an interesting observation that can be further explored in future research.
 

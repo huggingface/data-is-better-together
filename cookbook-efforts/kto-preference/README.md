@@ -2,11 +2,18 @@
   <img src="assets/b822ac33-a10e-4da7-a36a-682b96d1fe0e.webp" width="500px"/>
 </p>
 
-# Creating a KTO Preference dataset
+# KTO Dataset Project
 
-Here we walk through one possible approach to leveraging a community to collectively create a preference dataset. If you already now what a preference dataset is, differences between DPO/KTO and are just looking for a way to create one, you can skip to the next section.
+The KTO Dataset Project aims to create more preference data according to the KTO format. With the provided tools, the community will be able to easily generate a KTO dataset in any language or domain they are interested in. This type of preference data is easier to collect than others like DPO, and can be used to train models to better align with human preferences. By following two simple steps, you will be able to create your KTO dataset.
 
-## What is a preference dataset?
+## What is the goal of this project?
+
+The goal of this project is to create more KTO datasets for different languages or domains. This will help the community to train models that better align with human preferences. The project will provide the tools and resources to easily generate a KTO dataset.
+
+### Why do we need more KTO datasets?
+
+<details>
+<summary><strong>What is a preference dataset?</strong></summary>
 
 Preference tuning is a step often performed when creating a chat/instruction following model with the goal of more closely aligning the model's outputs with the "human preferences" (or more accurately one set of human preferences). Often this is done through some form of reinforcement learning. Increasingly instead of having a separate reward model, we can use a preference dataset to directly train the model. Two prominent approaches to this are:
 
@@ -20,14 +27,10 @@ We won't dive into all of the technical details here but instead focus on what t
 - Rank/rate the responses to the prompts
 
 We'll use the example of haiku here but this could be any kind of text generation task.
+</details>
 
-### Generating responses to prompts
-
-We could of course collect all of our preferences data by hand i.e. we could write a prompt like: "Write a recipe for banana bread" and then write two sets of responses one which we prefer over the other. However, this is time-consuming and not scalable. Instead, we can use a model to generate responses to our prompts and then use human feedback to determine which response we prefer. In our case, we can ask different LLMs to write haiku based on a prompt and then ask humans to rate the haiku.
-
-![preference data](assets/dpo.png)
-
-### DPO vs KTO
+<details>
+<summary><strong>What is the difference between DPO vs KTO?</strong></summary>
 
 Whilst both DPO and KTO are methods for preference tuning (and sound like things that would be shouted at the end of a street fighter level), they differ in the kinds of data they require. DPO requires a preference dataset where we have two sets of responses with one "chosen" and one "rejected". We can take a look at a screenshot from a dataset server of a DPO dataset below:
 
@@ -38,20 +41,30 @@ As you can see, we have one column containing "chosen" responses and another con
 There are different ways we could do this. We could ask humans to rate the haiku on a scale of 1-5, we could ask them to pick their favorite haiku from a set of 5, we could ask them to rank the haiku from best to worst etc. One disadvantage of DPO is that generating this kind of data from humans is quite cognitively demanding. It can be hard to compare two things and say which one is better and even with an optimized interface, it can be quite time-consuming. This is where KTO can provide an alternative.
 
 In contrast to DPO, KTO doesn't require two candidate responses i.e. "chosen" and "rejected". Instead, it can rely on a simple binary preference i.e. 👍👎. This is arguably much easier for an annotator to create.
+</details><br>
 
-## Creating a KTO dataset with synthetic data and human feedback
+As we know, preference data is crucial for training models that better align with human preferences. However, collecting this DPO-formatted data can be time-consuming and expensive. This is where KTO datasets come in. KTO datasets are easier to collect than DPO datasets as they only require a prompt-response dataset with binary preference i.e. 👍👎. By creating more KTO datasets, we aim to improve our models more simply.
+
+<details open>
+<summary><strong>Why should we generate responses to prompts?</strong></summary>
+We could of course collect all of our preferences data by hand i.e. we could write a prompt like: "Write a recipe for banana bread" and then write two sets of responses one which we prefer over the other. However, this is time-consuming and not scalable. Instead, we can use a model to generate responses to our prompts and then use human feedback to determine which response we prefer. In our case, we can ask different LLMs to write haiku based on a prompt and then ask humans to rate the haiku.
+
+![preference data](assets/dpo.png)
+</details>
+
+## How can you contribute?
+
+As part of Data Is Better Together, we're supporting the community in generating more KTO datasets for different languages or the domains they are interested in. If you would like to help, you can follow the steps below to generate a KTO dataset. There are already many communities working together on the Hugging Face Discord server, so you can also join the server to collaborate with others on this project 🤗.
+
+## Project Overview
 
 Here we will walk through a simple example of how you might create a KTO dataset using synthetic data and human feedback. We will use haiku as our example but this could be any kind of text generation task. 
 
 ### 1. Prerequisites
 
-#### A 🤗 Hugging Face account
+* A 🤗 Hugging Face account: We'll extensively use the Hugging Face Hub both to generate our data via hosted model APIs and to share our generated datasets. You can sign up for a Hugging Face account [here](https://huggingface.co/join).
 
-We'll extensively use the Hugging Face Hub both to generate our data via hosted model APIs and to share our generated datasets. You can sign up for a Hugging Face account [here](https://huggingface.co/join).
-
-#### Prompts
-
-For the workflow we describe here, we assume you already have a dataset of prompts. This [notebook](https://github.com/davanstrien/haiku-dpo/blob/main/01_generate_haiku_prompts.ipynb) shows how you could generate a dataset of haiku prompts. This approach could be adapted to any kind of text-generation task. The [instruction generation](https://distilabel.argilla.io/latest/tutorials/create-a-math-preference-dataset/#instruction-generation) section of this Distilabel tutorial provides a good overview of how you might generate a dataset of prompts for a different kind of text generation task.
+* For the workflow we describe here, we assume you already have a dataset of prompts. This [notebook](https://github.com/davanstrien/haiku-dpo/blob/main/01_generate_haiku_prompts.ipynb) shows how you could generate a dataset of haiku prompts. This approach could be adapted to any kind of text-generation task. The [instruction generation](https://distilabel.argilla.io/latest/tutorials/create-a-math-preference-dataset/#instruction-generation) section of this Distilabel tutorial provides a good overview of how you might generate a dataset of prompts for a different kind of text generation task.
 
 ### 2. Produce generations with various open models
 
@@ -67,9 +80,12 @@ You will find the code to generate the haiku responses in [preference_gen.py](pr
 
 #### Hosted Model APIs
 
-We can use Hugging Face's free inference API to generate our haiku responses. This is a great way to get started with generating synthetic data. You can find more information on the supported models and how to use the API [here](https://huggingface.co/blog/inference-pro#supported-models). If you have a Pro account you get increased rate limits which make it easier to generate larger datasets.
+We can use Hugging Face's free inference API to generate our haiku responses. This is a great way to get started with generating synthetic data. You can find more information on the supported models and how to use the API [here](https://huggingface.co/blog/inference-pro#supported-models).
 
 One of our models, "NousResearch/Nous-Hermes-2-Yi-34B" is hosted using [Inference Endpoints](https://huggingface.co/inference-endpoints/dedicated) instead. In the code, this part is commented out so it should be possible to run the code without needing to set up dedicated inference endpoints.
+
+> [!WARNING]
+> If you have local GPUs available, you can also adapt this approach using other [inference frameworks](https://distilabel.argilla.io/latest/components-gallery/llms/) such as Ollama or vLLM.
 
 #### The dataset produced
 
@@ -102,6 +118,10 @@ A single row from the dataset produced by this code looks like this:
 ```
 
 As you can hopefully see, we have a single prompt and three haiku responses. We also have the model that generated each haiku response. This kind of data could be used to generate both a DPO and KTO dataset. We will focus on KTO here.
+
+### I'm GPU-poor, can I still get involved?
+
+Yes! The example scripts in this repository use Hugging Face Inference Endpoints for the inference component. This means you can run the scripts on your local machine without needing a GPU. We can provide you with GPU grants to run the `distilabel` script if you need them. Please reach out to us on the Hugging Face Discord server if you need a GPU grant. **Note**: We will want to ensure that you have a plan for how you will use the GPU grant before providing it, in particular, we'll want to see that you have set up an Argilla Space for your project already and have already done some work to identify the language you want to work on and the models you want to use.
 
 ## 3. Create a preference dataset annotation Space in Argilla hosted on Spaces with HF authentication
 

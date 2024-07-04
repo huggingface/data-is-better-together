@@ -129,7 +129,7 @@ Hugging Face Spaces offer a simple way to host ML demo apps directly on your pro
 
 ![Argilla Space](assets/space.png)
 
-The [create_preference_task.ipynb](create_preference_task.ipynb) notebook shows how you could create a preference dataset annotation Argilla Space that anyone with a Hugging Face account can contribute to. This is a great way to collect human feedback on your synthetic data.
+The [create_preference_task.ipynb](01_create_preference_task.ipynb) notebook shows how you could create a preference dataset annotation Argilla Space that anyone with a Hugging Face account can contribute to. This is a great way to collect human feedback on your synthetic data.
 
 This will create a task that looks like this:
 

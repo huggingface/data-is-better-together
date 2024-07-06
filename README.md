@@ -20,6 +20,7 @@ Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argil
   - **Goal**: This project aimed to create a dataset of 10k prompts ranked by quality. These prompts included both synthetic and human-generated from various datasets. The intention was to use the final dataset for prompt ranking tasks or synthetic data generation. You can find more information about this project in the [prompt ranking README](community-efforts/prompt_ranking/README.md)
   - **How**: First, we prepared a dataset with the prompts to be ranked using Argilla in a Hugging Face Space. Then, we invited the community to rank the prompts based on their quality. Finally, we collected the annotations and released the dataset.
   - **Result**: Over 385 people joined this initiative! Thanks to their contribution, we released [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked). This dataset can be used for different tasks as you can filter the higher-quality prompts (for instance, see the MPEP project) and generate the corresponding completions. You can also find some models built on top of it [here](https://huggingface.co/models?dataset=dataset:DIBT/10k_prompts_ranked).
+
   </details>
   
 
@@ -51,9 +52,17 @@ Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argil
   <details>
   <summary><strong>KTO Datasets</strong></summary>
 
-  KTO is another type of preference dataset that can be used to train models to make decisions. Unlike DPO, it doesn't require two candidate responses. Instead, it relies on a simple binary preference, i.e. 👍👎. Thus, data is easier to collect and annotate. The **goal** of this project is to help the community create their own KTO dataset. Find out more in this [KTO datasets README](cookbook-efforts/kto-preference/README.md)
+  KTO is another type of preference dataset that can be used to train models to make decisions. Unlike DPO, it doesn't require two candidate responses. Instead, it relies on a simple binary preference, i.e. 👍👎. Thus, data is easier to collect and annotate. The **goal** of this project is to help the community create their own KTO dataset. Find out more in this [KTO datasets README](cookbook-efforts/kto-preference/README.md).
 
   </details>
+
+  <details>
+  <summary><strong>Multilingual Prompt Engine</strong></summary>
+
+  Multilingual Prompt Engine is a continuation of the [MPEP initiative](./community-efforts/prompt_translation/README.md). The **goal** of this project is to prompt [leading open source multilingual LLMs](https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard) using the community-translated prompts and collect their responses. These responses can be used to create novel language-specific performance metrics. Find out more in the [MPE README](./cookbook-efforts/multilingual-prompt-engine/README.md).
+
+  </details>
+  </summary>
   </ul>
 
 **🤝​ How can I contribute to the cookbook efforts?** That's easy! You can contribute by following the instructions in the README of the project you are interested in. Then, share your results with the community!

@@ -17,7 +17,7 @@ The latter effort will enable the creation of novel, language-specific performan
 
 ## Why do we need multilingual metrics and why does multilingual performance matter?
 
-[Good AI requires good data](https://huggingface.co/blog/ethics-soc-6). Building meaningful multilingual benchmarks contributes to the creation of good datasets upon which foundation models may be trainied to be performative in languages other than English.
+[Good AI requires good data](https://huggingface.co/blog/ethics-soc-6). Building meaningful multilingual benchmarks contributes to creating good datasets upon which foundation models may be trained to be performative in languages other than English.
 
 Further to that point, the [well-known English-language bias](https://www.axios.com/2023/09/08/ai-language-gap-chatgpt) in AI means that [traditional metrics](https://huggingface.co/docs/leaderboards/open_llm_leaderboard/about) do not address model performance in handling prompts in languages other than English.
 

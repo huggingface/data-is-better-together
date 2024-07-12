@@ -41,7 +41,7 @@ This section of the documentation offers a configuration example of [`01_create_
 ### 1. Prerequisites
 
 * A 🤗 Hugging Face account: We'll extensively use the Hugging Face Hub both to generate our data via hosted model APIs and to share our generated datasets. You can sign up for a Hugging Face account [here](https://huggingface.co/join).
-* We presume that you already have known target datasets and a jury of a models that you would like use for this exercise if you plan to run the notebook locally.
+* We presume that you already have known target datasets and a jury of models that you would like to use for this exercise if you plan to run the notebook locally.
 
 ### 2. Usage
 

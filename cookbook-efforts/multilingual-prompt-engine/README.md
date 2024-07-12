@@ -13,7 +13,7 @@ These responses are then:
 1. Used to create novel datasets which contain both prompts and responses.
 2. Uploaded to an [Argilla Space](https://huggingface.co/docs/hub/en/spaces-sdks-docker-argilla) for ranking by the community.
 
-The latter effort will enable the creation of novel, language-specific performance metrics for multilingual LLMs and therefore directly contribute to the advancement of multilingual AI.
+The latter effort will enable the creation of novel, language-specific performance metrics for multilingual LLMs and, therefore, directly contribute to the advancement of multilingual AI.
 
 ## Why do we need multilingual metrics and why does multilingual performance matter?
 

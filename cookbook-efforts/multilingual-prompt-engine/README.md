@@ -1,4 +1,6 @@
-![mpe-logo](./assets/mpe-logo.png.jpg)
+<div style="text-align: center;">
+  <img src="./assets/mpe-logo.png.jpg" alt="mpe-logo" style="width:30%;">
+</div>
 
 # Mulitlingual Prompt Engine (MPE) Project
 

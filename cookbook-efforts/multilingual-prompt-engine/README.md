@@ -1,8 +1,10 @@
 <div style="text-align: center;">
-  <img src="./assets/mpe-logo.png.jpg" alt="mpe-logo" style="width:30%;">
+  <img src="./assets/mpe-logo.png.jpg" alt="mpe-logo" style="width:45%;">
 </div>
 
 # Mulitlingual Prompt Engine (MPE) Project
+
+[<img src="https://raw.githubusercontent.com/argilla-io/distilabel/main/docs/assets/distilabel-badge-dark.png" alt="Built with Distilabel" width="200" height="32"/>](https://github.com/argilla-io/distilabel)
 
 MPE is a dataset creation tool that can be used to prompt defined LLMs with a dataset or datasets of your choosing and collect the responses.
 

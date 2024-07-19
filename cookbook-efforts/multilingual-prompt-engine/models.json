@@ -1,0 +1,32 @@
+{
+    "models": [
+        {
+            "endpoint_name": "google/gemma-2-27b-it",
+            "params": {
+                "temperature": 0.7,
+                "max_new_tokens": 512
+            }
+        },
+        {
+            "endpoint_name": "meta-llama/Meta-Llama-3-70B-Instruct",
+            "params": {
+                "temperature": 0.6,
+                "max_new_tokens": 256
+            }
+        },
+        {
+            "endpoint_name": "Qwen/Qwen2-72B-Instruct",
+            "params": {
+                "temperature": 0.8,
+                "max_new_tokens": 300
+            }
+        },
+        {
+            "endpoint_name": "mistralai/Mixtral-8x22B-Instruct-v0.1",
+            "params": {
+                "temperature": 0.7,
+                "max_new_tokens": 512
+            }
+        }
+    ]
+}

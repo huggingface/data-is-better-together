@@ -21,7 +21,7 @@ Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argil
   - **How**: First, we prepared a dataset with the prompts to be ranked using Argilla in a Hugging Face Space. Then, we invited the community to rank the prompts based on their quality. Finally, we collected the annotations and released the dataset.
   - **Result**: Over 385 people joined this initiative! Thanks to their contribution, we released [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked). This dataset can be used for different tasks as you can filter the higher-quality prompts (for instance, see the MPEP project) and generate the corresponding completions. You can also find some models built on top of it [here](https://huggingface.co/models?dataset=dataset:DIBT/10k_prompts_ranked).
   </details>
-  
+
 
   <details>
   <summary><strong>Multilingual Prompt Evaluation Project (MPEP)</strong></summary>
@@ -29,7 +29,15 @@ Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argil
   - **Goal**: There are not enough language-specific benchmarks for open LLMs! So, we wanted to create a leaderboard for more languages by leveraging the community. This way, we could evaluate the performance of models using [AlpacaEval](https://github.com/tatsu-lab/alpaca_eval). You can find more information about this project in the [MPEP README](community-efforts/prompt_translation/README.md).
   - **How**: We selected a subset of 500 high-quality prompts from the [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked) (see the prompt ranking project) and asked the community to help us translate this curated prompt dataset into different languages.
   - **Result**: We achieved to translate the whole dataset for Dutch and Russian, and almost finished with Spanish. Many other languages have also joined this initiative. You can take a look at the resulting datasets [here](https://huggingface.co/datasets?search=MPEP).
-</details>
+  </details>
+
+  <details>
+  <summary><strong>Image Preferences</strong></summary>
+
+  - **Goal**: This project aims to create 10K text to image preference pairs. These pairs can be used to evaluate the performance of image generation models across a wide variety of common image categories, based on prompt with varying levels of difficulty. You can find more information about this project in the [image preferences README](community-efforts/image_preferences/README.md)
+  - **How**: We use the prompts from [fal/imgsys-results](https://huggingface.co/datasets/fal/imgsys-results), these prompts are evolved based on complexity and quality for various image categories. We then asked the community to annotate the preference between two generated images for each prompt.
+  - **Result**: We achieved to annotate 10K preference pairs. You can take a look at the resulting dataset [here](https://huggingface.co/datasets/DIBT/image_preferences).
+  </details>
 </ul>
 
 <details open>

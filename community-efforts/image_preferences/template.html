@@ -1,0 +1,55 @@
+
+<style>
+#container {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+}
+.prompt {
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 1.4;
+    color: #333;
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.image-container {
+    display: flex;
+    gap: 10px;
+}
+.column {
+    flex: 1;
+    position: relative;
+}
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+.image-label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+</style>
+
+<div id="container">
+    <div class="prompt"><strong>Prompt:</strong> {{record.fields.images.prompt}}</div>
+    <div class="image-container">
+        <div class="column">
+            <img src="{{record.fields.images.image_1}}" />
+            <div class="image-label">Image 1</div>
+        </div>
+        <div class="column">
+            <img src="{{record.fields.images.image_2}}" />
+            <div class="image-label">Image 2</div>
+        </div>
+    </div>
+</div>

@@ -2,7 +2,7 @@
   <img src="https://huggingface.co/blog/assets/community-datasets/thumbnail.png" width="500px"/>
 </p>
 
-<p align="center">🤗 <a href="https://huggingface.co/DIBT" target="_blank">Spaces & Datasets</a></p>
+<p align="center">🤗 <a href="https://huggingface.co/data-is-better-together" target="_blank">Spaces & Datasets</a></p>
 
 # Data is Better Together
 

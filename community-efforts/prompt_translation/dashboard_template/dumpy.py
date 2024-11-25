@@ -46,7 +46,7 @@ if __name__ == "__main__":
     api.upload_file(
         path_or_fileobj="stats.json",
         path_in_repo="stats.json",
-        repo_id="DIBT/prompt-collective-dashboard",
+        repo_id="data-is-better-together/prompt-collective-dashboard",
         repo_type="space",
     )
     logger.info("*** `stats.json` successfully uploaded to Hugging Face Hub! ***")

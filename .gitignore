@@ -167,3 +167,9 @@ cython_debug/
 # vscode
 **/.vscode/settings.json
 .vscode/
+community-efforts/image_preferences/images
+community-efforts/image_preferences/image_quality_dev
+community-efforts/image_preferences/image_simplified_dev
+community-efforts/image_preferences/image_quality_sd
+community-efforts/image_preferences/image_simplified_sd
+community-efforts/image_preferences/assets

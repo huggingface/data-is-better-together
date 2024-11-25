@@ -1,0 +1,2 @@
+distilabel[hf-inference-endpoints,argilla]==1.4.1
+pillow

@@ -8,7 +8,7 @@ The Multilingual Prompt Evaluation Project (MPEP) is a community-driven effort t
 
 ## How did we make it possible?
 
-As the community created a dataset of 10k prompts [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked) with quality ratings as part of the Data is Better Together initiative. From this dataset, we curated a subset of 500 high-quality prompts that cover a diverse range of capabilities for a model, such as math, coding, relationships, email generation, etc.
+As the community created a dataset of 10k prompts [data-is-better-together/10k_prompts_ranked](https://huggingface.co/datasets/data-is-better-together/10k_prompts_ranked) with quality ratings as part of the Data is Better Together initiative. From this dataset, we curated a subset of 500 high-quality prompts that cover a diverse range of capabilities for a model, such as math, coding, relationships, email generation, etc.
 
 However, these prompts were originally in English, so we asked the community to help us translate this curated dataset into different languages so that we could use the translated prompts to evaluate the performance of models for the languages we translate into.
 

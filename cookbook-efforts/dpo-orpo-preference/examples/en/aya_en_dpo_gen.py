@@ -1,8 +1,8 @@
 import os
 import time
-from typing import Any, Dict
 
 import argilla as rg
+from custom_preference_to_argilla import CustomPreferenceToArgilla
 from distilabel.llms import InferenceEndpointsLLM
 from distilabel.pipeline import Pipeline
 from distilabel.steps import (
@@ -12,11 +12,8 @@ from distilabel.steps import (
     step,
 )
 from distilabel.steps.tasks import TextGeneration, UltraFeedback
-from distilabel.steps.tasks.typing import ChatType
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient, login
-
-from custom_preference_to_argilla import CustomPreferenceToArgilla
 
 load_dotenv()
 
@@ -41,8 +38,10 @@ ARGILLA_SPACE_URL = "https://dibt-demo-argilla-space.hf.space"  # Argilla Space 
 ARGILLA_DATASET_NAME = "aya_english_dpo"  # Argilla dataset name
 ARGILLA_WORKSPACE_NAME = "admin"  # Argilla workspace name
 # Dataset Configuration
-INPUT_DATASET_HUB_ID = "DIBT/aya_dataset_english_example"  # Input dataset hub ID (created in the previous step)
-OUTPUT_DATASET_HUB_ID = "DIBT/aya_english_dpo_raw"  # Output dataset hub ID
+INPUT_DATASET_HUB_ID = "data-is-better-together/aya_dataset_english_example"  # Input dataset hub ID (created in the previous step)
+OUTPUT_DATASET_HUB_ID = (
+    "data-is-better-together/aya_english_dpo_raw"  # Output dataset hub ID
+)
 SPLIT = "train"  # Split of the dataset to use. Start with test whilst you are testing the pipeline and then switch to train when you are ready to generate the full dataset
 
 HUGGINGFACE_TOKEN = os.getenv("HF_API_KEY")

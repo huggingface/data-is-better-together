@@ -8,7 +8,7 @@ In addition, as the first crowdsourcing effort involving the community, it provi
 
 ## How did we make it possible?
 
-First, we created a prompt dataset with a mix of human and synthetic prompts from various sources. You can find the list of sources in the "Source Data" section [here](https://huggingface.co/datasets/DIBT/10k_prompts_ranked). Then, we set up an instance of Argilla in a Hugging Face Space to enable the annotation process. This preparation stage took around a week.
+First, we created a prompt dataset with a mix of human and synthetic prompts from various sources. You can find the list of sources in the "Source Data" section [here](https://huggingface.co/datasets/data-is-better-together/10k_prompts_ranked). Then, we set up an instance of Argilla in a Hugging Face Space to enable the annotation process. This preparation stage took around a week.
 
 Finally, during the next two weeks, we invited the community to participate in the ranking process to evaluate their quality.
 
@@ -25,7 +25,7 @@ For the prompt ranking project, we used two tools to help us manage the annotati
 
 ## What did we achieve?
 
-Thanks to the contribution of over 385 people, we were able to create the [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked) dataset with 10,331 examples. 
+Thanks to the contribution of over 385 people, we were able to create the [data-is-better-together/10k_prompts_ranked](https://huggingface.co/datasets/data-is-better-together/10k_prompts_ranked) dataset with 10,331 examples. 
 
 Moreover, we could analyze the decision behavior of the annotators. Below, you can see that the human-generated prompts were ranked higher than the synthetic ones. This is an interesting observation that can be further explored in future research.
 
@@ -33,4 +33,4 @@ Moreover, we could analyze the decision behavior of the annotators. Below, you c
 
 ![Synthetic vs Human-Generated Prompts](assets/synthetic-vs-human.png)
 
-Check the dataset [here](https://huggingface.co/datasets/DIBT/10k_prompts_ranked)! Don't miss it!
+Check the dataset [here](https://huggingface.co/datasets/data-is-better-together/10k_prompts_ranked)! Don't miss it!

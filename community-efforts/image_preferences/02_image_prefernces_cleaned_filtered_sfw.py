@@ -107,8 +107,8 @@ df = ds.filter(
     and x["image_simplified_sd"]
 )
 ds = df.map(clean_dataset, batched=True, batch_size=100)
-# ds = ds.filter(lambda x: not x["nsfw"])
-# ds = ds.remove_columns(["nsfw"])
+ds = ds.filter(lambda x: not x["nsfw_text"] and not x["nsfw_image"])
+ds = ds.remove_columns(["nsfw_text", "nsfw_image"])
 ds.push_to_hub(
     "data-is-better-together/image-preferences-unfiltered",
     split="cleaned",

@@ -2,7 +2,7 @@
   <img src="https://huggingface.co/blog/assets/community-datasets/thumbnail.png" width="500px"/>
 </p>
 
-<p align="center">🤗 <a href="https://huggingface.co/DIBT" target="_blank">Spaces & Datasets</a></p>
+<p align="center">🤗 <a href="https://huggingface.co/data-is-better-together" target="_blank">Spaces & Datasets</a></p>
 
 # Data is Better Together
 
@@ -19,7 +19,7 @@ Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argil
 
   - **Goal**: This project aimed to create a dataset of 10k prompts ranked by quality. These prompts included both synthetic and human-generated from various datasets. The intention was to use the final dataset for prompt ranking tasks or synthetic data generation. You can find more information about this project in the [prompt ranking README](community-efforts/prompt_ranking/README.md)
   - **How**: First, we prepared a dataset with the prompts to be ranked using Argilla in a Hugging Face Space. Then, we invited the community to rank the prompts based on their quality. Finally, we collected the annotations and released the dataset.
-  - **Result**: Over 385 people joined this initiative! Thanks to their contribution, we released [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked). This dataset can be used for different tasks as you can filter the higher-quality prompts (for instance, see the MPEP project) and generate the corresponding completions. You can also find some models built on top of it [here](https://huggingface.co/models?dataset=dataset:DIBT/10k_prompts_ranked).
+  - **Result**: Over 385 people joined this initiative! Thanks to their contribution, we released [data-is-better-together/10k_prompts_ranked](https://huggingface.co/datasets/data-is-better-together/10k_prompts_ranked). This dataset can be used for different tasks as you can filter the higher-quality prompts (for instance, see the MPEP project) and generate the corresponding completions. You can also find some models built on top of it [here](https://huggingface.co/models?dataset=dataset:data-is-better-together/10k_prompts_ranked).
   </details>
 
 
@@ -27,7 +27,7 @@ Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argil
   <summary><strong>Multilingual Prompt Evaluation Project (MPEP)</strong></summary>
 
   - **Goal**: There are not enough language-specific benchmarks for open LLMs! So, we wanted to create a leaderboard for more languages by leveraging the community. This way, we could evaluate the performance of models using [AlpacaEval](https://github.com/tatsu-lab/alpaca_eval). You can find more information about this project in the [MPEP README](community-efforts/prompt_translation/README.md).
-  - **How**: We selected a subset of 500 high-quality prompts from the [DIBT/10k_prompts_ranked](https://huggingface.co/datasets/DIBT/10k_prompts_ranked) (see the prompt ranking project) and asked the community to help us translate this curated prompt dataset into different languages.
+  - **How**: We selected a subset of 500 high-quality prompts from the [data-is-better-together/10k_prompts_ranked](https://huggingface.co/datasets/data-is-better-together/10k_prompts_ranked) (see the prompt ranking project) and asked the community to help us translate this curated prompt dataset into different languages.
   - **Result**: We achieved to translate the whole dataset for Dutch and Russian, and almost finished with Spanish. Many other languages have also joined this initiative. You can take a look at the resulting datasets [here](https://huggingface.co/datasets?search=MPEP).
   </details>
 
@@ -36,7 +36,7 @@ Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argil
 
   - **Goal**: This project aims to create 10K text to image preference pairs. These pairs can be used to evaluate the performance of image generation models across a wide variety of common image categories, based on prompt with varying levels of difficulty. You can find more information about this project in the [image preferences README](community-efforts/image_preferences/README.md)
   - **How**: We use the prompts from [fal/imgsys-results](https://huggingface.co/datasets/fal/imgsys-results), these prompts are evolved based on complexity and quality for various image categories. We then asked the community to annotate the preference between two generated images for each prompt.
-  - **Result**: We achieved to annotate 10K preference pairs. You can take a look at the resulting dataset [here](https://huggingface.co/datasets/DIBT/image_preferences).
+  - **Result**: We achieved to annotate 10K preference pairs. You can take a look at the resulting dataset [here](https://huggingface.co/datasets/data-is-better-together/image_preferences).
   </details>
 </ul>
 
@@ -53,7 +53,7 @@ Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argil
   <details>
   <summary><strong>DPO/ORPO Datasets</strong></summary>
 
-  Many languages do not have DPO datasets openly shared on the Hugging Face Hub. The [DIBT/preference_data_by_language](https://huggingface.co/spaces/DIBT/preference_data_by_language) Space gives you an overview of language coverage of DPO datasets for different languages. The **goal** of this project is to help foster a community of people building more DPO-style datasets for different languages. Find out more in this [DPO/ORPO datasets README](cookbook-efforts/dpo-orpo-preference/README.md).
+  Many languages do not have DPO datasets openly shared on the Hugging Face Hub. The [data-is-better-together/preference_data_by_language](https://huggingface.co/spaces/data-is-better-together/preference_data_by_language) Space gives you an overview of language coverage of DPO datasets for different languages. The **goal** of this project is to help foster a community of people building more DPO-style datasets for different languages. Find out more in this [DPO/ORPO datasets README](cookbook-efforts/dpo-orpo-preference/README.md).
 </details>
 
   <details>

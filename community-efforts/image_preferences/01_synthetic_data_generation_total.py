@@ -298,8 +298,8 @@ categories = {
 ## We will use the Qwen2.5-72B-Instruct model for the text generation task, this will help us to generate the quality and style prompts
 
 model_id = (
-    "meta-llama/Llama-3.1-8B-Instruct"
-)  # "meta-llama/Meta-Llama-3.1-70B-Instruct"
+    "meta-llama/Llama-3.1-8B-Instruct"  # "meta-llama/Meta-Llama-3.1-70B-Instruct"
+)
 
 
 llm = InferenceEndpointsLLM(
@@ -503,7 +503,7 @@ if __name__ == "__main__":
     width = 1024
     height = 1024
     distiset = pipeline.run(
-        use_cache=False,
+        use_cache=True,
         parameters={
             load_data.name: {
                 "num_examples": num_examples,
@@ -552,7 +552,7 @@ if __name__ == "__main__":
             },
         },
     )
-    dataset_name = "DIBT/img_prefs_style_v2"
+    dataset_name = "data-is-better-together/img_prefs_style_v2"
     distiset.push_to_hub(
         repo_id=dataset_name,
         include_script=True,

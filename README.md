@@ -36,7 +36,7 @@ Data is Better Together is a collaboration between 🤗 Hugging Face, 🏓 Argil
 
   - **Goal**: This project aims to create 10K text to image preference pairs. These pairs can be used to evaluate the performance of image generation models across a wide variety of common image categories, based on prompt with varying levels of difficulty. You can find more information about this project in the [image preferences README](community-efforts/image_preferences/README.md)
   - **How**: We use the prompts from [fal/imgsys-results](https://huggingface.co/datasets/fal/imgsys-results), these prompts are evolved based on complexity and quality for various image categories. We then asked the community to annotate the preference between two generated images for each prompt.
-  - **Result**: We achieved to annotate 10K preference pairs. You can take a look at the resulting dataset [here](https://huggingface.co/datasets/data-is-better-together/image_preferences).
+  - **Result**: We achieved to annotate 10K preference pairs. You can take a look at the resulting dataset [here](https://huggingface.co/datasets/data-is-better-together/image-preferences).
   </details>
 </ul>
 

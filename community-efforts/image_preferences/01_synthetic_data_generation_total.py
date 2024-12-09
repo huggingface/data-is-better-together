@@ -552,7 +552,7 @@ if __name__ == "__main__":
             },
         },
     )
-    dataset_name = "data-is-better-together/img_prefs_style_v2"
+    dataset_name = "data-is-better-together/open-image-preferences-v1-unfiltered"
     distiset.push_to_hub(
         repo_id=dataset_name,
         include_script=True,

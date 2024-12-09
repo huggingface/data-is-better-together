@@ -1,23 +1,16 @@
-# Image Preferences Dataset
+# Open Image Preferences Dataset
 
 ## What is it?
 
-This is a project for the community to contribute image preferences for an open source dataset, that could be used for training and evaluating text to image models.
-
-## How to get invovled
-
-If you would like to contribute to the dataset, you can do so by adding preferences in the Argilla UI. You should follow the following steps:
-
-1. Go to the [Argilla Space](https://huggingface.co/spaces/data-is-better-together/image-preferences-argilla) and log in using your Hugging Face profile.
-2. Rank the images that you prefer based on the annotation guidelines. You should rank images based on their aestehtic appeal, and how much they adhere to the prompt.
+This is a project for the community to contribute image preferences for an open source dataset, that could be used for training and evaluating text to image models. You can find a full blogpost [here](https://huggingface.co/blog/image-preferences).
 
 ## What did we achieve?
 
-[WIP]
+We achieved to annotate 10K preference pairs. You can take a look at the resulting dataset [here](https://huggingface.co/datasets/data-is-better-together/open-image-preferences-v1-results), and [its version that is ready for training](https://huggingface.co/datasets/data-is-better-together/open-image-preferences-v1-binarized). Additionally, we showcased the effectiveness along with a [FLUX-dev LoRA fine-tune](https://huggingface.co/data-is-better-together/open-image-preferences-v1-flux-dev-lora).
 
 ## How to use the dataset
 
-[WIP]
+The dataset is hosted on Hugging Face, and free for anyone to use under an Apache 2.0 license. Here are some [examples of how to use the dataset for fine-tuning or post-analysis](https://huggingface.co/blog/image-preferences#what-is-next).
 
 ## Which tools were used?
 
@@ -26,10 +19,3 @@ For the prompt ranking project, we used two tools to help us manage the annotati
 - [Argilla](https://github.com/argilla-io/argilla): an open-source data annotation tool that we used for the prompt ranking. Argilla has the option of using Hugging Face for authentication, which makes it easier for the community to contribute.
 - [distilabel](https://github.com/argilla-io/distilabel): a tool for creating and sythetic datasets. We used distilabel to evolve prompt and to create the image preferences dataset.
 - [Hugging Face Spaces](https://huggingface.co/spaces): a platform for hosting machine learning applications and demos. We used Spaces to host the Argilla tool for prompt ranking.
-<!-- TODO: add results -->
-
-## References
-
-- [Participation Dashboard](https://huggingface.co/spaces/data-is-better-together/argilla-image-preference-leaderboard) A dashboard to track the progress of the community in adding preferences to the dataset.
-- [Argilla Space](https://huggingface.co/spaces/data-is-better-together/image-preferences-argilla) The space where the dataset is hosted for the community to contribute to.
-

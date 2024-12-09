@@ -99,7 +99,9 @@ def clean_dataset(batch):
     return batch
 
 
-ds = load_dataset("data-is-better-together/image-preferences", split="train")
+ds = load_dataset(
+    "data-is-better-together/open-image-preferences-v1-unfiltered", split="train"
+)
 df = ds.filter(
     lambda x: x["image_quality_dev"]
     and x["image_simplified_dev"]
@@ -110,7 +112,7 @@ ds = df.map(clean_dataset, batched=True, batch_size=100)
 ds = ds.filter(lambda x: not x["nsfw_text"] and not x["nsfw_image"])
 ds = ds.remove_columns(["nsfw_text", "nsfw_image"])
 ds.push_to_hub(
-    "data-is-better-together/image-preferences-unfiltered",
+    "data-is-better-together/open-image-preferences-v1",
     split="cleaned",
     private=True,
 )

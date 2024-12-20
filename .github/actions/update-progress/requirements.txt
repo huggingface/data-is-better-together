@@ -1,0 +1,7 @@
+argilla
+huggingface-hub
+httpx
+stamina
+polars
+tqdm
+python-dotenv

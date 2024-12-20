@@ -1,0 +1,6 @@
+argilla
+huggingface-hub
+httpx
+stamina
+polars
+tqdm

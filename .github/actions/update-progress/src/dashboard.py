@@ -9,6 +9,7 @@ from argilla._exceptions import ArgillaAPIError
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 from functools import lru_cache
+import time
 
 # Load environment variables from .env file when running locally
 load_dotenv()
@@ -18,6 +19,7 @@ os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1"
 
 # Validate environment variables
 HF_TOKEN = os.environ.get("HF_TOKEN")
+
 if not HF_TOKEN:
     raise ValueError("HF_TOKEN environment variable is not set")
 
@@ -55,8 +57,14 @@ all_datasets = get_all_datasets()
 language_datasets_names = [dataset.name for dataset in all_datasets]
 
 
-@stamina.retry(on=(httpx.HTTPStatusError, ArgillaAPIError), attempts=3, wait_initial=5)
+@stamina.retry(
+    on=(httpx.HTTPStatusError, ArgillaAPIError),
+    attempts=5,
+    wait_initial=10,
+    wait_exponential_multiplier=2,
+)
 def get_dataset_progress(language_dataset_name):
+    time.sleep(10)
     dataset = client.datasets(language_dataset_name)
     return {
         "language_dataset_name": language_dataset_name,
@@ -134,7 +142,9 @@ def update_progress_data(new_data, filename="argilla_progress.ndjson"):
 
 def main():
     print("Starting data collection...")
-    all_data = thread_map(get_dataset_progress, language_datasets_names, max_workers=1)
+    all_data = thread_map(
+        get_dataset_progress, language_datasets_names, max_workers=1, chunksize=1
+    )
 
     print("Updating progress data...")
     df = update_progress_data(all_data)

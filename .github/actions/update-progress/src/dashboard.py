@@ -60,11 +60,10 @@ language_datasets_names = [dataset.name for dataset in all_datasets]
 @stamina.retry(
     on=(httpx.HTTPStatusError, ArgillaAPIError),
     attempts=5,
-    wait_initial=10,
-    wait_exponential_multiplier=2,
+    wait_initial=15,
 )
 def get_dataset_progress(language_dataset_name):
-    time.sleep(10)
+    time.sleep(2)
     dataset = client.datasets(language_dataset_name)
     return {
         "language_dataset_name": language_dataset_name,

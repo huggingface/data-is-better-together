@@ -7,6 +7,11 @@ import polars as pl
 from tqdm.contrib.concurrent import thread_map
 from argilla._exceptions import ArgillaAPIError
 from datetime import datetime, timezone
+from dotenv import load_dotenv
+from functools import lru_cache
+
+# Load environment variables from .env file when running locally
+load_dotenv()
 
 # Enable HF transfer
 os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1"
@@ -27,8 +32,13 @@ else:
     raise ValueError("ARGILLA_API_KEY environment variable is not set")
 
 
+@lru_cache(maxsize=1)
+def get_all_datasets():
+    return client.datasets.list()
+
+
 def get_dataset_for_language(language_code):
-    all_datasets = client.datasets.list()
+    all_datasets = get_all_datasets()
     dataset = [
         dataset for dataset in all_datasets if dataset.name.startswith(language_code)
     ]
@@ -41,7 +51,7 @@ def get_dataset_for_language(language_code):
 
 
 # Get all datasets
-all_datasets = client.datasets.list()
+all_datasets = get_all_datasets()
 language_datasets_names = [dataset.name for dataset in all_datasets]
 
 

@@ -4,3 +4,4 @@ httpx
 stamina
 polars
 tqdm
+python-dotenv
